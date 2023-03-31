@@ -7,6 +7,7 @@ var ejs = require('ejs');
 var expressLayouts = require ('express-ejs-layouts');
 
 var indexRouter = require('./routes/index');
+var studentRouter = require('./routes/student');
 var usersRouter = require('./routes/users');
 
 
@@ -25,6 +26,7 @@ app.use(express.static(path.join(__dirname, 'assets')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/student', studentRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
