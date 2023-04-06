@@ -1,18 +1,6 @@
 <!DOCTYPE html>
-
-<!-- =========================================================
-* Sneat - Bootstrap 5 HTML Admin Template - Pro | v1.0.0
-==============================================================
-
-* Product Page: https://themeselection.com/products/sneat-bootstrap-html-admin-template/
-* Created by: ThemeSelection
-* License: You must have a valid license purchased in order to legally use the theme for your project.
-* Copyright ThemeSelection (https://themeselection.com)
-
-=========================================================
- -->
 <!-- beautify ignore:start -->
-<html lang="en" class="light-style layout-menu-fixed layout-menu-100vh" dir="ltr" data-theme="theme-default" data-assets-path="/" data-template="vertical-menu-template-free"><head>
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="/" data-template="vertical-menu-template-free"><head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
@@ -61,6 +49,8 @@ padding-bottom: 0px !important;
   <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
       <!-- Menu -->
+
+     
       <!-- / Menu -->
 
       <!-- Layout container -->
@@ -85,7 +75,7 @@ padding-bottom: 0px !important;
             <ul class="navbar-nav flex-row align-items-center ms-auto">
               <!-- User -->
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
+                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
                   <div class="avatar avatar-online">
                     <img src="/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle">
                   </div>
@@ -138,83 +128,27 @@ padding-bottom: 0px !important;
           <!-- Content -->
 
           <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-1 mb-4">Project Monitoring Module</h4>
-            <div class="progress my-3">
-              <div class="progress-bar" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100">
-                75%
-              </div>
-            </div>
+            <h4 class="fw-bold py-3 mb-4">Project Approval Module</h4>
+
             <div class="row">
               <!-- Form controls -->
-              <div class="col-md-4">
+              <div class="col">
                 <div class="card mb-4">
                   <div class="card-body">
-                    <div class="mb-3">
-                      <label for="exampleFormControlTextarea2" class="form-label"><h5>Supervisee's Project Log</h5></label>
-                      <textarea class="form-control" id="exampleFormControlTextarea2" disabled rows="10"></textarea>
-                    </div>
-                    <div class="mb-3 row">
-                      <label for="html5-datetime-local-input" class="form-label">Request a meeting with your supervisee</label>
-                      <div class="col-md-9">
-                        <input class="form-control" type="datetime-local" value="2023-06-18T12:30:00" id="html5-datetime-local-input">
-                      </div>
-                      <div class="col-md-2">
-                        <button class="btn btn-primary" type="submit" id="button">:</button>  
-                      </div>
+                    <p>
+                      Student Name:
+                    </p>
+                    <p>
+                      Project topic:
+                    </p>
+                    <button class="btn btn-outline-secondary" type="submit" id="button">Download Final Submission</button>
+                    <div class="input-group-text my-3">
+                      <button class="btn btn-success" type="submit" id="button">Clear student</button>
+                      <button class="btn btn-danger mx-4" type="submit" id="button">Student not Cleared</button>
+                     
                     </div>
                   </div>
                 </div>
-               
-              </div>
-              <div class="col-md-8">
-                <div class="card mb-4">
-                  <div class="card-body">
-                    <div>
-                      <label for="smallSelect" class="form-label"><strong>WEEK NUMBER</strong></label>
-                      <select id="smallSelect" class="form-select form-select-sm">
-                        <option> </option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        <option value="1">four</option>
-                        <option value="2">five</option>
-                        <option value="3">six</option>
-                        <option value="1">seven</option>
-                        <option value="2">eigt</option>
-                        <option value="3">nine</option>
-                        <option value="1">ten</option>
-                        <option value="2">eleven</option>
-                        <option value="3">twelve</option>
-                        <option value="1">thirteen</option>
-                        <option value="2">Fourteen</option>
-                        <option value="3">Fifteen</option>
-                        <option value="1">Sixteen</option>
-                        <option value="2">Seventeen</option>
-                        <option value="3">Eighteen</option>
-                        <option value="1">nineteen</option>
-                        <option value="2">Twenty</option>
-                      </select>
-                    </div>
-                    <!-- Default Offcanvas -->
-                    
-                    <div class="my-3">
-                      <label for="exampleFormControlTextarea1" class="form-label"><h5>Project Progress Log</h5></label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" required=""></textarea>
-                    </div>
-                    <div class="mb-3">
-                      <label for="formFile" class="form-label">Upload file</label>
-                      <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" multiple="">
-                    </div>
-                    <div class="row mt-3">
-                      <div class="d-grid gap-2 mx-auto">
-                        <button class="btn btn-primary btn-lg" type="button">Upload</button>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              
               </div>
             </div>
           </div>
