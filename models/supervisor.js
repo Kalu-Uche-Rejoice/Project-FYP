@@ -21,7 +21,7 @@ const supervisorSchema = new Schema({
         required: true
     },
     email :{
-        type: String,
+        type: string,
         required: true,
         unique: true,
     },
@@ -29,6 +29,9 @@ const supervisorSchema = new Schema({
         type: Boolean,
         required:true,
         default:false
+    },
+    Notification:{
+        type: string,
     },
     supervisees: [student],
 })
