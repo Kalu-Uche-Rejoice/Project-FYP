@@ -21,7 +21,7 @@ const supervisorSchema = new Schema({
         required: true
     },
     email :{
-        type: string,
+        type: String,
         required: true,
         unique: true,
     },
@@ -31,10 +31,10 @@ const supervisorSchema = new Schema({
         default:false
     },
     Notification:{
-        type: string,
+        type: String,
     },
-    supervisees: [student],
+    //supervisees: [student],
 })
 
 var supervisor = mongoose.model('supervisor',supervisorSchema);
-module.exports(supervisor);
+module.exports= supervisor;

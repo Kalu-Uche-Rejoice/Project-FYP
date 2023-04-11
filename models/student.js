@@ -2,11 +2,11 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const tasksSchema = new Schema({
     WeekNumber:{ 
-        type: number,
-        required: true,
+        type: String,
+        
     },
     completed:{
-       type: boolean,
+       type: Boolean,
        default: false
 
     },
@@ -16,12 +16,13 @@ const tasksSchema = new Schema({
 },{timestamps:true})
 const ProposalSchema = new Schema({
     approved:{
-       type: boolean,
+       type: Boolean,
        default: false
 
     },
-    Topic:{
+    topic:{
         type: String,
+        required:true
     }
 },{timestamps:true})
 const studentSchema = new Schema({
@@ -44,11 +45,11 @@ const studentSchema = new Schema({
         unique: true,
     },
     Notification:{
-        type: string,
+        type: String,
     },
     task: [tasksSchema],
     proposal: [ProposalSchema]
 })
 
 var student = mongoose.model('student',studentSchema);
-module.exports(student);
+module.exports= student;

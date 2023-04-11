@@ -149,8 +149,8 @@ padding-bottom: 0px !important;
                       <label for="floatingInput">Title</label>
                     </div>
                     <div class="mb-3">
-                      <label for="formFile" class="form-label">Upload proposal file</label>
-                      <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" required="">
+                      <form action="/upload" method="post" enctype="multipart/form-data"><label for="formFile" class="form-label">Upload proposal file</label>
+                      <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" required=""></form>
                     </div>
                   </div>
                 </div>

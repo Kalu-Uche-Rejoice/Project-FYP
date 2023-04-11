@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const student= require('./student')
 const supervisor= require('./supervisor')
-const logSchema = newSchema({
+const logSchema = new Schema({
     supervisorComment: {
         type:String,
         required:true
@@ -35,10 +35,10 @@ const ProjectSchema = new Schema({
         required:true,
         default:false
     },
-    author:[student],
-    supervisor:[supervisor]
+   // author:[student],
+    //supervisor:[supervisor]
 },{timestamps: true}
 )
 
 var project = mongoose.model('project',ProjectSchema);
-module.exports(project);
+module.exports= project;
