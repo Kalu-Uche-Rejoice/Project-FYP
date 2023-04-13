@@ -144,20 +144,24 @@ padding-bottom: 0px !important;
                 <div class="card mb-4">
                   <h5 class="card-header"><input type="checkbox" name="" id=""class="mx-4">Project Title</h5>
                   <div class="card-body">
-                    <div class="form-floating">
-                      <input type="text" class="form-control" id="floatingInput" aria-describedby="floatingInputHelp" required="">
-                      <label for="floatingInput">Title</label>
+                    <form action="/student/proposal" method="post" enctype="multipart/form-data">
+                      <div class="form-floating">
+                      <input type="text" class="form-control" id="topic" aria-describedby="floatingInputHelp" required="">
+                      <label for="topic">Title</label>
+                      <br>
+                      <input type="text" class="form-control" id="matriculationNumber" aria-describedby="floatingInputHelp" required="">
+                      <label for="matriculationNumber">matno</label>
                     </div>
                     <div class="mb-3">
-                      <form action="/upload" method="post" enctype="multipart/form-data"><label for="formFile" class="form-label">Upload proposal file</label>
-                      <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" required=""></form>
+                     <label for="formFile" class="form-label">Upload testproposal file</label>
+                      <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" required="">
                     </div>
                   </div>
                 </div>
               </div>
               <div class="d-grid gap-2 mx-auto">
-                <button class="btn btn-primary btn-lg" type="button">Upload</button>
-              </div>
+                <button class="btn btn-primary btn-lg" type="submit">Upload</button>
+              </div></form>
             </div>
           </div>
           <!-- / Content -->

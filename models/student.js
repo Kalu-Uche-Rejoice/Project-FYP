@@ -1,3 +1,4 @@
+const { Binary } = require('mongodb');
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const tasksSchema = new Schema({
@@ -23,7 +24,16 @@ const ProposalSchema = new Schema({
     topic:{
         type: String,
         required:true
-    }
+    },
+    file:{
+        data:Buffer,
+        contentType: String
+    },
+    fileName: {
+        type: String,
+        required: true,
+      }
+    
 },{timestamps:true})
 const studentSchema = new Schema({
     matriculationNumber :{
@@ -52,4 +62,6 @@ const studentSchema = new Schema({
 })
 
 var student = mongoose.model('student',studentSchema);
+var prop = mongoose.model('proposal',ProposalSchema);
+module.exports= prop;
 module.exports= student;

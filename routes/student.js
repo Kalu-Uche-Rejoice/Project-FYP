@@ -2,11 +2,24 @@ var express = require('express');
 
 var bodyparser = require('body-parser')
 var mongoose = require('mongoose');
+var multer = require('multer');
+
+var mongoose = require('mongoose');
+var crypto = require('crypto'); 
+var GridFSStorage = require('multer-gridfs-storage');
+var Grid = require('gridfs-stream');
+var methodOverride = require('method-override');
+
+var Upload = require('../models/upload');
 
 var project = require('../models/project')
 var student = require('../models/student')
 
 var router = express.Router();
+
+var storage = multer.memoryStorage()
+var upload = multer({ storage: storage })
+
 router.use(bodyparser.json());
 router.route('/')
 .post((req, res, next)=>{
@@ -32,6 +45,7 @@ router.route('/proposal')
     student.findOne({matriculationNumber:req.body.matriculationNumber})
     .then((student)=>{
         if (student != null) {
+            
             student.proposal.push({
                 topic: req.body.topic
             });
@@ -47,6 +61,34 @@ router.route('/proposal')
         next(err)
     })
 })
+/*router.post(('/upload'), upload.single("file"), async (req, res) => {
+    console.log('okay')
+    // req.file can be used to access all file properties
+    try {
+      //check if the request has an image or not
+      if (!req.file) {
+        res.json({
+          success: false,
+          message: "You must provide at least 1 file"
+        });
+      } else {
+        let imageUploadObject = {
+          file: {
+            data: req.file.buffer,
+            contentType: req.file.mimetype
+          },
+          fileName: req.body.fileName
+        };
+        const uploadObject = new Upload(imageUploadObject);
+        // saving the object into the database
+        const uploadProcess = await uploadObject.save();
+        res.send('okay')
+      }
+    } catch (error) {
+      console.error(error);
+      res.status(500).send("Server Error");
+    }
+  });*/
 
 router.get('/past-project', function(req, res, next) {
     res.render('past FYP', { title: 'Express' });

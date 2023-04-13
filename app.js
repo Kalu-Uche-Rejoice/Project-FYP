@@ -9,9 +9,10 @@ var expressLayouts = require ('express-ejs-layouts');
 var mongoose = require('mongoose');
 var crypto = require('crypto');
 var multer = require('multer');
-var gridFSStorage = require('multer-gridfs-storage');
-var grid = require('gridfs-stream');
+var GridFSStorage = require('multer-gridfs-storage');
+var Grid = require('gridfs-stream');
 var methodOverride = require('method-override');
+var fileUpload = require('express-fileupload');
 
 var indexRouter = require('./routes/index');
 var studentRouter = require('./routes/student');
@@ -38,6 +39,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'assets')));
 app.use(expressLayouts);
+
+app.use(bodyParser.json());
+app.use(methodOverride('_method'))
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
