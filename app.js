@@ -14,7 +14,12 @@ var Grid = require('gridfs-stream');
 var methodOverride = require('method-override');
 var fileUpload = require('express-fileupload');*/
 
+const FBadmin = require('firebase-admin');
+const credentials =require ('./key.json')
 
+FBadmin.initializeApp({
+  credential: FBadmin.credential.cert(credentials)
+})
 
 
 var studentRouter = require('./routes/student');
