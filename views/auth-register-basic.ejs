@@ -222,12 +222,14 @@
         var email =document.getElementById('email');
         var password = document.getElementById('password');
         const emailTest = 'cu.edu.ng'
-        var validityTest = email.includes(emailTest)
-        if (validityTest === false && password.length <=8) {
-          submit.classList.add('disabled')
+        var validityTest = email.value.includes(emailTest)
+        if (validityTest === false) {
           email.style.borderColor = 'red'
+        } else if (password.value.length <8) {
           password.style.borderColor = 'red'
-        } else {
+        }else{
+          email.style.borderColor = 'gray'
+          password.style.borderColor = 'gray'
           submit.classList.remove('disabled')
         }
       }

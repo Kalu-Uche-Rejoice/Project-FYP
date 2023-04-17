@@ -2,9 +2,7 @@ var express = require('express');
 var router = express.Router();
 const credentials = require('../key.json')
 const FBadmin = require('firebase-admin');
-/*FBadmin.initializeApp({
-  credential: FBadmin.credential.cert(credentials)
-})*/
+const { UserRecord } = require('firebase-admin/lib/auth/user-record');
 
 
 /* GET users listing. */
@@ -13,7 +11,6 @@ router.route('/register')
   res.render('auth-register-basic', {layout: false});
 })
 .post(async(req, res)=>{
-  console.log(req.body)
   const user ={
     email : req.body.email,
     password: req.body.password
@@ -28,7 +25,10 @@ router.route('/register')
       password: user.password,
       emailVerified: false,
       disabled: false
-    });
+    })// tehre is an issue with the user email verificationlink.
+    .then((user)=>{
+      const userVerify = FBadmin.auth().generateEmailVerificationLink(user)
+    }).catch((err)=>console.log(err))
     res.redirect('/')
   } 
   else{
