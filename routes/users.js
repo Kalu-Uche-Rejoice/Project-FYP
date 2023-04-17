@@ -23,15 +23,17 @@ router.route('/register')
   const emailTest = 'cu.edu.ng'
   var validityTest = user.email.includes(emailTest)
   if (validityTest === true && user.password.length >=8) {
-    /*const userResponse = await FBadmin.auth().createUser({
+    const userResponse = await FBadmin.auth().createUser({
       email: user.email,
       password: user.password,
       emailVerified: false,
       disabled: false
-    });*/
+    });
     res.redirect('/')
   } 
-  
+  else{
+    res.redirect('/users/register')
+  }
 })
 
 

@@ -169,16 +169,19 @@
                   </div>
                 </div>
 
-                <!--div class="mb-3">
-                  <div class="form-check">
+                <div class="mb-3">
+                  <p>
+                    You must have a registered covenant university email address and your password must be at least 8 characters
+                  </p>
+                  <!--<div class="form-check">
                     <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
                     <label class="form-check-label" for="terms-conditions">
                       I agree to
                       <a href="javascript:void(0);">privacy policy & terms</a>
-                    </label>
+                    </label>-->
                   </div>
-                </div-->
-                <input class="btn btn-primary d-grid w-100" type="submit" value="Sign up">
+                </div>
+                <input onmouseover="test()" class="btn btn-primary d-grid w-100" id="submit"  type="submit" value="Sign up">
                 
               </form>
 
@@ -194,7 +197,7 @@
         </div>
       </div>
     </div>
-
+ 
     <!-- / Content -->
 
     <!-- Core JS -->
@@ -213,7 +216,22 @@
     <script src="/js/main.js"></script>
 
     <!-- Page JS -->
-
+    <script>
+      function test (){
+        var submit = document.getElementById('submit')
+        var email =document.getElementById('email');
+        var password = document.getElementById('password');
+        const emailTest = 'cu.edu.ng'
+        var validityTest = email.includes(emailTest)
+        if (validityTest === false && password.length <=8) {
+          submit.classList.add('disabled')
+          email.style.borderColor = 'red'
+          password.style.borderColor = 'red'
+        } else {
+          submit.classList.remove('disabled')
+        }
+      }
+    </script>
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
