@@ -2,7 +2,6 @@ var express = require('express');
 var router = express.Router();
 const credentials = require('../key.json')
 const FBadmin = require('firebase-admin');
-const { UserRecord } = require('firebase-admin/lib/auth/user-record');
 
 
 /* GET users listing. */
