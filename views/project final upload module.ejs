@@ -79,22 +79,25 @@ padding-bottom: 0px !important;
           <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-3 mb-4">Project Upload Module</h4>
 
+            <form action="/student/project-upload" method="post" enctype="multipart/form-data">
             <div class="row">
+             
               <div class="col-md-6">
                 <div class="card mb-4">
                   <h5 class="card-header">Project Title</h5>
                   <div class="card-body">
                     <div class="form-floating">
-                      <input type="text" class="form-control" id="floatingInput" aria-describedby="floatingInputHelp" required="">
+                      <input type="text" class="form-control" id="floatingInput" aria-describedby="floatingInputHelp" required="" name="topic">
                       <label for="floatingInput">Title</label>
                     </div>
                     <div class="mb-3">
                       <label for="formFile" class="form-label">Upload project file</label>
-                      <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" required="">
+                      <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" required="" name="file">
                     </div>
                     <div>
                       <label for="exampleFormControlTextarea1" class="form-label"> <strong>Abstract</strong></label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" required=""></textarea>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" required="" name="abstract"></textarea>
+                      
                     </div>
                   </div>
                 </div>
@@ -110,20 +113,23 @@ padding-bottom: 0px !important;
                     </p>
                     <div class="mb-3">
                       <label for="exampleFormControlInput1" class="form-label">Email address</label>
-                      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+                      <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="name@example.com" name="email">
                     </div>
                     <div class="mb-3">
                       <label for="html5-tel-input" class="form-label">Phone</label>
                       <div>
-                        <input class="form-control" type="tel" placeholder="080-164-188-55" id="html5-tel-input">
+                        <input class="form-control" type="tel" placeholder="080-164-188-55" id="html5-tel-input" name="number">
                       </div>
                     </div>
-                    <button class="btn btn-outline-primary" type="submit" id="button">Upload</button>
+                    
+                    <input class="btn btn-outline-primary" type="submit" value="Upload">
                     </div>
                   </div>
-                </div>
               </div>
+             
+              
             </div>
+          </form>
           </div>
           <!-- / Content -->
 

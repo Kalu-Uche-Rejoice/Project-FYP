@@ -1,11 +1,13 @@
 const firebase = require('../key.js');
+const {getAuth, createUserWithEmailAndPassword} = require('firebase/auth')
+const auth = getAuth();
 exports.register = (req, res)=>{
     console.log(req.body)
     const user ={
         email : req.body.email,
         password: req.body.password
       }
-    firebase.auth().createUserWithEmailAndPassword(user.email, user.password)
+    createUserWithEmailAndPassword(user.email, user.password)
     .then((data)=>{
         console.log(data)
         return res.status(201).json(data);
