@@ -2,7 +2,6 @@
   "name": "projectfyp",
   "version": "0.0.0",
   "private": true,
-  
   "scripts": {
     "start": "nodemon ./bin/www",
     "dev": "node index.js"
@@ -14,8 +13,7 @@
     "express": "~4.16.1",
     "express-ejs-layouts": "^2.5.1",
     "express-fileupload": "^1.4.0",
-    "firebase": "^9.19.1",
-    "firebase-admin": "^11.6.0",
+    "firebase": "^9.20.0",
     "gridfs-stream": "^1.1.1",
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",

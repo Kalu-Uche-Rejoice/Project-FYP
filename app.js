@@ -6,21 +6,8 @@ var logger = require('morgan');
 var bodyParser = require('body-parser')
 var ejs = require('ejs');
 var expressLayouts = require ('express-ejs-layouts');
-var mongoose = require('mongoose');
-/*var crypto = require('crypto');
-var multer = require('multer');
-var GridFSStorage = require('multer-gridfs-storage');
-var Grid = require('gridfs-stream');
-var methodOverride = require('method-override');
-var fileUpload = require('express-fileupload');*/
 
-const FBadmin = require('firebase-admin');
-const credentials =require ('./key.json')
-
-FBadmin.initializeApp({
-  credential: FBadmin.credential.cert(credentials)
-})
-
+const key = require('./key')
 
 var studentRouter = require('./routes/student');
 var supervisorRouter = require('./routes/supervisor');
@@ -29,13 +16,13 @@ var usersRouter = require('./routes/users');
 
 var app = express();
 
-const url = 'mongodb://127.0.0.1:27017/FYP';
-const connect = mongoose.connect(url);
-connect.then((db)=>{
+//const url = 'mongodb://127.0.0.1:27017/FYP';
+//const connect = mongoose.connect(url);
+/*connect.then((db)=>{
   console.log('Connected correctly to mongo server')
 },(err)=>{
   console.log(err);
-})
+})*/
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');

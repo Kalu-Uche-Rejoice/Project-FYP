@@ -1,28 +1,20 @@
 var express = require('express');
 
 var bodyparser = require('body-parser')
-var mongoose = require('mongoose');
 var multer = require('multer');
 
-var mongoose = require('mongoose');
-var crypto = require('crypto'); 
-var GridFSStorage = require('multer-gridfs-storage');
-var Grid = require('gridfs-stream');
-var methodOverride = require('method-override');
+const { getStorage, ref, uploadBytesResumable, getDownloadURL } = require("firebase/storage");
 
-var Upload = require('../models/upload');
+const { getFirestore, collection, addDoc, } = require('firebase/firestore');
 
-var project = require('../models/project')
-var student = require('../models/student')
+const db = getFirestore()
+const storage = getStorage()
+
 
 var router = express.Router();
+ 
+var upload = multer({ storage: multer.memoryStorage() })
 
-/*var storage = multer.memoryStorage()
-var upload = multer({ storage: storage })*/
-
-const FBadmin = require('firebase-admin');
-// import database into app
-const db =FBadmin.firestore();
 
 router.use(bodyparser.json());
 router.route('/')
@@ -45,20 +37,35 @@ router.route('/proposal')
 .get(function(req, res, next) {
     res.render('proposal module', { title: 'Express' });
 })
-router.post(('/upload'),async (req, res) => {
+router.post(('/upload'),upload.single("file"), async (req, res) => {
         try {
-          const Proposals = db.collection('proposals');
-          const Proposal = {
-            matricNo: req.body.matriculationNumber,
-            topic: req.body.topic
-          }
-          console.log(req.body)
-          const response = await Proposals.add(Proposal)
           
+          //gets a storage reference and appends the file name
+          const storageRef = ref(storage, `files/${req.file.originalname}`)
+          console.log(storageRef)
+          const metadata = {
+            contentType: req.file.mimetype,
+          };
+
+          // Upload the file in the bucket storage
+          const snapshot = await uploadBytesResumable(storageRef, req.file.buffer, metadata);
+          //by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
+
+          // Grab the public url
+          const downloadURL = await getDownloadURL(snapshot.ref);
+
+          const Proposals = collection(db, 'projects');
+           const Proposal = {
+             topic: req.body.topic,
+             downloadURL: downloadURL
+            }
+          console.log(req.body)
+          const response = await addDoc(Proposals, Proposal)
+            
           res.statusCode= 200
           res.send(response)
         } catch (error) {
-          res.send(error)
+          return res.status(400).send(error.message)
         }
   });
 

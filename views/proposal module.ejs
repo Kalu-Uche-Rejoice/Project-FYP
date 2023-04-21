@@ -95,69 +95,41 @@ padding-bottom: 0px !important;
 
             <div class="row">
               <div class="col-md-6">
-                <form action="/student/upload" method="post">
-                  <div>
-                  <div class="card mb-4">
-                    <h5 class="card-header"><input type="checkbox" name="" id=""class="mx-4">Project Title</h5>
-                    <div class="card-body">
-                      <div class="form-floating">
-                        <input type="text" class="form-control" id="topic" name="topic" aria-describedby="floatingInputHelp" required="">
-                        <label for="floatingInput">Title</label>
+                <form action="/student/upload" method="post"  enctype="multipart/form-data">
+                  <div class="col-md-6">
+                    <div class="card mb-4">
+                      <h5 class="card-header"><input type="checkbox" name="" id=""class="mx-4">Project Title</h5>
+                      <div class="card-body">
+                        <div class="form-floating">
+                          <input type="text" class="form-control" id="topic" name="topic" aria-describedby="floatingInputHelp" >
+                          <label for="floatingInput">Title</label>
+                        </div>
+                        <div class="mb-3">
+                          <label for="formFile" class="form-label">Upload proposal file</label>
+                          <input class="form-control" type="file" name="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" >
                       </div>
-                      <div class="mb-3">
-                        <label for="formFile" class="form-label">Upload proposal file</label>
-                        <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" required="">
-                     </div>
-                    </div>
-                  </div>
-                  
-                  <div class="card mb-4">
-                    <h5 class="card-header"><input type="checkbox" name="" id=""class="mx-4">Project Title</h5>
-                    <div class="card-body">
-                      <div class="form-floating">
-                        <input type="text" class="form-control" id="topic" name="topic" aria-describedby="floatingInputHelp" required="">
-                        <label for="floatingInput">Title</label>
                       </div>
-                      <div class="mb-3">
-                        <label for="formFile" class="form-label">Upload proposal file</label>
-                        <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" required="">
-                     </div>
                     </div>
-                  </div>
-                  
-                  <div class="card mb-4">
-                    <h5 class="card-header"><input type="checkbox" name="" id=""class="mx-4">Project Title</h5>
-                    <div class="card-body">
-                      <div class="form-floating">
-                        <input type="text" class="form-control" id="topic" name="topic" aria-describedby="floatingInputHelp" required="">
-                        <label for="floatingInput">Title</label>
+                    <div class="card mb-4">
+                      <h5 class="card-header"><input type="checkbox" name="" id=""class="mx-4">Project Title</h5>
+                      <div class="card-body">
+                        <div class="form-floating">
+                          <input type="text" class="form-control" id="topic" name="topic" aria-describedby="floatingInputHelp" >
+                          <label for="floatingInput">Title</label>
+                        </div>
+                        <div class="mb-3">
+                          <label for="formFile" class="form-label">Upload proposal file</label>
+                          <input class="form-control" type="file" name="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" >
                       </div>
-                      <div class="mb-3">
-                        <label for="formFile" class="form-label">Upload proposal file</label>
-                        <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" required="">
-                     </div>
-                    </div>
-                  </div>
-
-                  <div class="card mb-4">
-                    <h5 class="card-header"><input type="checkbox" name="" id=""class="mx-4">Project Title</h5>
-                    <div class="card-body">
-                      <div class="form-floating">
-                        <input type="text" class="form-control" id="topic" name="topic" aria-describedby="floatingInputHelp" required="">
-                        <label for="floatingInput">Title</label>
                       </div>
-                      <div class="mb-3">
-                        <label for="formFile" class="form-label">Upload proposal file</label>
-                        <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" required="">
-                     </div>
                     </div>
-                  </div>
                 </div>
                   <div class="d-grid gap-2 mx-auto">
                     <button class="btn btn-primary btn-lg" type="submit">Upload</button>
                   </div>
 
                 </form>
+                
               </div>              
             </div>
           </div>
