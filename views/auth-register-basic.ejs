@@ -139,20 +139,10 @@
               <p class="mb-4">Make your project management easy and fun!</p>
 
               <form id="formAuthentication" class="mb-3" action="/users/register" method="POST">
-                <!--<div class="mb-3">
-                  <label for="username" class="form-label">Username</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    id="username"
-                    name="username"
-                    placeholder="Enter your username"
-                    autofocus
-                  />
-                </div>-->
+                
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
-                  <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" />
+                  <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" required/>
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <label class="form-label" for="password">Password</label>
@@ -164,21 +154,41 @@
                       name="password"
                       placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
                       aria-describedby="password"
+                      required
                     />
                     <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   </div>
                 </div>
-
                 <div class="mb-3">
-                  <p>
-                    You must have a registered covenant university email address and your password must be at least 8 characters
-                  </p>
-                  <!--<div class="form-check">
+                  <label for="matno" class="form-label">Provide your Matriculation Number or Staff number where appropriate</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="matno"
+                    name="matno"
+                    required
+                    autofocus
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="course" class="form-label">Course of study for students only</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="course"
+                    name="course"
+                    required
+                    autofocus
+                  />
+                </div>
+                
+                <div class="mb-3">
+                  <div class="form-check">
                     <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
                     <label class="form-check-label" for="terms-conditions">
                       I agree to
-                      <a href="javascript:void(0);">privacy policy & terms</a>
-                    </label>-->
+                      <a href="privacy policy.html">privacy policy & terms</a>
+                    </label>
                   </div>
                 </div>
                 <input onmouseover="test()" class="btn btn-primary d-grid w-100" id="submit"  type="submit" value="Sign up">
@@ -211,29 +221,41 @@
     <!-- endbuild -->
 
     <!-- Vendors JS -->
-
-    <!-- Main JS -->
-    <script src="/js/main.js"></script>
+    <script>
+     function test (){
+      var form = document.getElementById('formAuthentication')
+      var submit = document.getElementById('submit')
+      var email =document.getElementById('email');
+      var password = document.getElementById('password');
+      var matNo = document.getElementById('matricNo')
+      
+      const emailTest = 'cu.edu.ng'
+      var validityTest = email.value.includes(emailTest)
+      
+      if (validityTest === false) {
+        email.style.borderColor = 'red'
+      } else if (password.value.length <8) {
+        password.style.borderColor = 'red'
+      }
+      else{
+        email.style.borderColor = 'gray'
+        password.style.borderColor = 'gray';
+        let comp = matNo.value.includes("CJ")
+        let elect = matNo.value.includes("CK")
+        if (email.value.includes('stu.cu.edu.ng')) {
+          if (comp == false) {
+            if (elect == false) {
+              console.log("email and mat no match")
+              alert("Please Provide a valid matriculation or staff number")
+            }
+          }
+        }
+      
+    }
+  }
+    </script>
 
     <!-- Page JS -->
-    <script>
-      function test (){
-        var submit = document.getElementById('submit')
-        var email =document.getElementById('email');
-        var password = document.getElementById('password');
-        const emailTest = 'cu.edu.ng'
-        var validityTest = email.value.includes(emailTest)
-        if (validityTest === false) {
-          email.style.borderColor = 'red'
-        } else if (password.value.length <8) {
-          password.style.borderColor = 'red'
-        }else{
-          email.style.borderColor = 'gray'
-          password.style.borderColor = 'gray'
-          submit.classList.remove('disabled')
-        }
-      }
-    </script>
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>

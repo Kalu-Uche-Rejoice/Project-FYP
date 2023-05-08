@@ -7,6 +7,7 @@ var bodyParser = require('body-parser')
 var ejs = require('ejs');
 var expressLayouts = require ('express-ejs-layouts');
 
+const {signin, forgotpassword }= require('./controllers/auth')
 const key = require('./key')
 
 var studentRouter = require('./routes/student');
@@ -44,10 +45,7 @@ app.use('/supervisor', supervisorRouter);
 app.get('/',(req,res)=>{
   res.render('auth-login-basic', { layout: false });
 })
-app.get('/reset-pass',(req,res)=>{
-  res.render('auth-forgot-password-basic', { layout: false });
-})
-// import database into app
+.post(signin);
 
 
 // catch 404 and forward to error handler
