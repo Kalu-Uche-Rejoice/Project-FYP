@@ -78,3 +78,39 @@ exports.findFile = async(req, res, dbName)=>{
     res.render('past FYP');
 
 }
+
+exports. multipleFileSubmit = async (req, res, storeName) => {
+  try {
+    console.log(req.files);
+    for (let index = 0; index < 2; index++) {
+      //gets a storage reference and appends the file name
+      const storageRef = ref(storage, `${storeName}/${req.files[index].originalname}`);
+      const metadata = {
+        contentType: req.files[index].mimetype,
+      };
+      // Upload the file in the bucket storage
+      const snapshot = await uploadBytesResumable(
+        storageRef,
+        req.files[index].buffer,
+        metadata
+      );
+      //by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
+
+      // Grab the public url
+      const downloadURL = await getDownloadURL(snapshot.ref);
+
+      const Proposals = collection(db, "projects");
+      const Proposal = {
+        topic: req.body.topic[index],
+        downloadURL: downloadURL,
+      };
+      console.log(req.body);
+      const response = await addDoc(Proposals, Proposal);
+    }
+
+    res.statusCode = 200;
+    res.redirect('/student/past-project')
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
+}
