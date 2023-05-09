@@ -10,7 +10,9 @@ const {
 const {
   getFirestore,
   collection,
+  doc,
   addDoc,
+  setDoc,
   getDocs,
   query,
   where,
@@ -27,7 +29,7 @@ exports.register = (req, res) => {
     terms: req.body.terms,
   };
   let User = {};
-  const users = collection(db, "users");
+  //const users = collection(db, "users");
   createUserWithEmailAndPassword(auth, user.email, user.password)
     .then(async (data) => {
       //console.log(data)
@@ -48,7 +50,8 @@ exports.register = (req, res) => {
           terms: user.terms,
         };
       }
-      const response = await addDoc(users, User);
+      //const response = await addDoc(users, User);
+      await setDoc(doc(db, "users", data.user.uid), User);
       res.redirect("/");
     })
     .catch((error) => {
