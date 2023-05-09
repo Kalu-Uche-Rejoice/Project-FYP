@@ -8,7 +8,7 @@ var upload = multer({ storage: multer.memoryStorage() })
 
 
 const { getStorage, ref, uploadBytesResumable, getDownloadURL } = require("firebase/storage");
-const {getAuth} = require('firebase/auth')
+const {getAuth, onAuthStateChanged} = require('firebase/auth')
 const { getFirestore, collection, addDoc, getDocs, query, where } = require('firebase/firestore');
 
 const db = getFirestore()
@@ -114,3 +114,7 @@ exports. multipleFileSubmit = async (req, res, storeName) => {
     return res.status(400).send(error.message);
   }
 }
+
+//there should be a collection called supervisor in the users collection 
+//then in that collection there will be 
+// I can querry for every user with type 

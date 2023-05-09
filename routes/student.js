@@ -5,7 +5,7 @@ const {
   findFile,
   multipleFileSubmit,
 } = require("../controllers/read-file");
-const { monitorAuthState } = require("../controllers/auth");
+const { auth, monitorAuthState } = require("../controllers/auth");
 
 var router = express.Router();
 var bodyparser = require("body-parser");
@@ -26,14 +26,22 @@ router.route("/proposal").get(function (req, res, next) {
 router.post("/upload", upload.array("file", 4), async (req, res) => {
   multipleFileSubmit(req, res, "proposals");
 });
-
 router.get("/past-project", function (req, res, next) {
-  //var activeUser = monitorAuthState();
-  console.log(monitorAuthState);
+ var currentUser = monitorAuthState()
+ console.log(currentUser)
   findFile(req, res, "finalProjectReport");
-});
 
-router
+  //res.render('past FYP');
+});
+/*router.get("/past-project", function (req, res, next) {
+  //var activeUser = monitorAuthState();
+  onAuthStateChanged(auth, (user) => {
+    console.log(user.email);
+    console.log("hope");
+  });
+  res.render("past FYP");
+  //findFile(req, res, "finalProjectReport");
+})*/ router
   .route("/project-upload")
   .get(function (req, res, next) {
     res.render("project final upload module", { title: "Express" });

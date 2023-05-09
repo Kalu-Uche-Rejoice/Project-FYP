@@ -1,5 +1,11 @@
 var express = require('express');
 var router = express.Router();
+
+const student = require ('./student')
+const supervisor = require('./supervisor')
+router.use('/student', student)
+router.use('/supervisor', supervisor)
+
 const {
   register,
   signin,

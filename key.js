@@ -26,3 +26,4 @@ const firebaseConfig = {
 const { initializeApp } = require("firebase/app");
 
 initializeApp(firebaseConfig);
+

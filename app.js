@@ -37,8 +37,8 @@ app.use(expressLayouts);
 app.use(bodyParser.json());
 
 app.use("/users", usersRouter);
-app.use("/student", studentRouter);
-app.use("/supervisor", supervisorRouter);
+//app.use("/student", studentRouter);
+//app.use("/supervisor", supervisorRouter);
 
 app
   .get("/", (req, res) => {

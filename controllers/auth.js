@@ -15,10 +15,8 @@ const {
   query,
   where,
 } = require("firebase/firestore");
-
 const db = getFirestore();
 const auth = getAuth();
-
 exports.register = (req, res) => {
   console.log(req.body);
   const user = {
@@ -64,31 +62,25 @@ exports.register = (req, res) => {
     });
 };
 
-exports.monitorAuthState = async () => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      console.log("the user is");
-      console.log(user.uid);
-      return user.uid;
-    }
-    console.log(auth.currentUser);
-  })
-  ;
+exports.monitorAuthState = () => {
+  console.log("this is a test");
+  var currentUser = auth.currentUser;
+  return currentUser;
 };
 
 exports.signin = (req, res) => {
   console.log(req.body);
   signInWithEmailAndPassword(auth, req.body.email, req.body.password)
     .then((user) => {
-      console.log(auth.currentUser);
+      //console.log(auth.currentUser);
       const User = auth.currentUser.email;
       //test for the type of user
 
       if (User.includes("cu.edu.ng")) {
         if (User.includes("stu.cu.edu.ng")) {
-          res.redirect("/student/past-project");
+          res.redirect("/users/student/past-project");
         } else {
-          res.redirect("/supervisor/past-project");
+          res.redirect("/users/supervisor/past-project");
         }
       }
     })
