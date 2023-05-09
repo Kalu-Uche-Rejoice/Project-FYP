@@ -6,6 +6,7 @@ const {
   sendPasswordResetEmail,
   signOut,
   onAuthStateChanged,
+  getIdToken
 } = require("firebase/auth");
 const {
   getFirestore,
@@ -17,6 +18,8 @@ const {
   query,
   where,
 } = require("firebase/firestore");
+const {cookie} = require('./athenticate')
+
 const db = getFirestore();
 const auth = getAuth();
 exports.register = (req, res) => {
@@ -72,13 +75,10 @@ exports.monitorAuthState = () => {
 };
 
 exports.signin = (req, res) => {
-  console.log(req.body);
   signInWithEmailAndPassword(auth, req.body.email, req.body.password)
-    .then((user) => {
-      //console.log(auth.currentUser);
-      const User = auth.currentUser.email;
+  .then((user) => {
+    const User = auth.currentUser.email;
       //test for the type of user
-
       if (User.includes("cu.edu.ng")) {
         if (User.includes("stu.cu.edu.ng")) {
           res.redirect("/users/student/past-project");
@@ -116,3 +116,15 @@ exports.logout = (req, res) => {
     res.redirect("/");
   });
 };
+
+exports.sign = (req, res)=>{
+  var user = signInWithEmailAndPassword(auth, req.body.email, req.body.password)
+  //var idtoken = getIdToken(user, true)
+  //cookie(req, res, idtoken)
+ res.redirect("/users/student/past-project")
+  
+  }
+ /* .then((user)=>{
+    var id = getIdToken(user, true)
+    cookie
+}*/

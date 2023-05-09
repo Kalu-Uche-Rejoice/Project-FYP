@@ -8,11 +8,12 @@ router.use('/supervisor', supervisor)
 
 const {
   register,
-  signin,
+  sign,
   forgotpassword,
   logout,
   monitorAuthState
 }=require('../controllers/auth.js');
+const{cookie} = require('../controllers/athenticate')
 const multer = require('multer');
 const os = require('os')
 const upload = multer({storage: multer.memoryStorage()});
@@ -28,9 +29,9 @@ router.route('/register')
 .post(register)
 
 router.route('/sign-in')
-.post(signin,
-  monitorAuthState
+.post(sign
   )
+router.post('/sessionlogin')
 router.route('/forgot-password')
 .get((req, res)=>{
   res.render('auth-forgot-pasword-basic', {layout: false})

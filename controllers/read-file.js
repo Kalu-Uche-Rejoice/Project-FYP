@@ -9,7 +9,7 @@ var upload = multer({ storage: multer.memoryStorage() })
 
 const { getStorage, ref, uploadBytesResumable, getDownloadURL } = require("firebase/storage");
 const {getAuth, onAuthStateChanged} = require('firebase/auth')
-const { getFirestore, collection, addDoc, getDocs, query, where } = require('firebase/firestore');
+const { getFirestore,updateDoc, collection, addDoc, getDocs, query, where } = require('firebase/firestore');
 
 const db = getFirestore()
 const storage = getStorage()
@@ -75,7 +75,7 @@ exports.findFile = async(req, res, dbName)=>{
   });
   console.log(Projects[0])
   
-    res.render('past FYP');
+    res.render('past FYP', {layout: false});
 
 }
 
@@ -100,16 +100,22 @@ exports. multipleFileSubmit = async (req, res, storeName) => {
       const downloadURL = await getDownloadURL(snapshot.ref);
 
       const Proposals = collection(db, "projects");
+      //const user = collection(db, "users", userid)
       const Proposal = {
         topic: req.body.topic[index],
         downloadURL: downloadURL,
       };
-      console.log(req.body);
+      //console.log(req.body);
       const response = await addDoc(Proposals, Proposal);
+      /*await updateDoc(user, {
+        proposals :[
+          response.id
+        ]
+      });*/
     }
 
     res.statusCode = 200;
-    res.redirect('/student/past-project')
+    res.redirect('/users/student/past-project')
   } catch (error) {
     return res.status(400).send(error.message);
   }

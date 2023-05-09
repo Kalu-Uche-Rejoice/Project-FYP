@@ -1,5 +1,5 @@
 var express = require("express");
-
+const {verifyUser} = require('../controllers/athenticate')
 const {
   singleFileSubmit,
   findFile,
@@ -27,8 +27,8 @@ router.post("/upload", upload.array("file", 4), async (req, res) => {
   multipleFileSubmit(req, res, "proposals");
 });
 router.get("/past-project", function (req, res, next) {
- var currentUser = monitorAuthState()
- console.log(currentUser)
+ //var currentUser = monitorAuthState()
+ //console.log(currentUser)
   findFile(req, res, "finalProjectReport");
 
   //res.render('past FYP');
