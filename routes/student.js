@@ -1,5 +1,5 @@
 var express = require("express");
-const {verifyUser} = require('../controllers/athenticate')
+const {verifyUserCookie} = require('../controllers/athenticate')
 const {
   singleFileSubmit,
   findFile,
@@ -16,8 +16,11 @@ var upload = multer({ storage: multer.memoryStorage() });
 
 router.use(bodyparser.json());
 
-router.route("/log").get(function (req, res, next) {
-  res.render("studeproject monitoring module");
+
+router.route("/log").get( function (req, res, next) {
+  verifyUserCookie(req)
+  
+  //res.render("studeproject monitoring module");
 });
 
 router.route("/proposal").get(function (req, res, next) {

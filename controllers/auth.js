@@ -6,7 +6,7 @@ const {
   sendPasswordResetEmail,
   signOut,
   onAuthStateChanged,
-  getIdToken
+  getIdToken,
 } = require("firebase/auth");
 const {
   getFirestore,
@@ -18,7 +18,7 @@ const {
   query,
   where,
 } = require("firebase/firestore");
-const {cookie} = require('./athenticate')
+const { cookie } = require("./athenticate");
 
 const db = getFirestore();
 const auth = getAuth();
@@ -76,8 +76,8 @@ exports.monitorAuthState = () => {
 
 exports.signin = (req, res) => {
   signInWithEmailAndPassword(auth, req.body.email, req.body.password)
-  .then((user) => {
-    const User = auth.currentUser.email;
+    .then((user) => {
+      const User = auth.currentUser.email;
       //test for the type of user
       if (User.includes("cu.edu.ng")) {
         if (User.includes("stu.cu.edu.ng")) {
@@ -117,14 +117,27 @@ exports.logout = (req, res) => {
   });
 };
 
-exports.sign = (req, res)=>{
-  var user = signInWithEmailAndPassword(auth, req.body.email, req.body.password)
-  //var idtoken = getIdToken(user, true)
+exports.sign = (req, res) => {
+  signInWithEmailAndPassword(auth, req.body.email, req.body.password).then(
+    (user) => {
+      //res.send("Cookie has been set from secondary route");
+      var User = user.user;
+      getIdToken(User, true).then(async(id) => {
+        await cookie(req, res, id, User.email);
+       
+        //return res.status(200).json({ id: id})
+      });
+    }
+  );
+  // var user = auth.currentUser.idToken
+};
+/*//var idtoken =
+  console.log(idtoken)
   //cookie(req, res, idtoken)
  res.redirect("/users/student/past-project")
   
-  }
- /* .then((user)=>{
+  }*/
+/* .then((user)=>{
     var id = getIdToken(user, true)
     cookie
 }*/

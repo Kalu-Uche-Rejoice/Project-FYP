@@ -75,7 +75,7 @@ exports.findFile = async(req, res, dbName)=>{
   });
   console.log(Projects[0])
   
-    res.render('past FYP', {layout: false});
+    res.render('past FYP');
 
 }
 
@@ -124,3 +124,4 @@ exports. multipleFileSubmit = async (req, res, storeName) => {
 //there should be a collection called supervisor in the users collection 
 //then in that collection there will be 
 // I can querry for every user with type 
+

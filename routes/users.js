@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 
+//router.use(cookieParser())
 const student = require ('./student')
 const supervisor = require('./supervisor')
 router.use('/student', student)
@@ -29,7 +30,8 @@ router.route('/register')
 .post(register)
 
 router.route('/sign-in')
-.post(sign
+.post(
+  sign
   )
 router.post('/sessionlogin')
 router.route('/forgot-password')

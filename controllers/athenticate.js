@@ -2,6 +2,7 @@ const { app } = require("../config");
 
 const { getAuth } = require("firebase-admin/auth");
 const { getFirestore } = require("firebase-admin/firestore");
+
 const auth = getAuth(app);
 const db = getFirestore();
 
@@ -42,8 +43,8 @@ exports.register = (req, res) => {
 
 exports.verifyUser = async (req, res) => {
   const idToken = req.headers.authorization;
-  console.log(req.headers.authorization)
- // const idToken = authHeader.split(" ")[1];
+  console.log(req.headers.authorization);
+  // const idToken = authHeader.split(" ")[1];
   try {
     const decodedToken = await auth.verifyIdToken(idToken);
     if (decodedToken) {
@@ -56,23 +57,37 @@ exports.verifyUser = async (req, res) => {
   }
 };
 
-exports.cookie =  (req, res, idtoken) => {
-  const idToken = req.body.idToken.toString();
+exports.cookie = (req, res, idToken, email) => {
+  //const idToken = req.body.idToken.toString();
 
   const expiresIn = 60 * 60 * 24 * 5 * 1000;
 
-  
-    auth
-    .createSessionCookie(idToken, { expiresIn })
-    .then(
-      (sessionCookie) => {
-        const options = { maxAge: expiresIn, httpOnly: true };
-        console.log(sessionCookie)
-        res.cookie("session", sessionCookie, options);
-        res.end(JSON.stringify({ status: "success" }));
-      },
-      (error) => {
-        res.status(401).send("UNAUTHORIZED REQUEST!");
+  auth.createSessionCookie(idToken, { expiresIn }).then(
+    async (sessionCookie) => {
+      const options = { maxAge: expiresIn, httpOnly: true, sameSite: "strict" };
+      console.log(sessionCookie);
+      console.log(email);
+      await res.cookie("session", sessionCookie, options);
+      if (email.includes("cu.edu.ng")) {
+        if (email.includes("stu.cu.edu.ng")) {
+          res.redirect("/users/student/past-project");
+        } else {
+          res.redirect("/users/supervisor/past-project");
+        }
+        //;
       }
-    );
-}
+    },
+    (error) => {
+      res.status(401).send("UNAUTHORIZED REQUEST!");
+    }
+  );
+};
+
+exports.verifyUserCookie = (req) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    res.send(DecodedIdToken.uid)
+    //return DecodedIdToken.uid;
+  });
+  console.log(sessionCookie);
+};
