@@ -1,5 +1,5 @@
 var express = require("express");
-const { verifyUserCookie } = require("../controllers/athenticate");
+const { verifyUserCookie, verifyUser } = require("../controllers/athenticate");
 const {
   singleFileSubmit,
   findFile,
@@ -31,7 +31,7 @@ router.route("/proposal").get(function (req, res, next) {
   res.render("proposal module", { title: "Express" });
 });
 router.post("/upload", upload.array("file", 4), async (req, res) => {
-  multipleFileSubmit(req, res, "proposals");
+  verifyUser(req, res, "proposals");
 });
 router.get("/past-project", function (req, res, next) {
   findFile(req, res, "finalProjectReport");
