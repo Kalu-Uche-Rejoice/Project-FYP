@@ -1,5 +1,5 @@
 var express = require("express");
-const {verifyUserCookie} = require('../controllers/athenticate')
+const { verifyUserCookie } = require("../controllers/athenticate");
 const {
   singleFileSubmit,
   findFile,
@@ -16,11 +16,9 @@ var upload = multer({ storage: multer.memoryStorage() });
 
 router.use(bodyparser.json());
 
-
-router.route("/log").get( function (req, res, next) {
-  verifyUserCookie(req)
-  
-  //res.render("studeproject monitoring module");
+router.route("/log").get(function (req, res, next) {
+  verifyUserCookie(req);
+  res.render("studeproject monitoring module");
 });
 
 router.route("/proposal").get(function (req, res, next) {
@@ -30,8 +28,6 @@ router.post("/upload", upload.array("file", 4), async (req, res) => {
   multipleFileSubmit(req, res, "proposals");
 });
 router.get("/past-project", function (req, res, next) {
- //var currentUser = monitorAuthState()
- //console.log(currentUser)
   findFile(req, res, "finalProjectReport");
 
   //res.render('past FYP');
@@ -50,6 +46,7 @@ router.get("/past-project", function (req, res, next) {
     res.render("project final upload module", { title: "Express" });
   })
   .post(upload.single("file"), async (req, res) => {
+    //verifyUserCookie(req);
     singleFileSubmit(req, res, "finalProjectReport", "finalupload");
   });
 

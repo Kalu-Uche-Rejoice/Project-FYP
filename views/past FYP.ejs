@@ -96,150 +96,55 @@
               </div>
               <!-- /Search -->
 
-              
+              <%- include('partials/notification.ejs') %>
           <!-- Content wrapper -->
           <div class="content-wrapper">
             <!-- Content -->
             <!-- Modal -->
-            <div class="modal fade" id="modalScrollable" tabindex="-1" aria-hidden="true">
-              <div class="modal-dialog modal-dialog-scrollable" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="modalScrollableTitle">*Project Title</h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <h4>Abstract</h4>
-                    <p>
-                      Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-                      in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                    </p>
-                    <p>
-                      Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-                      lacus vel augue laoreet rutrum faucibus dolor auctor.
-                    </p>
-                    <p>
-                      Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-                      scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-                      auctor fringilla.
-                    </p>
-                    <p>
-                      Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-                      in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                    </p>
-                    <p>
-                      Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-                      lacus vel augue laoreet rutrum faucibus dolor auctor.
-                    </p>
-                    <p>
-                      Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-                      scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-                      auctor fringilla.
-                    </p>
-                    <p>
-                      Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-                      in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                    </p>
-                    <p>
-                      Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-                      lacus vel augue laoreet rutrum faucibus dolor auctor.
-                    </p>
-                    <p>
-                      Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-                      scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-                      auctor fringilla.
-                    </p>
-                    <p>
-                      Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-                      in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                    </p>
-                    <p>
-                      Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-                      lacus vel augue laoreet rutrum faucibus dolor auctor.
-                    </p>
-                    <p>
-                      Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-                      scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-                      auctor fringilla.
-                    </p>
-                    <p>
-                      Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-                      in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                    </p>
-                    <p>
-                      Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-                      lacus vel augue laoreet rutrum faucibus dolor auctor.
-                    </p>
-                    <p>
-                      Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-                      scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-                      auctor fringilla.
-                    </p>
-                    <p>
-                      Cras mattis consectetur purus sit amet fermentum. Cras justo odio, dapibus ac facilisis
-                      in, egestas eget quam. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.
-                    </p>
-                    <p>
-                      Praesent commodo cursus magna, vel scelerisque nisl consectetur et. Vivamus sagittis
-                      lacus vel augue laoreet rutrum faucibus dolor auctor.
-                    </p>
-                    <p>
-                      Aenean lacinia bibendum nulla sed consectetur. Praesent commodo cursus magna, vel
-                      scelerisque nisl consectetur et. Donec sed odio dui. Donec ullamcorper nulla non metus
-                      auctor fringilla.
-                    </p>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary">
-                      Download
-                    </button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <div>
-                    <label for="Supervisor" class="form-label">Supervisor</label>
-                    <div class="input-group input-group-merge">
-                      <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Search..."
-                        aria-label="Search..."
-                        aria-describedby="basic-addon-search31"
-                      />
+            <form action="/student/past-project" method="post">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div>
+                      <label for="Supervisor" class="form-label">Supervisor</label>
+                      <div class="input-group input-group-merge">
+                        <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
+                        <input
+                          type="text"
+                          name="supervisorQuery"
+                          class="form-control"
+                          placeholder="Search..."
+                          aria-label="Search..."
+                          aria-describedby="basic-addon-search31"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-                <div class="col">
-                  <div>
-                    <label for="Course" class="form-label">Course</label>
-                    <select id="Course" class="form-select">
-                      <option>All</option>
-                      <option value="1">Electrical and Electronics engineering</option>
-                      <option value="2">Computer engineering</option>
-                      <option value="3">Information and Communication engineering</option>
-                    </select>
+                  <div class="col-md-4">
+                    <div>
+                      <label for="Course" class="form-label">Course</label>
+                      
+                      <select id="Course" class="form-select" name="course">
+                        <option>All</option>
+                        <option value="1">Electrical and Electronics engineering</option>
+                        <option value="2">Computer engineering</option>
+                        <option value="3">Information and Communication engineering</option>
+                      </select>
+                    </div>
                   </div>
-                </div>
-                <div class="col">
-                  <div>
-                    <label for="Year" class="form-label">Year</label>
-                    <select id="Year" class="form-select">
-                    </select>
+                  <div class="col-md-3">
+                    <div>
+                      <label for="Year" class="form-label">Year</label>
+                      <select id="Year" class="form-select" name="year">
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-1 py-4 px-0">
+                    <button type="submit" id="submit" class="btn btn-outline-success ">Search</button>
                   </div>
                 </div>
               </div>
-            </div>
+            </form>
             <div class="container-xxl flex-grow-1 container-p-y">
               <!-- Small table -->
 
@@ -254,63 +159,53 @@
                           <th>Supervisor</th>
                           <th>Course of Study</th>
                           <th>Year</th>
+                          <th>view</th>
                         </tr>
                       </thead>
                       <tbody class="table-border-bottom-0">
-                        <tr>
-                          <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong> <a href="#"data-bs-toggle="modal"
-                            data-bs-target="#modalScrollable">Design and development of a final year project management portal</a></strong></td>
-                          <td>Adegoke Kehinde Ibidunnu</td>
-                          <td>Prof. Anthony Adoghe and Mrs. Owuama Ebere</td>
-                          <td><span class="badge bg-label-primary me-1">EEE</span></td>
-                          <td>2022</td>
-                        </tr>
-                        
-                        <tr>
-                          <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><a href="#">Angular Project</a></strong></td>
-                          <td>Albert Cook</td>
-                          <td>Prof. Anthony</td>
-                          <td><span class="badge bg-label-primary me-1">EEE</span></td>
-                          <td>2022</td>
-                        </tr>
-                        <tr>
-                          <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><a href="#">Angular Project</a></strong></td>
-                          <td>Albert Cook</td>
-                          <td>Prof. Anthony</td>
-                          <td><span class="badge bg-label-primary me-1">EEE</span></td>
-                          <td>2022</td>
-                        </tr>
-                        <tr>
-                          <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><a href="#">Angular Project</a></strong></td>
-                          <td>Albert Cook</td>
-                          <td>Prof. Anthony</td>
-                          <td><span class="badge bg-label-primary me-1">EEE</span></td>
-                          <td>2022</td>
-                        </tr>
-
-                        <tr>
-                          <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong><a href="#">Angular Project</a></strong></td>
-                          <td>Barry Hunter</td>
-                          <td>Prof. Anthony</td>
-                          <td><span class="badge bg-label-success me-1">CEN </span></td>
-                          <td>2022</td>
-                        </tr>
-                        <tr>
-                          <td><i class="fab fa-vuejs fa-lg text-success me-3"></i> <strong><a href="#">Angular Project</a></strong></td>
-                          <td>Trevor Baker</td>
-                          <td>Prof. Anthony</td>
-                          <td><span class="badge bg-label-info me-1">ICE</span></td>
-                          <td>2022</td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <i class="fab fa-bootstrap fa-lg text-primary me-3"></i> <strong><a href="#">Angular Project</a></strong>
-                          </td>
-                          <td>Jerry Milton</td>
-                          <td>Prof. Anthony</td>
-                          <td><span class="badge bg-label-info me-1">ICE</span></td>
-                          <td>2022</td>
-                        </tr>
+                        <% project.forEach(element => { %>
+                          <% let id = element.refemail %>
+                          <div class="modal fade" id="<%= id %>" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="modalScrollableTitle"><%= element.topic %></h5>
+                                  <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                    onclick="toggleModal('<%= id %>')"
+                                  ></button>
+                                </div>
+                                <div class="modal-body">
+                                  <h4>Abstract</h4>
+                                  <p>
+                                    <%= element.abstract %>
+                                  </p>
+                          
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-outline-secondary">
+                                    <a href="<%= element.downloadURL %>" target="_blank">Download</a>
+                                  </button>
+                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal"onclick="toggleModal('<%= id %>')">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <tr>
+                            <td> <strong><%= element.topic %></td>
+                            <td><%= element.author %></td>
+                            <td><%= element.supervisor %></td>
+                            <td><span class="badge bg-label-primary"><%= element.course %></span></td>
+                            <td><%= element.year %></td>
+                            <td><button 
+                              class="btn btn-outline-primary btn-sm"
+                              onclick="toggleModal('<%= id %>')">View Report</button></td>
+                          </tr>
+                          
+                        <% }) %>
                       </tbody>
                     </table>
                   </div>
@@ -369,9 +264,7 @@
                 </div>
               <!--/ Small table -->
             </div>
-            
             <!-- / Content -->
-
             <div class="content-backdrop fade"></div>
           </div>
           <!-- Content wrapper -->
@@ -381,8 +274,23 @@
 
     </div>
     <!-- / Layout wrapper -->
+
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
+    <script>
+      function toggleModal(modalID){
+        var modal = document.getElementById(modalID);
+        if (modal.style.display==='none') {
+          console.log('fuction called')
+          modal.className = "modal fade show";
+          modal.style.display = "block"
+        } else {
+          modal.className = "modal fade";
+          modal.style.display = "none"
+        }
+        //<div class="modal fade show" id="modalScrollable" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+      }
+    </script>
     <script src="/vendor/libs/jquery/jquery.js"></script>
     <script src="/vendor/libs/popper/popper.js"></script>
     <script src="/vendor/js/bootstrap.js"></script>

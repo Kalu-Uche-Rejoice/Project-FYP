@@ -86,8 +86,13 @@ exports.cookie = (req, res, idToken, email) => {
 exports.verifyUserCookie = (req) => {
   const sessionCookie = req.cookies.session || "";
   auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
-    res.send(DecodedIdToken.uid)
-    //return DecodedIdToken.uid;
+    //res.send(DecodedIdToken.uid);
+    UserID = DecodedIdToken.uid;
+    this.getID(UserID);
   });
-  console.log(sessionCookie);
+};
+
+exports.getID = (UID) => {
+  console.log(UID);
+  return UID;
 };
