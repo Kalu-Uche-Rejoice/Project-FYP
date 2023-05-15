@@ -25,6 +25,7 @@ const auth = getAuth();
 exports.register = (req, res) => {
   console.log(req.body);
   const user = {
+    fullName: req.body.fullName,
     email: req.body.email,
     password: req.body.password,
     MatNo: req.body.matno,
@@ -38,6 +39,7 @@ exports.register = (req, res) => {
       //console.log(data)
       if (user.MatNo.includes("C")) {
         User = {
+          fullName: user.fullName,
           MatNo: user.MatNo,
           ID: data.user.uid,
           type: "student",
@@ -46,6 +48,7 @@ exports.register = (req, res) => {
         };
       } else {
         User = {
+          fullName: user.fullName,
           MatNo: user.MatNo,
           ID: data.user.uid,
           type: "Lecturer",

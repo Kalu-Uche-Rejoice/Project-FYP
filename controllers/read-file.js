@@ -31,15 +31,12 @@ exports.csv = (req, res) => {
   const file = req.file;
 };
 
-exports.singleFileSubmit = async (req, res, dbName, storeName) => {
+exports.singleFileSubmit = async (req, res, dbName, storeName, id) => {
   // the plan is to store all the final uploads in a seperate collection
   // each document in the collection will contain the users id along with the details from the form
   // because I need the supervisors ID i use the project topic to query the project collections then when i find a match i will copy the supervisors id
   try {
     //gets a storage reference and appends the file name
-    console.log(req.body);
-    console.log(req.user);
-    console.log(req.file);
     const storageRef = ref(storage, `${storeName}/${req.file.originalname}`);
     const metadata = {
       contentType: req.file.mimetype,
@@ -56,9 +53,9 @@ exports.singleFileSubmit = async (req, res, dbName, storeName) => {
     // Grab the public url
     const downloadURL = await getDownloadURL(snapshot.ref);
 
-    const FinalReports = collection(db, dbName);
+    //const FinalReports = collection(db, dbName); await addDoc(FinalReports, report);
     const report = {
-      //ID: UID,
+      ID: ID,
       topic: req.body.topic,
       abstract: req.body.abstract,
       refemail: req.body.email,
@@ -66,10 +63,10 @@ exports.singleFileSubmit = async (req, res, dbName, storeName) => {
       cleared: false,
       downloadURL: downloadURL,
     };
-    const response = await addDoc(FinalReports, report);
+    const response = await setDoc(doc(db, dbName, id), report);
 
     res.statusCode = 200;
-    res.redirect("/student/clearance");
+    res.redirect("/users/student/clearance");
   } catch (error) {
     //return the error status code and the error to the front end
     return res.status(400).send(error);
@@ -78,12 +75,13 @@ exports.singleFileSubmit = async (req, res, dbName, storeName) => {
 
 exports.findFile = async (req, res, dbName) => {
   // this route will query the final project report collection and get all the documents in it
-  const docRef = collection(db, "users");
+  //const docRef = collection(db, "users");
   var Project = [];
   const pastProjects = await getDocs(collection(db, dbName));
   pastProjects.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     let userID = doc.get("ID");
+    //const q = query(collection(db, "users"), where("ID", "==", userID.));
     //const username =  query( docRef, where("ID"= userID))
     console.log(userID);
     Project.push(doc.data());
@@ -137,6 +135,47 @@ exports.multipleFileSubmit = async (req, res, storeName) => {
   }
 };
 
+exports. findLog = (req,res)=>{
+  
+}
+exports.Savelog = async (req, res, dbName, storeName, id) => {
+  // the plan is to store all the final uploads in a seperate collection
+  // each document in the collection will contain the users id along with the details from the form
+  // because I need the supervisors ID i use the project topic to query the project collections then when i find a match i will copy the supervisors id
+  try {
+    //gets a storage reference and appends the file name
+    const storageRef = ref(storage, `${storeName}/${req.file.originalname}`);
+    const metadata = {
+      contentType: req.file.mimetype,
+    };
+
+    // Upload the file in the bucket storage
+    const snapshot = await uploadBytesResumable(
+      storageRef,
+      req.file.buffer,
+      metadata
+    );
+    //by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
+
+    // Grab the public url
+    const downloadURL = await getDownloadURL(snapshot.ref);
+
+    //const FinalReports = collection(db, dbName); await addDoc(FinalReports, report);
+    const report = {
+      ID: ID,
+      week: req.body.week,
+      meetingSchedule: req.body.meeting,
+      log: req.body.log,
+    };
+    const response = await setDoc(doc(db, dbName, id), report);
+
+    res.statusCode = 200;
+    res.redirect("/users/student/log");
+  } catch (error) {
+    //return the error status code and the error to the front end
+    return res.status(400).send(error);
+  }
+};
 //there should be a collection called supervisor in the users collection
 //then in that collection there will be
 // I can querry for every user with type

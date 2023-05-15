@@ -1,5 +1,7 @@
 const { app } = require("../config");
 
+const { singleFileSubmit } = require("./read-file");
+
 const { getAuth } = require("firebase-admin/auth");
 const { getFirestore } = require("firebase-admin/firestore");
 
@@ -41,7 +43,7 @@ exports.register = (req, res) => {
     });
 };
 
-exports.verifyUser = async (req, res) => {
+/*exports.verifyUser = async (req, res) => {
   const idToken = req.headers.authorization;
   console.log(req.headers.authorization);
   // const idToken = authHeader.split(" ")[1];
@@ -55,7 +57,7 @@ exports.verifyUser = async (req, res) => {
   } catch (error) {
     return res.status(401).send(error);
   }
-};
+};*/
 
 exports.cookie = (req, res, idToken, email) => {
   //const idToken = req.body.idToken.toString();
@@ -83,16 +85,20 @@ exports.cookie = (req, res, idToken, email) => {
   );
 };
 
-exports.verifyUserCookie = (req) => {
+exports.verifyUserCookie = async (req, res, dbName, storeName) => {
   const sessionCookie = req.cookies.session || "";
   auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
-    //res.send(DecodedIdToken.uid);
-    UserID = DecodedIdToken.uid;
-    this.getID(UserID);
+    var id = DecodedIdToken.uid;
+    singleFileSubmit(req, res, dbName, storeName, id);
+    //console.log(UserID)
   });
 };
 
-exports.getID = (UID) => {
-  console.log(UID);
-  return UID;
+exports.verifyUser = async (req, res, dbName, storeName) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    singleFileSubmit(req, res, dbName, storeName, id);
+    //console.log(UserID)
+  });
 };
