@@ -1,6 +1,6 @@
 const { app } = require("../config");
 
-const { singleFileSubmit, multipleFileSubmit } = require("./read-file");
+const { singleFileSubmit, multipleFileSubmit, findLog } = require("./read-file");
 
 const { getAuth } = require("firebase-admin/auth");
 const { getFirestore } = require("firebase-admin/firestore");
@@ -84,6 +84,15 @@ exports.verifyUser = async (req, res, storeName) => {
   auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
     var id = DecodedIdToken.uid;
     multipleFileSubmit(req, res, storeName, id);
+    //console.log(UserID)
+  });
+};
+
+exports.verifyUserLog = async (req, res, dbName) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    findLog(req, res, dbName, id);
     //console.log(UserID)
   });
 };

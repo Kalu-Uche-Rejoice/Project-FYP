@@ -39,7 +39,7 @@ exports.singleFileSubmit = async (req, res, dbName, storeName, id) => {
   // because I need the supervisors ID i use the project topic to query the project collections then when i find a match i will copy the supervisors id
   try {
     //gets a storage reference and appends the file name
-    const filename = id.concat(req.file.originalname)
+    const filename = id.concat(req.file.originalname);
     const storageRef = ref(storage, `${storeName}/${filename}`);
     const metadata = {
       contentType: req.file.mimetype,
@@ -56,14 +56,14 @@ exports.singleFileSubmit = async (req, res, dbName, storeName, id) => {
     // Grab the public url
     const docRef = doc(db, "users", `${id}`);
     const docSnap = await getDoc(docRef);
-    const username = docSnap.data()
-    const year = new Date().getFullYear()
-    
+    const username = docSnap.data();
+    const year = new Date().getFullYear();
+
     const downloadURL = await getDownloadURL(snapshot.ref);
     const report = {
       ID: id,
-      author: username. fullName,
-      course: username. course,
+      author: username.fullName,
+      course: username.course,
       year: year,
       topic: req.body.topic,
       abstract: req.body.abstract,
@@ -140,37 +140,46 @@ exports.multipleFileSubmit = async (req, res, storeName) => {
   }
 };
 
-exports.findLog = (req, res) => {};
+exports.findLog = async (req, res, dbName, id) => {
+  var docId = id.concat(req.body.week);
+  const entry = doc(db, dbName, docId);
+  var logEntry = [];
+  const Entries = await getDoc(entry);
+  console.log(Entries.data());
+  res.render("studeproject monitoring module");
+  //res.render("past FYP", { project: Project });
+};
 exports.Savelog = async (req, res, dbName, storeName, id) => {
-  // the plan is to store all the final uploads in a seperate collection
-  // each document in the collection will contain the users id along with the details from the form
-  // because I need the supervisors ID i use the project topic to query the project collections then when i find a match i will copy the supervisors id
   try {
+    var downloadURL = null;
     //gets a storage reference and appends the file name
-    const storageRef = ref(storage, `${storeName}/${req.file.originalname}`);
-    const metadata = {
-      contentType: req.file.mimetype,
-    };
+    if (req.file) {
+      const storageRef = ref(storage, `${storeName}/${req.file.originalname}`);
+      const metadata = {
+        contentType: req.file.mimetype,
+      };
 
-    // Upload the file in the bucket storage
-    const snapshot = await uploadBytesResumable(
-      storageRef,
-      req.file.buffer,
-      metadata
-    );
-    //by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
+      // Upload the file in the bucket storage
+      const snapshot = await uploadBytesResumable(
+        storageRef,
+        req.file.buffer,
+        metadata
+      );
+      //by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
 
-    // Grab the public url
-    const downloadURL = await getDownloadURL(snapshot.ref);
-
+      // Grab the public url
+      downloadURL = await getDownloadURL(snapshot.ref);
+    }
     //const FinalReports = collection(db, dbName); await addDoc(FinalReports, report);
     const report = {
       ID: ID,
       week: req.body.week,
       meetingSchedule: req.body.meeting,
       log: req.body.log,
+      downloadURL: downloadURL,
     };
-    const response = await setDoc(doc(db, dbName, id), report);
+    var identity = id.concat(req.body.week);
+    const response = await setDoc(doc(db, dbName, identity), report);
 
     res.statusCode = 200;
     res.redirect("/users/student/log");
@@ -182,4 +191,6 @@ exports.Savelog = async (req, res, dbName, storeName, id) => {
 //
 //
 //Test area
-
+// 16th may status
+//the bulk of the student side is functioning I just need to fix the log page so it sends data to the back end and also can find data
+// I can call an ejs variable into a front end js function to implement those filters 

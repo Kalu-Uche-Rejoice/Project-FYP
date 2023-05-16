@@ -1,5 +1,5 @@
 var express = require("express");
-const { verifyUserCookie, verifyUser } = require("../controllers/athenticate");
+const { verifyUserCookie, verifyUser, verifyUserLog } = require("../controllers/athenticate");
 const {
   singleFileSubmit,
   findFile,
@@ -19,8 +19,8 @@ router.use(bodyparser.json());
 router
   .route("/log")
   .get(function (req, res, next) {
-    //verifyUserCookie(req);
-    res.render("studeproject monitoring module");
+    verifyUserLog(req, res, "logs");
+    
   })
   .post((req, res) => {
     console.log(req.body);
