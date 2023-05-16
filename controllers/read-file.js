@@ -19,10 +19,12 @@ const {
   collection,
   addDoc,
   getDocs,
+  getDoc,
+  setDoc,
+  doc,
   query,
   where,
 } = require("firebase/firestore");
-
 const db = getFirestore();
 const storage = getStorage();
 const auth = getAuth();
@@ -37,7 +39,8 @@ exports.singleFileSubmit = async (req, res, dbName, storeName, id) => {
   // because I need the supervisors ID i use the project topic to query the project collections then when i find a match i will copy the supervisors id
   try {
     //gets a storage reference and appends the file name
-    const storageRef = ref(storage, `${storeName}/${req.file.originalname}`);
+    const filename = id.concat(req.file.originalname)
+    const storageRef = ref(storage, `${storeName}/${filename}`);
     const metadata = {
       contentType: req.file.mimetype,
     };
@@ -51,11 +54,17 @@ exports.singleFileSubmit = async (req, res, dbName, storeName, id) => {
     //by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
 
     // Grab the public url
+    const docRef = doc(db, "users", `${id}`);
+    const docSnap = await getDoc(docRef);
+    const username = docSnap.data()
+    const year = new Date().getFullYear()
+    
     const downloadURL = await getDownloadURL(snapshot.ref);
-
-    //const FinalReports = collection(db, dbName); await addDoc(FinalReports, report);
     const report = {
-      ID: ID,
+      ID: id,
+      author: username. fullName,
+      course: username. course,
+      year: year,
       topic: req.body.topic,
       abstract: req.body.abstract,
       refemail: req.body.email,
@@ -80,10 +89,6 @@ exports.findFile = async (req, res, dbName) => {
   const pastProjects = await getDocs(collection(db, dbName));
   pastProjects.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
-    let userID = doc.get("ID");
-    //const q = query(collection(db, "users"), where("ID", "==", userID.));
-    //const username =  query( docRef, where("ID"= userID))
-    console.log(userID);
     Project.push(doc.data());
   });
 
@@ -135,9 +140,7 @@ exports.multipleFileSubmit = async (req, res, storeName) => {
   }
 };
 
-exports. findLog = (req,res)=>{
-  
-}
+exports.findLog = (req, res) => {};
 exports.Savelog = async (req, res, dbName, storeName, id) => {
   // the plan is to store all the final uploads in a seperate collection
   // each document in the collection will contain the users id along with the details from the form
@@ -176,6 +179,7 @@ exports.Savelog = async (req, res, dbName, storeName, id) => {
     return res.status(400).send(error);
   }
 };
-//there should be a collection called supervisor in the users collection
-//then in that collection there will be
-// I can querry for every user with type
+//
+//
+//Test area
+

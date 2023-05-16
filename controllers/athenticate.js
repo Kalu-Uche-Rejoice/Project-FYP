@@ -43,21 +43,6 @@ exports.register = (req, res) => {
     });
 };
 
-/*exports.verifyUser = async (req, res) => {
-  const idToken = req.headers.authorization;
-  console.log(req.headers.authorization);
-  // const idToken = authHeader.split(" ")[1];
-  try {
-    const decodedToken = await auth.verifyIdToken(idToken);
-    if (decodedToken) {
-      req.body.uid = decodedToken.uid;
-    } else {
-      return res.status(401).send("you are not authorized");
-    }
-  } catch (error) {
-    return res.status(401).send(error);
-  }
-};*/
 
 exports.cookie = (req, res, idToken, email) => {
   //const idToken = req.body.idToken.toString();
@@ -102,3 +87,4 @@ exports.verifyUser = async (req, res, storeName) => {
     //console.log(UserID)
   });
 };
+
