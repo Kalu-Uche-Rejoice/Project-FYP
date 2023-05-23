@@ -1,5 +1,10 @@
 var express = require("express");
-const { verifyUserCookie, verifyUser, verifyUserLog } = require("../controllers/athenticate");
+const {
+  verifyUserCookie,
+  verifyUser,
+  verifyUserLog,
+  verifyUserFoundLog,
+} = require("../controllers/athenticate");
 const {
   singleFileSubmit,
   findFile,
@@ -19,12 +24,13 @@ router.use(bodyparser.json());
 router
   .route("/log")
   .get(function (req, res, next) {
-    verifyUserLog(req, res, "logs");
-    
+    //res.render("studeproject monitoring module");
+    verifyUserFoundLog(req, res, "Logs");
   })
-  .post((req, res) => {
+  .post(upload.single("logfile"), (req, res) => {
     console.log(req.body);
-    res.redirect("/users/student/log");
+    verifyUserLog(req, res, "Logs", "Logs");
+    //res.redirect("/users/student/log");
   });
 
 router.route("/proposal").get(function (req, res, next) {
@@ -33,9 +39,16 @@ router.route("/proposal").get(function (req, res, next) {
 router.post("/upload", upload.array("file", 4), async (req, res) => {
   verifyUser(req, res, "proposals");
 });
-router.get("/past-project", function (req, res, next) {
-  findFile(req, res, "finalProjectReport");
-});
+
+router
+  .route("/past-project")
+  .get(function (req, res, next) {
+    findFile(req, res, "finalProjectReport");
+  })
+  .post((req, res) => {
+    // I need to write an identical findFile function but with the queries
+    findFile(req, res, "finalProjectReport");
+  });
 router
   .route("/project-upload")
   .get(function (req, res, next) {

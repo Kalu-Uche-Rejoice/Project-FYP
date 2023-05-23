@@ -120,7 +120,7 @@ padding-bottom: 0px !important;
                     <div class="dropdown-divider"></div>
                   </li>
                   <li>
-                    <a class="dropdown-item" href="/users/logout">
+                    <a class="dropdown-item" href="auth-login-basic.html">
                       <i class="bx bx-power-off me-2"></i>
                       <span class="align-middle">Log Out</span>
                     </a>
@@ -135,10 +135,7 @@ padding-bottom: 0px !important;
         <!-- / Navbar -->
 
         <!-- Content wrapper -->
-        <form action="/users/student/log" method="post" enctype="multipart/form-data">
         <div class="content-wrapper">
-          <!-- Content -->
-
           <div class="container-xxl flex-grow-1 container-p-y">
             <h4 class="fw-bold py-1 mb-4">Project Monitoring Module</h4>
             <div class="progress my-3">
@@ -146,218 +143,99 @@ padding-bottom: 0px !important;
                 75%
               </div>
             </div>
-            <form action='/users/student/log' method = "GET">
-              <div class = "row py-3">
-                <div class = "col-sm-10" >
-                      <label for="smallSelect" class="form-label"><strong>WEEK NUMBER</strong></label>
-                      <select id="smallSelect" class="form-select form-select-sm" name="searchWeek">
-                        <option> </option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        <option value="1">four</option>
-                        <option value="2">five</option>
-                        <option value="3">six</option>
-                        <option value="1">seven</option>
-                        <option value="2">eigt</option>
-                        <option value="3">nine</option>
-                        <option value="1">ten</option>
-                        <option value="2">eleven</option>
-                        <option value="3">twelve</option>
-                        <option value="1">thirteen</option>
-                        <option value="2">Fourteen</option>
-                        <option value="3">Fifteen</option>
-                        <option value="1">Sixteen</option>
-                        <option value="2">Seventeen</option>
-                        <option value="3">Eighteen</option>
-                        <option value="1">nineteen</option>
-                        <option value="2">Twenty</option>
-                      </select>
-                </div>
-                <div class = "col-sm-2">
-                 <button class="btn btn-primary btn-sm my-4" type="submit">FIND</button>
-                </div>
-              </div>
-            </form>
             <div class="row">
-              <!-- Form controls -->
-              <div class="col-md-4">
-                <div class="card mb-4">
-                  <div class="card-body">
-                    <div class="mb-3">
-                      <label for="exampleFormControlReadOnlyInput1" class="form-label"><h5>Supervisor's Last week comments</h5></label>
-                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" readonly=""></textarea>
-                    </div>
-                    <div class="mb-3 row">
-                      <label for="html5-datetime-local-input" class="form-label">Request a meeting with your supervisor</label>
-                      <div>
-                        <input name = "meeting" class="form-control" type="datetime-local" id="html5-datetime-local-input">
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div class="card mb-4">
-                  <div class="card-body">
-                    <div>
-                      <div class="d-grid gap-2 mx-auto">
-                        <button class="btn btn-secondary collapsed" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStart" aria-controls="offcanvasStart">
-                          This week's check list
-                        </button>
-                        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasStart" aria-labelledby="offcanvasStartLabel" style="visibility: hidden;" aria-hidden="true">
-                          <div class="offcanvas-header">
-                            <h5 id="offcanvasStartLabel" class="offcanvas-title">This week's check list</h5>
-                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                          </div>
-                          <div class="offcanvas-body my-auto mx-0 flex-grow-0">
-                            <p class="text-center">
-                             <!-- List group checkbox -->
-                          </p><div>
-                            <div class="demo-inline-spacing mt-3">
-                              <div class="list-group">
-                                <label class="list-group-item">
-                                  <input class="form-check-input me-1" type="checkbox" value="">
-                                  Soufflé pastry pie ice
-                                </label>
-                                <label class="list-group-item">
-                                  <input class="form-check-input me-1" type="checkbox" value="">
-                                  Bear claw cake biscuit
-                                </label>
-                                <label class="list-group-item">
-                                  <input class="form-check-input me-1" type="checkbox" value="">
-                                  Tart tiramisu cake
-                                </label>
-                                <label class="list-group-item">
-                                  <input class="form-check-input me-1" type="checkbox" value="">
-                                  Bonbon toffee muffin
-                                </label>
-                                <label class="list-group-item">
-                                  <input class="form-check-input me-1" type="checkbox" value="">
-                                  Dragée tootsie roll
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                          <!--/ List group checkbox -->
-                            <p></p>
-                            <button type="button" class="btn btn-primary mb-2 d-grid w-100">Save</button>
-                            <button type="button" class="btn btn-outline-secondary d-grid w-100" data-bs-dismiss="offcanvas">
-                              Cancel
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
+              <div class="col-md-4 card">
+                <div class="card-body">
+                  <label for="supervisorComment" class="form-label"><h5>Supervisor's Last week comments</h5></label>
+                  <textarea class="form-control" id="supervisorComment" rows="10" readonly=""></textarea>
+                 </div>
+                <div class="card-footer">
+                  <button class="btn btn-primary btn-lg px-5" id="button" onclick="toggleModal()">View Previous Logs</button> 
                 </div>
               </div>
               <div class="col-md-8">
                 <div class="card mb-4">
                   <div class="card-body">
-                    <div>
-                      <label for="smallSelect" class="form-label"><strong>WEEK NUMBER</strong></label>
-                      <select id="smallSelect" class="form-select form-select-sm" name="week">
-                        <option> </option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                        <option value="1">four</option>
-                        <option value="2">five</option>
-                        <option value="3">six</option>
-                        <option value="1">seven</option>
-                        <option value="2">eigt</option>
-                        <option value="3">nine</option>
-                        <option value="1">ten</option>
-                        <option value="2">eleven</option>
-                        <option value="3">twelve</option>
-                        <option value="1">thirteen</option>
-                        <option value="2">Fourteen</option>
-                        <option value="3">Fifteen</option>
-                        <option value="1">Sixteen</option>
-                        <option value="2">Seventeen</option>
-                        <option value="3">Eighteen</option>
-                        <option value="1">nineteen</option>
-                        <option value="2">Twenty</option>
-                      </select>
-                    </div>
-                    <!-- Default Offcanvas -->
-                    <div>
-                      <!--div class="my-3 d-grid gap-2 mx-auto">
-                        <button class="btn btn-secondary collapsed" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasStart" aria-controls="offcanvasStart">
-                          This weeks check list
-                        </button>
-                        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasStart" aria-labelledby="offcanvasStartLabel">
-                          <div class="offcanvas-header">
-                            <h5 id="offcanvasStartLabel" class="offcanvas-title">This weeks check list</h5>
-                            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                          </div>
-                          <div class="offcanvas-body my-auto mx-0 flex-grow-0">
-                            <p class="text-center">
-                             
-                          </p><div>
-                            <div class="demo-inline-spacing mt-3">
-                              <div class="list-group">
-                                <label class="list-group-item">
-                                  <input class="form-check-input me-1" type="checkbox" value="">
-                                  Soufflé pastry pie ice
-                                </label>
-                                <label class="list-group-item">
-                                  <input class="form-check-input me-1" type="checkbox" value="">
-                                  Bear claw cake biscuit
-                                </label>
-                                <label class="list-group-item">
-                                  <input class="form-check-input me-1" type="checkbox" value="">
-                                  Tart tiramisu cake
-                                </label>
-                                <label class="list-group-item">
-                                  <input class="form-check-input me-1" type="checkbox" value="">
-                                  Bonbon toffee muffin
-                                </label>
-                                <label class="list-group-item">
-                                  <input class="form-check-input me-1" type="checkbox" value="">
-                                  Dragée tootsie roll
-                                </label>
-                              </div>
-                            </div>
-                          </div>
-                          
-                            <p></p>
-                            <button type="button" class="btn btn-primary mb-2 d-grid w-100">Save</button>
-                            <button type="button" class="btn btn-outline-secondary d-grid w-100" data-bs-dismiss="offcanvas">
-                              Cancel
-                            </button>
-                          </div>
-                        </div>
-                      </div-->
-                    </div>
-                    <div class="my-3">
-                      <label for="exampleFormControlTextarea1" class="form-label"><h5>Project Progress Log</h5></label>
-                      <textarea name= "log" class="form-control" id="exampleFormControlTextarea1" rows="4" required=""></textarea>
-                    </div>
-                    <div class="mb-3">
-                      <label for="formFile" class="form-label">Upload file</label>
-                      <input name= "logfile" class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" multiple="">
-                    </div>
-                    <div class="row mt-3">
-                      <div class="d-grid gap-2 mx-auto">
-                         <input class="btn btn-primary btn-lg"" type="submit" value="Upload">
+                    <form action="/users/student/log" method="post" enctype="multipart/form-data">
+                      <div>
+                        <label for="WeekNo" class="form-label"><strong>WEEK NUMBER</strong></label>
+                        <select id="WeekNo" class="form-select form-select-sm" name="week">
+                          <option value="1">One</option>
+                          <option value="2">Two</option>
+                          <option value="3">Three</option>
+                          <option value="4">four</option>
+                          <option value="5">five</option>
+                          <option value="6">six</option>
+                          <option value="7">seven</option>
+                          <option value="8">eigt</option>
+                          <option value="9">nine</option>
+                          <option value="10">ten</option>
+                          <option value="11">eleven</option>
+                          <option value="12">twelve</option>
+                          <option value="13">thirteen</option>
+                          <option value="14">Fourteen</option>
+                          <option value="15">Fifteen</option>
+                          <option value="16">Sixteen</option>
+                          <option value="17">Seventeen</option>
+                          <option value="18">Eighteen</option>
+                          <option value="19">nineteen</option>
+                          <option value="20">Twenty</option>
+                        </select>
                       </div>
-                    </div>
+                      <div class="my-3">
+                        <label for="LogView" class="form-label"><h5>Project Progress Log</h5></label>
+                        <textarea class="form-control" id="LogView" rows="4" required="" name="log"></textarea>
+                      </div>
+                      <div class="row mb-3">
+                        <div class="col">
+                          <label for="formFile" class="form-label">Upload file</label>
+                          <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" multiple="" name="logfile">
+                         </div>
+                        <div class="col">
+                          <label for="html5-datetime-local-input" class="form-label">Request a meeting with your supervisor</label>
+                         <input class="form-control" type="datetime-local"  id="html5-datetime-local-input" name="meeting">
+                        </div>
+                      </div>
+                      <input type="submit" value="submit"class="btn btn-primary btn-lg px-5">
+                    </form>
                   </div>
+                  
                 </div>
               </div>
-
-              
+              <div class="col-md mb-4 mb-md-0" style="display: none;" id="pastlog">
+                <small class="text-light fw-semibold">Past Logs</small>
+                <div class="accordion mt-3" id="accordionExample">
+                  <% log.forEach(element => { %>
+                    <div class="card accordion-item active">
+                      <h2 class="accordion-header" id="headingOne">
+                        <button
+                          type="button"
+                          class="accordion-button"
+                          data-bs-toggle="collapse"
+                          data-bs-target="#<%=element.week%>"
+                          aria-expanded="true"
+                          aria-controls="<%=element.week%>"
+                        >
+                        Week <%=element.week%>
+                        </button>
+                      </h2>
+  
+                      <div
+                        id="<%=element.week%>"
+                        class="accordion-collapse collapse show"
+                        data-bs-parent="#accordionExample"
+                      >
+                        <div class="accordion-body">
+                          <%=element.log%>
+                        </div>
+                      </div>
+                    </div>
+                  <% }) %>
+                </div>
               </div>
             </div>
           </div>
-          <!-- / Content -->
-
-          <div class="content-backdrop fade"></div>
-       
-       
-        </form>
-        
-        <!-- Content wrapper -->
+        </div>
       </div>
       <!-- / Layout page -->
     </div>
@@ -374,6 +252,40 @@ padding-bottom: 0px !important;
   <script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
   <script src="/vendor/js/menu.js"></script>
+  <!--<script>
+    function LogFind(){
+      let logs = '<%-log%>';
+      var wkNo = document.getElementById("WeekNo")
+      var wkVal = wkNo.value;
+      var logView = document.getElementById("LogView")
+      var supCom = document.getElementById("supervisorComment")
+      console.log(logs)
+      for (let index = 0; index < logs.length; index++) {
+        logView.value=logs[0]
+        if (logs[index].WeekNo == wkVal) {
+          const element = logs[index];
+          console.log(element)
+          logView.value = element.log;
+          logView.readonly =""
+          supCom.value = element.supervisorComment
+        }
+        
+      }
+
+
+    }
+  </script>-->
+  <script>
+    function toggleModal(){
+      var modal = document.getElementById("pastlog");
+      if (modal.style.display==='none') {
+        modal.style.display = "block"
+      } else {
+        modal.style.display = "none"
+      }
+      //<div class="modal fade show" id="modalScrollable" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+    }
+  </script>
   <!-- endbuild -->
 
   <!-- Vendors JS -->

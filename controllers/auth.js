@@ -45,6 +45,7 @@ exports.register = (req, res) => {
           type: "student",
           course: user.course,
           terms: user.terms,
+          topic: "none",
         };
       } else {
         User = {
@@ -116,6 +117,7 @@ exports.forgotpassword = (req, res) => {
 exports.logout = (req, res) => {
   signOut(auth).then(() => {
     console.log(auth.currentUser);
+    res.clearCookie("session"); // Clear the session cookie
     res.redirect("/");
   });
 };
@@ -125,9 +127,9 @@ exports.sign = (req, res) => {
     (user) => {
       //res.send("Cookie has been set from secondary route");
       var User = user.user;
-      getIdToken(User, true).then(async(id) => {
+      getIdToken(User, true).then(async (id) => {
         await cookie(req, res, id, User.email);
-       
+
         //return res.status(200).json({ id: id})
       });
     }

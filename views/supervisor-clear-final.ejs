@@ -135,17 +135,20 @@ padding-bottom: 0px !important;
               <div class="col">
                 <div class="card mb-4">
                   <div class="card-body">
-                    <p>
-                      Student Name:
+                  <%for(var i=0; i<Report.length; i++)%>
+                     <p>
+                      Student Name: <%=Name[i]%>
                     </p>
                     <p>
-                      Project topic:
+                      Project topic:<%=Report[i].topic%>
                     </p>
-                    <button class="btn btn-outline-secondary" type="submit" id="button">Download Final Submission</button>
+                    <button class="btn btn-outline-secondary" type="submit" id="button">
+                      <a href="<%= Report[i].downloadURL %>" target="_blank">View Final Submission</a>
+                    </button>
                     <div class="input-group-text my-3">
                       <button class="btn btn-success" type="submit" id="button">Clear student</button>
                       <button class="btn btn-danger mx-4" type="submit" id="button">Student not Cleared</button>
-                     
+                  <%})%>         
                     </div>
                   </div>
                 </div>

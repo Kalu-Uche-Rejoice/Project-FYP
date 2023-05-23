@@ -443,3 +443,22 @@
     <script async defer src="https://buttons.github.io/buttons.js"></script>
   </body>
 </html>
+
+
+
+
+<table>
+                <th>
+                <td> Week Number</td>
+                <td> Log Entry</td>
+                <td> Supervisors Comment</>
+                </th>
+              <% logs.forEach(element=>{%>
+                <tr>
+                  <td><%=element.WeekNO%></td>
+                  <td><%=element.log%></td>
+                  <td><%=element.superCom%></td>
+                </tr>
+                  
+                </table>
+              <%})%>

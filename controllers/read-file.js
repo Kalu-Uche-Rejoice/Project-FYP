@@ -25,6 +25,7 @@ const {
   query,
   where,
 } = require("firebase/firestore");
+
 const db = getFirestore();
 const storage = getStorage();
 const auth = getAuth();
@@ -85,6 +86,7 @@ exports.singleFileSubmit = async (req, res, dbName, storeName, id) => {
 exports.findFile = async (req, res, dbName) => {
   // this route will query the final project report collection and get all the documents in it
   //const docRef = collection(db, "users");
+  console.log("request is " + req.body);
   var Project = [];
   const pastProjects = await getDocs(collection(db, dbName));
   pastProjects.forEach((doc) => {
@@ -92,10 +94,24 @@ exports.findFile = async (req, res, dbName) => {
     Project.push(doc.data());
   });
 
+  /*if(req.body != {}){
+    const projRef = collection(db, `${dbName}`);
+    // this part of the function executes on the users filter on the post route
+    const q1 = query(projRef, where("course", "==", `${req.body.year}`), where("year", "==", `${req.body.year}`));
+    const querySnapshot = await getDocs(q1);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+    logEntry.push(doc.data());
+  });
+  }
+  else{
+    
+  }*/
   res.render("past FYP", { project: Project });
 };
 
-exports.multipleFileSubmit = async (req, res, storeName) => {
+exports.multipleFileSubmit = async (req, res, storeName, id) => {
   try {
     console.log(req.files);
     for (let index = 0; index < 2; index++) {
@@ -121,6 +137,7 @@ exports.multipleFileSubmit = async (req, res, storeName) => {
       const Proposals = collection(db, "projects");
       //const user = collection(db, "users", userid)
       const Proposal = {
+        ID: id,
         topic: req.body.topic[index],
         downloadURL: downloadURL,
       };
@@ -141,13 +158,17 @@ exports.multipleFileSubmit = async (req, res, storeName) => {
 };
 
 exports.findLog = async (req, res, dbName, id) => {
-  var docId = id.concat(req.body.week);
-  const entry = doc(db, dbName, docId);
   var logEntry = [];
-  const Entries = await getDoc(entry);
-  console.log(Entries.data());
-  res.render("studeproject monitoring module");
-  //res.render("past FYP", { project: Project });
+  console.log(dbName + id);
+  const q = query(collection(db, `${dbName}`), where("ID", "==", `${id}`));
+
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    console.log(doc.id, " => ", doc.data());
+    logEntry.push(doc.data());
+  });
+  res.render("studeproject monitoring module", { log: logEntry });
 };
 exports.Savelog = async (req, res, dbName, storeName, id) => {
   try {
@@ -172,7 +193,7 @@ exports.Savelog = async (req, res, dbName, storeName, id) => {
     }
     //const FinalReports = collection(db, dbName); await addDoc(FinalReports, report);
     const report = {
-      ID: ID,
+      ID: id,
       week: req.body.week,
       meetingSchedule: req.body.meeting,
       log: req.body.log,
@@ -188,9 +209,126 @@ exports.Savelog = async (req, res, dbName, storeName, id) => {
     return res.status(400).send(error);
   }
 };
+
+exports.findSupervisee = async (req, res, id) => {
+  const q = query(
+    collection(db, "users"),
+    where("supervisorID", "==", `${id}`)
+  );
+  const supervisee = [];
+  const logs = [];
+  const Filog = [];
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+
+    supervisee.push(doc.data());
+  });
+
+  for (let index = 0; index < supervisee.length; index++) {
+    const qry = query(
+      collection(db, "Logs"),
+      where("ID", "==", `${supervisee[index].ID}`)
+    );
+    var temp;
+
+    const qsnap = await getDocs(qry);
+    qsnap.forEach((document) => {
+      temp = document.data();
+      logs.push(temp);
+    });
+    Filog.push(logs);
+    //Filog[index].push(supervisee[index]);
+    Filog[index].splice(0, 0, supervisee[index]);
+    // console.log(supervisee);
+    console.log("LOG");
+    console.log(Filog);
+  }
+
+  res.render("Supervisor", {
+    log: Filog,
+    layout: "supervisor-layout",
+  });
+};
+
+exports.findProposals = async (req, res, id) => {
+  const q = query(
+    collection(db, "users"),
+    where("supervisorID", "==", `${id}`)
+  );
+  var temp;
+  const supervisee = [];
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    supervisee.push(doc.data());
+  });
+  var supProp = [];
+  var supPropName = [];
+
+  for (let i = 0; i < supervisee.length; i++) {
+    var qy = query(
+      collection(db, "projects"),
+      where("ID", "==", `${supervisee[i].ID}`)
+    );
+
+    var querySnap = await getDocs(qy);
+
+    querySnap.forEach((doc) => {
+      temp = doc.data();
+      console.log(doc.data());
+      supPropName.push(temp);
+    });
+    supProp.push(supPropName);
+    supProp[i].splice(0, 0, supervisee[i]);
+  }
+  console.log(supProp);
+  res.render("supervisor-clear-final", { Report: supProp, Name: supPropName });
+};
+exports.finalSubmission = async (req, res, id) => {
+  const q = query(
+    collection(db, "users"),
+    where("supervisorID", "==", `${id}`)
+  );
+  const supervisee = [];
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    supervisee.push(doc.data());
+  });
+  var supProp = [];
+  var supPropName = [];
+
+  for (let i = 0; i < supervisee.length; i++) {
+    var qy = query(
+      collection(db, "finalProjectReport"),
+      where("ID", "==", `${supervisee[i].ID}`)
+    );
+    var querySnap = await getDocs(qy);
+    querySnap.forEach((doc) => {
+      supProp.push(doc.data());
+      supPropName.push(supervisee[i].fullName);
+    });
+  }
+  res.render("supervisor-clear-final", { Report: supProp, Name: supPropName });
+};
+exports.supervisorfindFile = async (req, res, dbName) => {
+  // this route will query the final project report collection and get all the documents in it
+  //const docRef = collection(db, "users");
+  console.log("request is " + req.body);
+  var Project = [];
+  const pastProjects = await getDocs(collection(db, dbName));
+  pastProjects.forEach((doc) => {
+    // doc.data() is never undefined for query doc snapshots
+    Project.push(doc.data());
+  });
+
+  res.render("past FYP", { project: Project, layout: "supervisor-layout" });
+};
 //
 //
 //Test area
 // 16th may status
 //the bulk of the student side is functioning I just need to fix the log page so it sends data to the back end and also can find data
-// I can call an ejs variable into a front end js function to implement those filters 
+// I can call an ejs variable into a front end js function to implement those filters
+// 19th may status
+// that plan did not work I need to implement on server side
+//

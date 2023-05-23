@@ -15,14 +15,6 @@ var supervisorRouter = require("./routes/supervisor");
 var usersRouter = require("./routes/users");
 
 var app = express();
-
-//const url = 'mongodb://127.0.0.1:27017/FYP';
-//const connect = mongoose.connect(url);
-/*connect.then((db)=>{
-  console.log('Connected correctly to mongo server')
-},(err)=>{
-  console.log(err);
-})*/
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -37,8 +29,6 @@ app.use(expressLayouts);
 app.use(bodyParser.json());
 
 app.use("/users", usersRouter);
-//app.use("/student", studentRouter);
-//app.use("/supervisor", supervisorRouter);
 
 app
   .get("/", (req, res) => {

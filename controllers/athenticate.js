@@ -1,6 +1,13 @@
 const { app } = require("../config");
 
-const { singleFileSubmit, multipleFileSubmit, findLog } = require("./read-file");
+const {
+  singleFileSubmit,
+  multipleFileSubmit,
+  findLog,
+  Savelog,
+  findSupervisee,
+  findProposals,
+} = require("./read-file");
 
 const { getAuth } = require("firebase-admin/auth");
 const { getFirestore } = require("firebase-admin/firestore");
@@ -42,7 +49,6 @@ exports.register = (req, res) => {
       console.log("Error creating new user:", error);
     });
 };
-
 
 exports.cookie = (req, res, idToken, email) => {
   //const idToken = req.body.idToken.toString();
@@ -88,12 +94,36 @@ exports.verifyUser = async (req, res, storeName) => {
   });
 };
 
-exports.verifyUserLog = async (req, res, dbName) => {
+exports.verifyUserLog = async (req, res, dbName, storeName) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    console.log("function verify user is called");
+    Savelog(req, res, dbName, storeName, id);
+  });
+};
+
+exports.verifyUserFoundLog = async (req, res, dbName) => {
   const sessionCookie = req.cookies.session || "";
   auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
     var id = DecodedIdToken.uid;
     findLog(req, res, dbName, id);
-    //console.log(UserID)
   });
 };
 
+exports.FindSupervisee = async (req, res, dbName) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    findSupervisee(req, res, id);
+  });
+};
+
+exports.FindSuperviseeProposal = async (req, res, dbName) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    console.log("this function is called" + id);
+    findProposals(req, res, id);
+  });
+};

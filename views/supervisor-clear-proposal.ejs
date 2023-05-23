@@ -145,24 +145,29 @@ padding-bottom: 0px !important;
             <div class="row">
               <!-- Form controls -->
               <div class="col">
-                <div class="card mb-4">
-                  <div class="card-header">
-                    <p> <b>Name: </b>Adegoke Ibidunu</p>
-                    <p> <b>Course: </b>Electrical and Electronics Engineering</p>
-                  </div>
-                  <div class="card-body">
-                   <div>
-                      <p>
-                        Proposed topic:
-                      </p>
-                      <button class="btn btn-outline-secondary" type="submit" id="button">Download Proposal </button>
-                      <div class="input-group-text my-3">
-                        <button class="btn btn-success" type="submit" id="button">Accept</button>
-                        <button class="btn btn-danger mx-4" type="submit" id="button">Reject</button>
+                  <%for( var i=0; i< Report.length; i++){%>
+                  <div class="card mb-4">
+                    <div class="card-header">
+                        <p> <b>Name: </b><%=Name[i].fullName%></p>
+                      <p> <b>Course: </b><%=Name[i].course%></p>
+                    </div>
+                    <div class="card-body">
+                    <div>
+                        <p>
+                          Proposed topic:<%=Report[i].topic%>
+                        </p>
+                        <button class="btn btn-outline-secondary" type="submit" id="button">
+                          <a href="<%= Report[i].downloadURL %>" target="_blank">Download Proposal</a>
+                        </button>
+                        <div class="input-group-text my-3">
+                          <button class="btn btn-success" type="submit" id="button">Accept</button>
+                          <button class="btn btn-danger mx-4" type="submit" id="button">Reject</button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                  <%}%>
+                
               </div>
             </div>
           </div>
