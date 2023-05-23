@@ -115,11 +115,9 @@ exports.multipleFileSubmit = async (req, res, storeName, id) => {
   try {
     console.log(req.files);
     for (let index = 0; index < 2; index++) {
+      var fileID = id.splice(7, 6, `${req.files[index].originalname}`);
       //gets a storage reference and appends the file name
-      const storageRef = ref(
-        storage,
-        `${storeName}/${req.files[index].originalname}`
-      );
+      const storageRef = ref(storage, `${storeName}/${fileID}`);
       const metadata = {
         contentType: req.files[index].mimetype,
       };
@@ -275,14 +273,17 @@ exports.findProposals = async (req, res, id) => {
 
     querySnap.forEach((doc) => {
       temp = doc.data();
-      console.log(doc.data());
+
       supPropName.push(temp);
     });
     supProp.push(supPropName);
     supProp[i].splice(0, 0, supervisee[i]);
   }
   console.log(supProp);
-  res.render("supervisor-clear-final", { Report: supProp, Name: supPropName });
+  res.render("supervisor-clear-proposal", {
+    layout: "supervisor-layout",
+    proposal: supProp,
+  });
 };
 exports.finalSubmission = async (req, res, id) => {
   const q = query(
@@ -323,6 +324,48 @@ exports.supervisorfindFile = async (req, res, dbName) => {
 
   res.render("past FYP", { project: Project, layout: "supervisor-layout" });
 };
+
+// this is the function for the post route of the supervisors clearance
+exports.clearSupervisee = async (req, res, id, cleared) => {
+  const userdoc = doc(db, "users", `${id}`);
+  const finaldoc = doc(db, "finalProjectReport", `${id}`);
+  if (cleared == true) {
+    await updateDoc(userdoc, { cleared: cleared });
+    await updateDoc(finaldoc, { cleared: cleared });
+    //send successful clearance email to the supervisee and ask them to login to print their clearance
+  } else {
+    //send rejected report email to both supervisor and student
+    // request the supervisor to provide more insight as to why the project was rejected to enable
+    // the supervisee make changes
+  }
+};
+
+exports.acceptProposal = async (req, res, name, status, topic) => {
+  const q = query(
+    collection(db, "user"),
+    where("fullName", "==", `${name}`)
+  );
+  var superviseeID;
+  const querySnap = await getDocs(q);
+  querySnap.forEach((doc) => {
+    superviseeID = doc.data().ID;
+  });
+  const qry = query(
+    collection(db, "projects"),
+    where("ID", "==", `${superviseeID}`), where("topic", "==", `${topic}` )
+  );
+  var proposalID;
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    proposalID = doc.id();
+  });
+  
+  const docRef = doc(db, "projects", `${proposalID}`);
+  await updateDoc(docRef, {
+    accepted: status,
+  });
+};
+
 //
 //
 //Test area

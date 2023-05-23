@@ -28,6 +28,11 @@ router.get("/proposals", function (req, res, next) {
   FindSuperviseeProposal(req, res);
   //res.render("supervisor-clear-proposal", { layout: "supervisor-layout" });
 });
+router.post("/proposals", function (req, res, next) {
+  console.log(req.body);
+  //res.render("supervisor-clear-proposal", { layout: "supervisor-layout" });
+});
+
 router.get("/past-project", function (req, res, next) {
   supervisorfindFile(req, res, "finalProjectReport");
   //res.render('past FYP', { layout: 'supervisor-layout' });

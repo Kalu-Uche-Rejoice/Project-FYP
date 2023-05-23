@@ -6,6 +6,7 @@ var logger = require("morgan");
 var bodyParser = require("body-parser");
 var ejs = require("ejs");
 var expressLayouts = require("express-ejs-layouts");
+var mailer = require("nodemailer")
 
 const { signin, forgotpassword } = require("./controllers/auth");
 const key = require("./key");
