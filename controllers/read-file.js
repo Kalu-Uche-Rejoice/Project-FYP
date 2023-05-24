@@ -252,7 +252,7 @@ exports.findSupervisee = async (req, res, id) => {
 exports.findProposals = async (req, res, id) => {
   const q = query(
     collection(db, "users"),
-    where("supervisorID", "==", `${id}`)
+    where("supervisorID", "==", `${id}`), where("topic", "==", "none")
   );
   var temp;
   const supervisee = [];
@@ -266,7 +266,7 @@ exports.findProposals = async (req, res, id) => {
   for (let i = 0; i < supervisee.length; i++) {
     var qy = query(
       collection(db, "projects"),
-      where("ID", "==", `${supervisee[i].ID}`)
+      where("ID", "==", `${supervisee[i].ID}`), where("accepted", "not-in", ["true","false"])
     );
 
     var querySnap = await getDocs(qy);
@@ -340,32 +340,74 @@ exports.clearSupervisee = async (req, res, id, cleared) => {
   }
 };
 
-exports.acceptProposal = async (req, res, name, status, topic) => {
+exports.acceptProposal = async (req, res, id) => {
+  //create a query to find all the users where the users name is "${name}"
   const q = query(
-    collection(db, "user"),
-    where("fullName", "==", `${name}`)
+    collection(db, "users"),
+    where("fullName", "==", `${req.body.name}`), where("supervisorID", "==", `${id}`)
   );
-  var superviseeID;
+  //the id is an empty variable to contain the ID of the supervisee
+  var superviseeID = [];
+  // gets the document based on the above query
   const querySnap = await getDocs(q);
   querySnap.forEach((doc) => {
-    superviseeID = doc.data().ID;
+    //pushes the users ID into the variable
+    superviseeID.push(doc.data());
   });
-  const qry = query(
-    collection(db, "projects"),
-    where("ID", "==", `${superviseeID}`), where("topic", "==", `${topic}` )
-  );
-  var proposalID;
-  const querySnapshot = await getDocs(q);
-  querySnapshot.forEach((doc) => {
-    proposalID = doc.id();
-  });
-  
-  const docRef = doc(db, "projects", `${proposalID}`);
-  await updateDoc(docRef, {
-    accepted: status,
-  });
+  console.log(superviseeID)
+  // creates a new query to find all the documents where the ID is the superviseeID and the topic is the ${topic}
+  for (let index = 0; index < superviseeID.length; index++) {
+    const qry = query(
+      collection(db, "projects"),
+      where("ID", "==", `${superviseeID[index].ID}`), where("topic", "==", `${req.body.topic}` )
+    );
+    var proposalID;
+    const querySnapshot = await getDocs(qry);
+    querySnapshot.forEach((doc) => {
+    //gets the document id for that proposal
+      proposalID = doc.id;
+    });
+    console.log(proposalID)
+
+     //updates the proposal document with the status
+    const docRef = doc(db, "projects", `${proposalID}`);
+    await updateDoc(docRef, {
+      accepted: `${req.body.status}`,
+    });
+    //creates a document reference 
+    const userRef = doc(db, "users", `${superviseeID[index].ID}`)
+    //updates the document referenced above with a topic
+    await updateDoc(userRef,{
+      topic: `${req.body.topic}`
+    })
+  }
 };
 
+exports. PrintClearance = async(req, res, id)=>{
+  var clearedStudent
+  const q = query(collection(db, "users"), where("cleared", "==", "cleared"), where("ID", "==", `${id}`))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach((docs)=>{
+    console.log(docs.data())
+    clearedStudent = docs.data()
+  })
+  if (clearedStudent) {
+    const qry = query(collection(db, 'users'), where("ID", "==", `${clearedStudent.supervisorID}`))
+  const qrySnap = await getDoc(qry)
+  var supervisor = qrySnap.data()
+  clearedStudent.supervisorName = supervisor.fullName
+  res.render('cleared-student', {student: clearedStudent});
+  } else {
+    res.render('cleared-student', {student: false});
+  }
+  //console.log(clearedStudent)
+  /*const qry = query(collection(db, 'users'), where("ID", "==", `${clearedStudent.supervisorID}`))
+  const qrySnap = await getDoc(qry)
+  var supervisor = qrySnap.data()
+  clearedStudent.supervisorName = supervisor.fullName*/
+
+  res.render('cleared-student', {student: clearedStudent});
+}
 //
 //
 //Test area
@@ -374,4 +416,5 @@ exports.acceptProposal = async (req, res, name, status, topic) => {
 // I can call an ejs variable into a front end js function to implement those filters
 // 19th may status
 // that plan did not work I need to implement on server side
-//
+//24th may status
+//I added a function that hides the div containing the approved proposal and I could not test it because there is no proposal that is pending

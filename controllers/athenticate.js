@@ -7,6 +7,8 @@ const {
   Savelog,
   findSupervisee,
   findProposals,
+  acceptProposal,
+  PrintClearance
 } = require("./read-file");
 
 const { getAuth } = require("firebase-admin/auth");
@@ -125,5 +127,21 @@ exports.FindSuperviseeProposal = async (req, res, dbName) => {
     var id = DecodedIdToken.uid;
     console.log("this function is called" + id);
     findProposals(req, res, id);
+  });
+};
+
+exports.UserVerification = async (req, res) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    acceptProposal(req, res, id)
+  });
+};
+
+exports.StuPrintClearance = async (req, res) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    PrintClearance(req, res, id)
   });
 };

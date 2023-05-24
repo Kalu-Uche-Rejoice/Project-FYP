@@ -12,6 +12,7 @@ const { supervisorfindFile } = require("../controllers/read-file");
 const {
   FindSupervisee,
   FindSuperviseeProposal,
+  UserVerification
 } = require("../controllers/athenticate");
 const db = getFirestore();
 
@@ -29,7 +30,9 @@ router.get("/proposals", function (req, res, next) {
   //res.render("supervisor-clear-proposal", { layout: "supervisor-layout" });
 });
 router.post("/proposals", function (req, res, next) {
+  //UserVerification(req, res)
   console.log(req.body);
+
   //res.render("supervisor-clear-proposal", { layout: "supervisor-layout" });
 });
 

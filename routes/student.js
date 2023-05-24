@@ -4,6 +4,7 @@ const {
   verifyUser,
   verifyUserLog,
   verifyUserFoundLog,
+  StuPrintClearance
 } = require("../controllers/athenticate");
 const {
   singleFileSubmit,
@@ -59,7 +60,8 @@ router
   });
 
 router.get("/clearance", function (req, res, next) {
-  console.log(monitorAuthState());
-  res.render("cleared-student", { title: "Express" });
+  //console.log(monitorAuthState());
+  StuPrintClearance(req, res)
+  //res.render("cleared-student", { title: "Express" });
 });
 module.exports = router;
