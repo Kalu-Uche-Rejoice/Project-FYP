@@ -123,17 +123,24 @@ exports.logout = (req, res) => {
 };
 
 exports.sign = (req, res) => {
-  signInWithEmailAndPassword(auth, req.body.email, req.body.password).then(
+  signInWithEmailAndPassword(auth, req.body.email, req.body.password)
+  .then(
     (user) => {
       //res.send("Cookie has been set from secondary route");
       var User = user.user;
       getIdToken(User, true).then(async (id) => {
         await cookie(req, res, id, User.email);
 
-        //return res.status(200).json({ id: id})
+        
       });
     }
-  );
+  )
+  .catch((error)=>{
+    if (error) {
+      res.render("auth-login-basic", { error: `${error.message}`});
+    }
+  })
+  ;
   // var user = auth.currentUser.idToken
 };
 /*//var idtoken =

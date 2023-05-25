@@ -210,7 +210,7 @@
                       <tbody class="table-border-bottom-0">
                         <% for( let i = 0; i < log.length; i++ ) { %>
                           
-                          <div class="modal fade" id="<%= log[i][0].topic %>" tabindex="-1" aria-hidden="true">
+                          <div class="modal fade" id="modal<%=i%>" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog modal-fullscreen" role="document">
                               <div class="modal-content">
                                 <div class="modal-header">
@@ -224,25 +224,24 @@
                                   ></button>
                                 </div>
                                 <div class="modal-body">
-                                  <p><button>view Supervisees Previous Logs</button></p>
+                                  <% let l = log[i].length-1 %>
                                   <div>
-                                    <% let l = log[i].length-1 %>
+                                    
 
                                     <h5> <input type="text" disabled placeholder="Week <%= l%>" name="WeekNo"></h5>
                                    
                                   </div>
-                                  <div class="card-body">
+                                  <div class="card-body py-0">
                                     <div class="mb-3">
-                                      
-                                      <label for="exampleFormControlReadOnlyInput1" class="form-label"><h5>Supervisee's weekly log</h5></label>
-                                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" readonly="">
-                                        <% for( let index = 0; index < log[i].length; index++ ) { %>
-                                          <% if (index === l) { %>
-                                            <%= log[i][index].studentlog %>
-                                           <% } %>
+                                      <% for( let index = 0; index < log[i].length; index++ ) { %>
+                                        <% if (index === l) { %>
+                                          <label for="exampleFormControlReadOnlyInput1" class="form-label"><h5>Supervisee's weekly log</h5></label>
+                                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" readonly="">
+                                            <%= log[i][index].log %>
+                                          </textarea>
                                         <% } %>
-                                        
-                                      </textarea>
+                                      <% } %>
+                                      
                                       <button type="button" class="btn btn-outline-primary">
                                         Download File
                                       </button>
@@ -250,8 +249,12 @@
                                   </div>
                                   
                                   <div class="card-body">
-                                    <form action="/supervisor/supervisee" method="post">
-                                     <textarea name="info" id="" cols="10" rows="1" style="display: none;"> <%=l  %>, <%= log[i][0].fullName %></textarea>
+                                    <form action="/users/supervisor/supervisee" method="post">
+                                      <strong style="color: red;"><input type="checkbox" name="meetingAccept" id="meetingaccepted">
+                                        Meeting Request <%= log[i][l].meetingSchedule%></strong><br>
+                                      
+                                  
+                                     <textarea name="info" id="" cols="10" rows="1" style="display: none;"> <%=l  %>!? <%= log[i][0].fullName %></textarea>
                                       <label for="html5-datetime-local-input" class="form-label">Schedule a meeting with your supervisee</label>
                                       <div>
                                         <input class="form-control" type="datetime-local"  id="html5-datetime-local-input" name="meeting">
@@ -271,7 +274,7 @@
                                   </div>
                                   <div class="card-body">
                                     <h3 class="py-5"><%= log[i][0].fullName %>'s Previous Logs</h3>
-                                    <div class="card accordion-item active" id="<%= log[i][0].fullName %>">
+                                    <div class="card accordion-item active" id="<%= log[i][0].name %>">
                                       <% for( let index = 1; index < log[i].length; index++ ) { %>
                                       <h2 class="accordion-header" id="headingOne">
                                         <button
@@ -295,7 +298,7 @@
                                       >
                                         <div class="accordion-body">
                                           <h5>student Log</h5>
-                                          <%=log[i][index].studentlog%>
+                                          <%=log[i][index].log%>
                                           <hr>
                                           <h5>Your comment</h5>
                                           <%=log[i][index].supervisorComment%>
@@ -316,7 +319,7 @@
                           </div>
                           <tr>
                             <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong> <a href="#"data-bs-toggle="modal"
-                              data-bs-target="#<%= log[i][0].topic %>"><%= log[i][0].topic %></a></strong></td>
+                              data-bs-target="#modal<%=i%>"><%= log[i][0].topic %></a></strong></td>
                             <td><%= log[i][0].fullName %></td>
                             <td><span class="badge bg-label-primary me-1"><%= log[i][0].course %></span></td>
                           </tr>

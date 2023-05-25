@@ -449,6 +449,60 @@ exports. acceptFinal= async(req, res)=>{
   })
   res.statusCode = 200
 }
+
+exports.postComment = async(req, res)=>
+{
+  try {
+    var info = req.body.info
+  var split = info.split('!?')
+  var ID
+  var downloadURL = null;
+    //gets a storage reference and appends the file name
+    if (req.file) {
+      const storageRef = ref(storage, `${storeName}/${req.file.originalname}`);
+      const metadata = {
+        contentType: req.file.mimetype,
+      };
+
+      // Upload the file in the bucket storage
+      const snapshot = await uploadBytesResumable(
+        storageRef,
+        req.file.buffer,
+        metadata
+      );
+      //by using uploadBytesResumable we can control the progress of uploading like pause, resume, cancel
+
+      // Grab the public url
+      downloadURL = await getDownloadURL(snapshot.ref);
+    }
+    //const FinalReports = collection(db, dbName); await addDoc(FinalReports, report);
+    const report = {
+      week: req.body.week,
+      meetingSchedule: req.body.meeting,
+      supervisorComment: req.body.supervisorComment,
+      supervisordownloadURL: downloadURL,
+    };
+    // create a query to check in the users collection for a document with name
+    const q = query(collection(db, "projects"), where("fullName","==",`${split[1]}`))
+    const qsnap =  await getDocs(q)
+    qsnap.forEach((document)=>{
+      var IDs = document.data()
+      ID = IDs.id
+    })
+    /*var meettime
+    if (req.body.meetingAccept == "on" && req.body.meeting!='') {
+      meettime = req.body.meeting
+    }*/
+  
+    ID = ID+split[0]
+    //create a document reference using the retrieved ID
+    const docRef = doc(db, "projects", `${ID}`)
+    await updateDoc(docRef, report )
+    res.redirect("/users/supervisor/supervisee")
+  } catch (error) {
+    return res.status(400).send(error); 
+  }
+}
 //
 //
 //Test area
