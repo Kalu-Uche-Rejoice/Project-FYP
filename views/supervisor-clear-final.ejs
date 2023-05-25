@@ -30,6 +30,11 @@
   <!-- Page CSS -->
 
   <!-- Helpers -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity=
+        "sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
+        crossorigin="anonymous">
+    </script>
   <script src="/vendor/js/helpers.js"></script><style type="text/css">
 .layout-menu-fixed .layout-navbar-full .layout-menu,
 .layout-page {
@@ -124,41 +129,55 @@ padding-bottom: 0px !important;
         <!-- / Navbar -->
 
         <!-- Content wrapper -->
-        <div class="content-wrapper">
-          <!-- Content -->
-
-          <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4">Project Approval Module</h4>
-
-            <div class="row">
-              <!-- Form controls -->
-              <div class="col">
-                <div class="card mb-4">
-                  <div class="card-body">
-                  <%for(var i=0; i<Report.length; i++)%>
-                     <p>
-                      Student Name: <%=Name[i]%>
-                    </p>
-                    <p>
-                      Project topic:<%=Report[i].topic%>
-                    </p>
-                    <button class="btn btn-outline-secondary" type="submit" id="button">
-                      <a href="<%= Report[i].downloadURL %>" target="_blank">View Final Submission</a>
-                    </button>
-                    <div class="input-group-text my-3">
-                      <button class="btn btn-success" type="submit" id="button">Clear student</button>
-                      <button class="btn btn-danger mx-4" type="submit" id="button">Student not Cleared</button>
-                  <%})%>         
+        
+          <div class="content-wrapper">
+            <!-- Content -->
+  
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <h4 class="fw-bold py-3 mb-4"><a href="/users/supervisor/clear-final"></a>
+                Clearance  Module</h4>
+              <div class="row">
+                <div class="col">
+                <!-- Form controls -->
+                
+                <% for( let i = 0; i < proposal.length; i++ ) { %>
+                  
+                  <div class="card mb-4">
+                    <div class="card-header">
+                      <% let l = proposal.length-1%>
+                      <p> <b>Name: </b><%= proposal[i][1].name %></p>
+                      <p> <b>Course: </b><%= proposal[i][1].course %></p>
+                    </div>
+                    <div class="card-body py-0">
+                     <div class="row">
+                      <div class="col">
+                        <p>
+                          Proposed topic:<%= proposal[i][0].topic %>
+                        </p>
+                        <button class="btn btn-outline-secondary" type="submit" id="button">
+                          <a href="<%= proposal[i][0].downLoadURL %>">Download Final Submission</a>
+                        </button>
+                        <div class="input-group-text my-3">
+                          <button class="btn btn-success" type="submit" id="button" onclick="test('<%= proposal[i][0].downLoadURL %>','accept')">Accept</button>
+                          <button class="btn btn-danger mx-4" type="submit" id="button" onclick="test('<%= proposal[i][0].downLoadURL %>','reject')">Reject</button>
+                        </div>
+                      </div>
+                     </div>
                     </div>
                   </div>
+                
+              <% } %>
                 </div>
               </div>
             </div>
+            <!-- / Content -->
+  
+            <div class="content-backdrop fade"></div>
           </div>
           <!-- / Content -->
 
-          <div class="content-backdrop fade"></div>
-        </div>
+          
+        
         <!-- Content wrapper -->
       </div>
       <!-- / Layout page -->
@@ -181,6 +200,26 @@ padding-bottom: 0px !important;
   <!-- Vendors JS -->
 
   <!-- Main JS -->
+  
+  <script>
+    function test(id, num, status) {
+      var nameID = "fullname" + id
+      var topicID = "topic" + id + num
+      console.log(topicID)
+      var name = document.getElementById(nameID).innerHTML
+      var topic = document.getElementById(topicID).innerHTML
+      console.log(topic)
+      var split = name.split("</b>")
+      $.post("/users/supervisor/proposals",
+          {
+              name: `${split[1]}`,
+              topic: `${topic}`,
+              status: `${status}`
+          },)
+      var rem = document.getElementById(name)
+      rem.style.display="none"
+    }
+  </script>
   <script src="/js/main.js"></script>
 
   <!-- Page JS -->

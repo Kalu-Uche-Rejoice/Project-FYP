@@ -12,6 +12,7 @@ const { supervisorfindFile } = require("../controllers/read-file");
 const {
   FindSupervisee,
   FindSuperviseeProposal,
+  FinalSubmission,
   UserVerification
 } = require("../controllers/athenticate");
 const db = getFirestore();
@@ -45,7 +46,8 @@ router.get("/project-log", function (req, res, next) {
 });
 router
   .get("/clearance", function (req, res, next) {
-    res.render("supervisor-clear-final", { layout: "supervisor-layout" });
+    FinalSubmission(req, res)
+    //res.render("supervisor-clear-final", { layout: "supervisor-layout" });
   })
   .post((req, res) => {
     //this updates the cleared status flag on every students upload

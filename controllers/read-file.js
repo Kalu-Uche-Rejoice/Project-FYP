@@ -285,7 +285,7 @@ exports.findProposals = async (req, res, id) => {
     proposal: supProp,
   });
 };
-exports.finalSubmission = async (req, res, id) => {
+/*exports.finalSubmission = async (req, res, id) => {
   const q = query(
     collection(db, "users"),
     where("supervisorID", "==", `${id}`)
@@ -310,6 +310,39 @@ exports.finalSubmission = async (req, res, id) => {
     });
   }
   res.render("supervisor-clear-final", { Report: supProp, Name: supPropName });
+};*/
+exports.finalSubmission = async (req, res, id) => {
+  const q = query(
+    collection(db, "users"),
+    where("supervisorID", "==", `${id}`)
+  );
+  const supervisee = [];
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((doc) => {
+    supervisee.push(doc.data());
+  });
+  //console.log(supervisee);
+  var supProp = [];
+  var supPropName = [];
+  var data;
+
+  for (let i = 0; i < supervisee.length; i++) {
+    var qy = query(
+      collection(db, "finalProjectReport"),
+      where("ID", "==", `${supervisee[i].ID}`)
+    );
+    var qsnap = await getDocs(qy);
+    qsnap.forEach((document) => {
+      data = document.data();
+
+      supPropName.push(data);
+    });
+    console.log(data);
+    supProp.push(supPropName);
+    supProp[i].splice(0, 0, supervisee[i]);
+  }
+  console.log(supProp);
+  res.render("supervisor-clear-final", { proposal: supProp });
 };
 exports.supervisorfindFile = async (req, res, dbName) => {
   // this route will query the final project report collection and get all the documents in it
