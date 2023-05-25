@@ -9,7 +9,8 @@ const {
   findProposals,
   acceptProposal,
   PrintClearance,
-  finalSubmission
+  finalSubmission,
+  acceptFinal,
 } = require("./read-file");
 
 const { getAuth } = require("firebase-admin/auth");
@@ -152,5 +153,13 @@ exports.FinalSubmission = async (req, res) => {
   auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
     var id = DecodedIdToken.uid;
     finalSubmission(req, res, id)
+  });
+};
+
+exports.AcceptFinal = async (req, res) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    acceptFinal(req, res)
   });
 };

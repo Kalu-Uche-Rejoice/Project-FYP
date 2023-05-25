@@ -323,8 +323,8 @@ exports.finalSubmission = async (req, res, id) => {
   });
   //console.log(supervisee);
   var supProp = [];
-  var supPropName = [];
-  var data;
+  //var supPropName = [];
+  //var data;
 
   for (let i = 0; i < supervisee.length; i++) {
     var qy = query(
@@ -333,16 +333,16 @@ exports.finalSubmission = async (req, res, id) => {
     );
     var qsnap = await getDocs(qy);
     qsnap.forEach((document) => {
-      data = document.data();
+      supProp.push( document.data());
 
-      supPropName.push(data);
+      //supPropName.push(data);
     });
-    console.log(data);
+    /*console.log(data);
     supProp.push(supPropName);
-    supProp[i].splice(0, 0, supervisee[i]);
+    supProp[i].splice(0, 0, supervisee[i]);*/
   }
   console.log(supProp);
-  res.render("supervisor-clear-final", { proposal: supProp });
+  res.render("supervisor-clear-final", {layout:"supervisor-layout", proposal: supProp});
 };
 exports.supervisorfindFile = async (req, res, dbName) => {
   // this route will query the final project report collection and get all the documents in it
@@ -358,7 +358,7 @@ exports.supervisorfindFile = async (req, res, dbName) => {
   res.render("past FYP", { project: Project, layout: "supervisor-layout" });
 };
 
-// this is the function for the post route of the supervisors clearance
+// ERROR: this is the function for the post route of the supervisors clearance
 exports.clearSupervisee = async (req, res, id, cleared) => {
   const userdoc = doc(db, "users", `${id}`);
   const finaldoc = doc(db, "finalProjectReport", `${id}`);
@@ -433,13 +433,21 @@ exports. PrintClearance = async(req, res, id)=>{
   } else {
     res.render('cleared-student', {student: false});
   }
-  //console.log(clearedStudent)
-  /*const qry = query(collection(db, 'users'), where("ID", "==", `${clearedStudent.supervisorID}`))
-  const qrySnap = await getDoc(qry)
-  var supervisor = qrySnap.data()
-  clearedStudent.supervisorName = supervisor.fullName*/
-
+  
   res.render('cleared-student', {student: clearedStudent});
+}
+
+exports. acceptFinal= async(req, res)=>{
+  //this function handles teh post route for the  clear-final module for the supervisor
+  //creates a query where the user name and topic are as contained in the request
+  const q = query(collection(db, "finalProjectReport"), where("author", "==", `${req.body.name}`), where("topic","==", `${req.body.topic}`))
+  const querySnapshot = await getDocs(q)
+  querySnapshot.forEach(async(document)=>{
+    //var finalSubmission = document.id
+    var docRef = doc(db, "finalProjectReport", `${document.id}`)
+    await updateDoc(docRef, {cleared:`${req.body.status}`})
+  })
+  res.statusCode = 200
 }
 //
 //

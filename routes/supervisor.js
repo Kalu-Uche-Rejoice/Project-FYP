@@ -13,6 +13,7 @@ const {
   FindSupervisee,
   FindSuperviseeProposal,
   FinalSubmission,
+  AcceptFinal,
   UserVerification
 } = require("../controllers/athenticate");
 const db = getFirestore();
@@ -49,13 +50,9 @@ router
     FinalSubmission(req, res)
     //res.render("supervisor-clear-final", { layout: "supervisor-layout" });
   })
-  .post((req, res) => {
-    //this updates the cleared status flag on every students upload
-    // the request will contain the users id
-    const q = query(
-      collection(db, "projects"),
-      where("supervisorID", "==", someid)
-    );
+  .post("/clearance", (req, res) => {
+    console.log(req.body)
+    AcceptFinal(req, res)
   });
 
 module.exports = router;

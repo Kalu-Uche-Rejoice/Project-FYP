@@ -139,27 +139,30 @@ padding-bottom: 0px !important;
               <div class="row">
                 <div class="col">
                 <!-- Form controls -->
-                
+                              
                 <% for( let i = 0; i < proposal.length; i++ ) { %>
                   
                   <div class="card mb-4">
                     <div class="card-header">
-                      <% let l = proposal.length-1%>
-                      <p> <b>Name: </b><%= proposal[i][1].name %></p>
-                      <p> <b>Course: </b><%= proposal[i][1].course %></p>
+                      
+                      <p> <b>Name: </b>
+                        <p id="name<%=i%>"><%= proposal[i].author %></p>
+                      </p>
+                      <p> <b>Course: </b>
+                        <p><%= proposal[i].course %></p>
+                      </p>
                     </div>
                     <div class="card-body py-0">
                      <div class="row">
                       <div class="col">
-                        <p>
-                          Proposed topic:<%= proposal[i][0].topic %>
-                        </p>
+                        Project Title:   
+                        <p id="topic<%=i%>"><%= proposal[i].topic %></p>
                         <button class="btn btn-outline-secondary" type="submit" id="button">
-                          <a href="<%= proposal[i][0].downLoadURL %>">Download Final Submission</a>
+                          <a href="<%= proposal[i].downloadURL %>" target="_blank">Download Final Submission</a>
                         </button>
                         <div class="input-group-text my-3">
-                          <button class="btn btn-success" type="submit" id="button" onclick="test('<%= proposal[i][0].downLoadURL %>','accept')">Accept</button>
-                          <button class="btn btn-danger mx-4" type="submit" id="button" onclick="test('<%= proposal[i][0].downLoadURL %>','reject')">Reject</button>
+                          <button class="btn btn-success" type="submit" id="button" onclick="test('<%=i%>', true)">Accept</button>
+                          <button class="btn btn-danger mx-4" type="submit" id="button" onclick="test('<%=i%>', false)">Reject</button>
                         </div>
                       </div>
                      </div>
@@ -202,22 +205,20 @@ padding-bottom: 0px !important;
   <!-- Main JS -->
   
   <script>
-    function test(id, num, status) {
-      var nameID = "fullname" + id
-      var topicID = "topic" + id + num
-      console.log(topicID)
+    function test(id, status) {
+      var nameID = "name" + id
+      var topicID = "topic" + id
+      //console.log(topicID)
       var name = document.getElementById(nameID).innerHTML
       var topic = document.getElementById(topicID).innerHTML
       console.log(topic)
-      var split = name.split("</b>")
-      $.post("/users/supervisor/proposals",
+      console.log(name)
+      $.post("/users/supervisor/clearance",
           {
-              name: `${split[1]}`,
+              name: `${name}`,
               topic: `${topic}`,
               status: `${status}`
           },)
-      var rem = document.getElementById(name)
-      rem.style.display="none"
     }
   </script>
   <script src="/js/main.js"></script>
