@@ -1,4 +1,5 @@
 const firebase = require("../key.js");
+//const {sendemail} = require('./mailer.js')
 const {
   getAuth,
   createUserWithEmailAndPassword,
@@ -17,11 +18,50 @@ const {
   getDocs,
   query,
   where,
+  updateDoc,
 } = require("firebase/firestore");
 const { cookie } = require("./athenticate");
+//const {postmarkMail}= require('./mailer.js')
 
 const db = getFirestore();
 const auth = getAuth();
+
+async function AssigStu(stuID) {
+  const supervisors = [];
+  var supvisormin =[];
+  var supcount = [];
+  //find all the supervisors
+  const q = query(collection(db,"users"), where("type", "==", "Lecturer"))
+  const qSnap = await getDocs(q)
+  
+  qSnap.forEach(element => {
+    supervisors.push(element.data())
+    console.log(element.data())
+    //supervisors = element.docs();
+  });
+  //console.log("supervisors"+ supervisors)
+  //create a new array to hold all the counts
+  for (let index = 0; index < supervisors.length; index++) {
+    supcount[index] = supervisors[index].count;
+  }
+  // find the smallest count value
+  var min = Math.min(supcount)
+  //push all the supervisors with a count less than or equal to the minimum count to a new array
+  for (let index = 0; index < supcount.length; index++) {
+    if (supervisors[index].count<=min) {
+      supvisormin.push(supervisors[index])
+    }
+  }
+  //randomly generate an index for the supervisor
+  min = Math.floor(Math.random()*supvisormin.length)
+  var count = supvisormin[min].count + 1
+  console.log(count)
+  await updateDoc(doc(db, "users", `${supvisormin[min].ID}`), {
+    count: count
+  })
+  return supvisormin[min].ID
+}
+
 exports.register = (req, res) => {
   console.log(req.body);
   const user = {
@@ -37,6 +77,8 @@ exports.register = (req, res) => {
   createUserWithEmailAndPassword(auth, user.email, user.password)
     .then(async (data) => {
       //console.log(data)
+      var supervisorID =await AssigStu(data.user.uid)
+      console.log("superisorID is" + supervisorID)
       if (user.MatNo.includes("C")) {
         User = {
           fullName: user.fullName,
@@ -46,6 +88,7 @@ exports.register = (req, res) => {
           course: user.course,
           terms: user.terms,
           topic: "none",
+          supervisorID: supervisorID
         };
       } else {
         User = {
@@ -55,8 +98,10 @@ exports.register = (req, res) => {
           type: "Lecturer",
           course: user.course,
           terms: user.terms,
+          count: 0
         };
       }
+
       //const response = await addDoc(users, User);
       await setDoc(doc(db, "users", data.user.uid), User);
       res.redirect("/");
@@ -130,14 +175,13 @@ exports.sign = (req, res) => {
       var User = user.user;
       getIdToken(User, true).then(async (id) => {
         await cookie(req, res, id, User.email);
-
-        
+        //postmarkMail()
       });
     }
   )
   .catch((error)=>{
     if (error) {
-      res.render("auth-login-basic", { error: `${error.message}`});
+      res.render("auth-login-basic", { error: `${error.message}`, layout: false});
     }
   })
   ;

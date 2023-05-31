@@ -8,7 +8,7 @@ const {
   query,
   where,
 } = require("firebase/firestore");
-const { supervisorfindFile } = require("../controllers/read-file");
+const { supervisorfindFile, postComment, findFYP } = require("../controllers/read-file");
 const {
   FindSupervisee,
   FindSuperviseeProposal,
@@ -24,7 +24,8 @@ router.get("/supervisee", function (req, res, next) {
   //res.render("Supervisor", { layout: "supervisor-layout" });
 });
 router.post("/supervisee", function (req, res, next) {
-  console.log(req.body);
+  postComment(req, res)
+  //console.log(req.body);
   res.redirect("/users/supervisor/supervisee");
 });
 router.get("/proposals", function (req, res, next) {
@@ -32,7 +33,7 @@ router.get("/proposals", function (req, res, next) {
   //res.render("supervisor-clear-proposal", { layout: "supervisor-layout" });
 });
 router.post("/proposals", function (req, res, next) {
-  //UserVerification(req, res)
+  UserVerification(req, res)
   console.log(req.body);
 
   //res.render("supervisor-clear-proposal", { layout: "supervisor-layout" });
@@ -42,9 +43,11 @@ router.get("/past-project", function (req, res, next) {
   supervisorfindFile(req, res, "finalProjectReport");
   //res.render('past FYP', { layout: 'supervisor-layout' });
 });
-router.get("/project-log", function (req, res, next) {
-  res.render("project monitoring module", { layout: "supervisor-layout" });
-});
+router.post("/past-project", function(req, res){
+  console.log(req.body)
+  findFYP(req, res)
+})
+
 router
   .get("/clearance", function (req, res, next) {
     FinalSubmission(req, res)

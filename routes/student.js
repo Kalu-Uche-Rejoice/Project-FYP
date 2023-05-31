@@ -21,7 +21,9 @@ var multer = require("multer");
 var upload = multer({ storage: multer.memoryStorage() });
 
 router.use(bodyparser.json());
-
+router.get("/planner", (req, res)=>{
+  res.render("planner")
+})
 router
   .route("/log")
   .get(function (req, res, next) {
@@ -35,7 +37,7 @@ router
   });
 
 router.route("/proposal").get(function (req, res, next) {
-  res.render("proposal module", { title: "Express" });
+  res.render("proposal module", { title: "Express", UserName: false });
 });
 router.post("/upload", upload.array("file", 4), async (req, res) => {
   verifyUser(req, res, "proposals");
@@ -53,7 +55,7 @@ router
 router
   .route("/project-upload")
   .get(function (req, res, next) {
-    res.render("project final upload module", { title: "Express" });
+    res.render("project final upload module", { title: "Express", UserName:false });
   })
   .post(upload.single("file"), async (req, res) => {
     verifyUserCookie(req, res, "finalProjectReport", "finalupload");

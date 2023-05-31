@@ -1,6 +1,18 @@
 // this controller allows me to read csv files sent in using a multi-part form from
 //a browser to create an array in the node js server
-
+async function username (id){
+  
+  var docRef = doc(db, "users", `${id}`)
+  try {
+    var docSnap = await getDoc(docRef)
+    var userName = docSnap.data()
+    userName = {name: userName.fullName, designation: userName.type}
+    return userName
+  } catch (error) {
+   return "cannot get user" 
+  }
+  
+}
 var bodyparser = require("body-parser");
 var multer = require("multer");
 
@@ -84,6 +96,7 @@ exports.singleFileSubmit = async (req, res, dbName, storeName, id) => {
 };
 
 exports.findFile = async (req, res, dbName) => {
+  
   // this route will query the final project report collection and get all the documents in it
   //const docRef = collection(db, "users");
   console.log("request is " + req.body);
@@ -108,7 +121,7 @@ exports.findFile = async (req, res, dbName) => {
   else{
     
   }*/
-  res.render("past FYP", { project: Project });
+  res.render("past FYP", { project: Project, UserName: false});
 };
 
 exports.multipleFileSubmit = async (req, res, storeName, id) => {
@@ -156,6 +169,7 @@ exports.multipleFileSubmit = async (req, res, storeName, id) => {
 };
 
 exports.findLog = async (req, res, dbName, id) => {
+  var usename = await username(id)
   var logEntry = [];
   console.log(dbName + id);
   const q = query(collection(db, `${dbName}`), where("ID", "==", `${id}`));
@@ -166,7 +180,7 @@ exports.findLog = async (req, res, dbName, id) => {
     console.log(doc.id, " => ", doc.data());
     logEntry.push(doc.data());
   });
-  res.render("studeproject monitoring module", { log: logEntry });
+  res.render("studeproject monitoring module", { log: logEntry, UserName:usename });
 };
 exports.Savelog = async (req, res, dbName, storeName, id) => {
   try {
@@ -209,6 +223,7 @@ exports.Savelog = async (req, res, dbName, storeName, id) => {
 };
 
 exports.findSupervisee = async (req, res, id) => {
+  var usename = await username(id)
   const q = query(
     collection(db, "users"),
     where("supervisorID", "==", `${id}`)
@@ -246,10 +261,12 @@ exports.findSupervisee = async (req, res, id) => {
   res.render("Supervisor", {
     log: Filog,
     layout: "supervisor-layout",
+    UserName:usename
   });
 };
 
 exports.findProposals = async (req, res, id) => {
+  var usename = await username(id)
   const q = query(
     collection(db, "users"),
     where("supervisorID", "==", `${id}`), where("topic", "==", "none")
@@ -283,6 +300,7 @@ exports.findProposals = async (req, res, id) => {
   res.render("supervisor-clear-proposal", {
     layout: "supervisor-layout",
     proposal: supProp,
+    UserName: usename
   });
 };
 /*exports.finalSubmission = async (req, res, id) => {
@@ -312,6 +330,8 @@ exports.findProposals = async (req, res, id) => {
   res.render("supervisor-clear-final", { Report: supProp, Name: supPropName });
 };*/
 exports.finalSubmission = async (req, res, id) => {
+  var usename = await username(id)
+  console.log(usename)
   const q = query(
     collection(db, "users"),
     where("supervisorID", "==", `${id}`)
@@ -342,9 +362,10 @@ exports.finalSubmission = async (req, res, id) => {
     supProp[i].splice(0, 0, supervisee[i]);*/
   }
   console.log(supProp);
-  res.render("supervisor-clear-final", {layout:"supervisor-layout", proposal: supProp});
+  res.render("supervisor-clear-final", {layout:"supervisor-layout", proposal: supProp, UserName:usename});
 };
 exports.supervisorfindFile = async (req, res, dbName) => {
+  
   // this route will query the final project report collection and get all the documents in it
   //const docRef = collection(db, "users");
   console.log("request is " + req.body);
@@ -355,11 +376,12 @@ exports.supervisorfindFile = async (req, res, dbName) => {
     Project.push(doc.data());
   });
 
-  res.render("past FYP", { project: Project, layout: "supervisor-layout" });
+  res.render("past FYP", { project: Project, layout: "supervisor-layout", UserName:false });
 };
 
 // ERROR: this is the function for the post route of the supervisors clearance
 exports.clearSupervisee = async (req, res, id, cleared) => {
+  var usename = await username(id)
   const userdoc = doc(db, "users", `${id}`);
   const finaldoc = doc(db, "finalProjectReport", `${id}`);
   if (cleared == true) {
@@ -417,6 +439,7 @@ exports.acceptProposal = async (req, res, id) => {
 };
 
 exports. PrintClearance = async(req, res, id)=>{
+  var usename = await username(id)
   var clearedStudent
   const q = query(collection(db, "users"), where("cleared", "==", "cleared"), where("ID", "==", `${id}`))
   const querySnapshot = await getDocs(q)
@@ -429,12 +452,12 @@ exports. PrintClearance = async(req, res, id)=>{
   const qrySnap = await getDoc(qry)
   var supervisor = qrySnap.data()
   clearedStudent.supervisorName = supervisor.fullName
-  res.render('cleared-student', {student: clearedStudent});
+  res.render('cleared-student', {student: clearedStudent, UserName:usename});
   } else {
-    res.render('cleared-student', {student: false});
+    res.render('cleared-student', {student: false, UserName:usename});
   }
   
-  res.render('cleared-student', {student: clearedStudent});
+  res.render('cleared-student', {student: clearedStudent, UserName:usename});
 }
 
 exports. acceptFinal= async(req, res)=>{
@@ -503,6 +526,22 @@ exports.postComment = async(req, res)=>
     return res.status(400).send(error); 
   }
 }
+exports.findFYP = async (req, res)=> {
+  var Pfyp = []
+  if (req.body.course || req.body.year) {
+    
+    const q = query(collection(db, "finalProjectReport"),where("course","==",`${req.body.course}`),where("course","==",`${req.body.year}`))
+    const qSnap = await getDocs(q)
+    qSnap.forEach(element => {
+      console.log('element ' + element.data())
+      Pfyp.push(element.data())
+    });
+    console.log(Pfyp)
+  }
+  res.render("past FYP", { project: Pfyp, layout: "supervisor-layout", UserName:false })
+}
+//function to get the users name
+
 //
 //
 //Test area

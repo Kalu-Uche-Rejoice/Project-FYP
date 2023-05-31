@@ -115,21 +115,31 @@ exports.verifyUserFoundLog = async (req, res, dbName) => {
   });
 };
 
-exports.FindSupervisee = async (req, res, dbName) => {
-  const sessionCookie = req.cookies.session || "";
+exports.FindSupervisee = async (req, res) => {
+  if (req.session.cookie) {
+    const sessionCookie = req.cookies.session || "";
   auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
     var id = DecodedIdToken.uid;
     findSupervisee(req, res, id);
   });
+  } else {
+    res.redirect("/")
+  }
+  
 };
 
-exports.FindSuperviseeProposal = async (req, res, dbName) => {
-  const sessionCookie = req.cookies.session || "";
-  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+exports.FindSuperviseeProposal = async (req, res) => {
+  if (condition) {
+    const sessionCookie = req.cookies.session || "";
+    auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
     var id = DecodedIdToken.uid;
     console.log("this function is called" + id);
     findProposals(req, res, id);
   });
+  } else {
+    res.redirect("/")
+  }
+  
 };
 
 exports.UserVerification = async (req, res) => {
@@ -141,25 +151,34 @@ exports.UserVerification = async (req, res) => {
 };
 
 exports.StuPrintClearance = async (req, res) => {
-  const sessionCookie = req.cookies.session || "";
-  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+  if(req.cookies.session){
+    const sessionCookie = req.cookies.session || "";
+    auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
     var id = DecodedIdToken.uid;
     PrintClearance(req, res, id)
   });
+  }else{
+    res.redirect("/")
+  }
 };
 
 exports.FinalSubmission = async (req, res) => {
-  const sessionCookie = req.cookies.session || "";
-  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
-    var id = DecodedIdToken.uid;
-    finalSubmission(req, res, id)
-  });
+  if (req.cookies.session) {
+    const sessionCookie = req.cookies.session || "";
+    auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+      var id = DecodedIdToken.uid;
+      finalSubmission(req, res, id)
+    });
+  } else {
+    res.redirect("/")
+  }
+ 
 };
 
 exports.AcceptFinal = async (req, res) => {
   const sessionCookie = req.cookies.session || "";
   auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
     var id = DecodedIdToken.uid;
-    acceptFinal(req, res)
+    acceptFinal(req, res, id)
   });
 };

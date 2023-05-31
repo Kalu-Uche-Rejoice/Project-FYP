@@ -27,7 +27,9 @@ router.route('/register')
 .get(function(req, res, next) {
   res.render('auth-register-basic', {layout: false});
 })
-.post(register)
+.post(
+  register
+  )
 
 router.route('/sign-in')
 .post(
