@@ -22,7 +22,7 @@ var upload = multer({ storage: multer.memoryStorage() });
 
 router.use(bodyparser.json());
 router.get("/planner", (req, res)=>{
-  res.render("planner")
+  res.render("planner", { title: "Express", UserName:false })
 })
 router
   .route("/log")
