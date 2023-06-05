@@ -59,7 +59,7 @@ async function AssigStu(stuID) {
   await updateDoc(doc(db, "users", `${supvisormin[min].ID}`), {
     count: count
   })
-  return supvisormin[min].ID
+  return supvisormin[min]
 }
 
 exports.register = (req, res) => {
@@ -88,7 +88,8 @@ exports.register = (req, res) => {
           course: user.course,
           terms: user.terms,
           topic: "none",
-          supervisorID: supervisorID
+          supervisorID: supervisorID.ID,
+          supervisorName: supervisorID.fullName
         };
       } else {
         User = {
@@ -149,7 +150,8 @@ exports.signin = (req, res) => {
 exports.forgotpassword = (req, res) => {
   sendPasswordResetEmail(auth, req.body.email)
     .then(() => {
-      res.status(200).json({ status: "password reset email sent" });
+      res.redirect('/')
+      //res.status(200).json({ status: "password reset email sent" });
     })
     .catch((error) => {
       let errorCode = error.code;

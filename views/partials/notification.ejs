@@ -76,7 +76,10 @@
   <div class="offcanvas-body mx-0 flex-grow-0">
     <p class="text-center">
       <ul class="list-group">
-        <li class="list-group-item ">your Supervisor is prof anthony adoghe</li>
+        <% if (UserName.supervisorName) { %>
+          <li class="list-group-item ">your Supervisor is <%= UserName.supervisorName %></li>
+        <% }%>
+        
       </ul>
     </p>
   </div>

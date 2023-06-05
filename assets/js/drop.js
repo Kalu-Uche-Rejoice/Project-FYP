@@ -8,5 +8,5 @@ function generate_year_range(start, end) {
   let today = new Date();
   let currentYear = today.getFullYear();
   let selectYear = document.getElementById("Year");
-  let createYear = generate_year_range( 2010, currentYear );
+  let createYear = generate_year_range( 2022, currentYear );
   selectYear.innerHTML = createYear;

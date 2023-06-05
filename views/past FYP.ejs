@@ -104,22 +104,7 @@
             <form action="/users/supervisor/past-project" method="post">
               <div class="card-body">
                 <div class="row">
-                  <div class="col-md-4">
-                    <div>
-                      <label for="Supervisor" class="form-label">Supervisor</label>
-                      <div class="input-group input-group-merge">
-                        <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
-                        <input
-                          type="text"
-                          name="supervisorQuery"
-                          class="form-control"
-                          placeholder="Search..."
-                          aria-label="Search..."
-                          aria-describedby="basic-addon-search31"
-                        />
-                      </div>
-                    </div>
-                  </div>
+                  
                   <div class="col-md-4">
                     <div>
                       <label for="Course" class="form-label">Course</label>
@@ -156,7 +141,7 @@
                         <tr>
                           <th>Project title</th>
                           <th>Author</th>
-                          <th>Supervisor</th>
+                          
                           <th>Course of Study</th>
                           <th>Year</th>
                           <th>view</th>
@@ -197,7 +182,7 @@
                           <tr>
                             <td> <strong><%= element.topic %></td>
                             <td><%= element.author %></td>
-                            <td><%= element.supervisor %></td>
+                            
                             <td><span class="badge bg-label-primary"><%= element.course %></span></td>
                             <td><%= element.year %></td>
                             <td><button 

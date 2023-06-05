@@ -104,48 +104,53 @@ padding-bottom: 0px !important;
             <div class="row">
               <div class="col">
               <!-- Form controls -->
-              
-              <% for( let i = 0; i < proposal.length; i++ ) { %>
+              <% if (proposal.length>1) { %>
+                <% for( let i = 0; i < proposal.length; i++ ) { %>
                 
-                <div class="card mb-4" id="<%= proposal[i][0].fullName %>">
-                  <div class="card-header">
-                    <% let l = proposal.length-1%>
-                    <p id="fullname<%=i%>"> <b>Name: </b><%= proposal[i][0].fullName %></p>
-                    <p> <b>Course: </b><%= proposal[i][0].course %></p>
-                  </div>
-                  <div class="card-body py-0">
-                   <div class="row">
-                    <div class="col">
-                      <p>
-                        Proposed topic:
-                        <p id="topic<%=i%>1"><%= proposal[i][1].topic %></p>
-                      </p>
-                      <button class="btn btn-outline-secondary" type="submit" id="button">
-                        <a href="<%= proposal[i][1].downloadURL %>" target = "_blank">Download</a>
-                      </button>
-                      <div class="input-group-text my-3">
-                        <button class="btn btn-success" type="submit" id="button" onclick="test('<%=i %>',1, true)">Accept</button>
-                        <button class="btn btn-danger mx-4" type="submit" id="button" onclick="test('<%=i %>',1, false)">Reject</button>
-                      </div>
+                  <div class="card mb-4" id="<%= proposal[i][0].fullName %>">
+                    <div class="card-header">
+                      <% let l = proposal.length-1%>
+                      <p id="fullname<%=i%>"> <b>Name: </b><%= proposal[i][0].fullName %></p>
+                      <p> <b>Course: </b><%= proposal[i][0].course %></p>
                     </div>
-                    <div class="col">
-                      <p>
-                        Proposed topic:
-                        <p id="topic<%=i%>2"><%= proposal[i][2].topic %></p>
-                      </p>
-                      <button class="btn btn-outline-secondary" type="submit" id="button">
-                        <a href="<%= proposal[i][2].downloadURL %>" target = "_blank">Download</a>
-                      </button>
-                      <div class="input-group-text my-3">
-                        <button class="btn btn-success" type="submit" id="button" onclick="test('<%=i %>',2, true)">Accept</button>
-                        <button class="btn btn-danger mx-4" type="submit" id="button" onclick="test('<%=i %>',2, false)">Reject</button>
+                    <div class="card-body py-0">
+                     <div class="row">
+                      <div class="col">
+                        <p>
+                          Proposed topic:
+                          <p id="topic<%=i%>1"><%= proposal[i][1].topic %></p>
+                        </p>
+                        <button class="btn btn-outline-secondary" type="submit" id="button">
+                          <a href="<%= proposal[i][1].downloadURL %>" target = "_blank">Download</a>
+                        </button>
+                        <div class="input-group-text my-3">
+                          <button class="btn btn-success" type="submit" id="button" onclick="test('<%=i %>',1, true)">Accept</button>
+                          <button class="btn btn-danger mx-4" type="submit" id="button" onclick="test('<%=i %>',1, false)">Reject</button>
+                        </div>
                       </div>
+                      <div class="col">
+                        <p>
+                          Proposed topic:
+                          <p id="topic<%=i%>2"><%= proposal[i][2].topic %></p>
+                        </p>
+                        <button class="btn btn-outline-secondary" type="submit" id="button">
+                          <a href="<%= proposal[i][2].downloadURL %>" target = "_blank">Download</a>
+                        </button>
+                        <div class="input-group-text my-3">
+                          <button class="btn btn-success" type="submit" id="button" onclick="test('<%=i %>',2, true)">Accept</button>
+                          <button class="btn btn-danger mx-4" type="submit" id="button" onclick="test('<%=i %>',2, false)">Reject</button>
+                        </div>
+                      </div>
+                     </div>
                     </div>
-                   </div>
                   </div>
-                </div>
+                
+              <% } %>
+              <% } else { %>
+                <h3>No proposals to be cleared</h3>
+              <% } %>
               
-            <% } %>
+              
               </div>
             </div>
           </div>

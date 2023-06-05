@@ -116,7 +116,7 @@ exports.verifyUserFoundLog = async (req, res, dbName) => {
 };
 
 exports.FindSupervisee = async (req, res) => {
-  if (req.session.cookie) {
+  if (req.cookies.session) {
     const sessionCookie = req.cookies.session || "";
   auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
     var id = DecodedIdToken.uid;
@@ -129,7 +129,7 @@ exports.FindSupervisee = async (req, res) => {
 };
 
 exports.FindSuperviseeProposal = async (req, res) => {
-  if (condition) {
+  if (req.cookies.session) {
     const sessionCookie = req.cookies.session || "";
     auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
     var id = DecodedIdToken.uid;

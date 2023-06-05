@@ -36,11 +36,17 @@ router.route('/sign-in')
   sign
   )
 router.post('/sessionlogin')
-router.route('/forgot-password')
-.get((req, res)=>{
-  res.render('auth-forgot-pasword-basic', {layout: false})
+
+
+router.route('/password')
+.get(function(req, res, next) {
+  res.render('auth-forgot-password-basic', {layout: false});
 })
-.post(forgotpassword)
+.post(
+  forgotpassword
+)
+
+
 
 router.route('/admin')
 .get((req, res)=>{

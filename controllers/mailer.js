@@ -1,6 +1,7 @@
 //node mailer file
 const mailer = require('nodemailer')
 const postmark = require('postmark')
+var http = require("http");
 
 const client = new postmark.Client('4e4c74a4-8eed-466a-b469-c8e1875c1d6e');
 
@@ -49,3 +50,43 @@ exports. postmarkMail = ()=>{
 });
 
 }
+
+//PLAGIARISM CHECKER FUNCTION ATTEMPT.
+exports.plagiarismChecker = async () => {
+  const http = require('http');
+
+  const options = {
+    method: 'POST',
+    hostname: 'pro.smallseotools.com',
+    path: '/api/checkplag',
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
+  };
+
+  const req = http.request(options, async function (res) {
+    const chunks = [];
+
+    res.on('data', function (chunk) {
+      chunks.push(chunk);
+    });
+
+    res.on('end', function () {
+      const body = Buffer.concat(chunks);
+      console.log(body.toString());
+    });
+  });
+
+  // Write the request body
+  req.write(`
+    Content-Disposition: form-data; name="token"
+    ${YOUR_TOKEN}
+    name="exclude_urls"
+    ["EXCLUDE URL1","EXCLUDE URL2","EXCLUDE URL3"]
+    name="url"
+    ${PAGE_URL}
+  `);
+
+  // Send the request
+  await req.end();
+};
