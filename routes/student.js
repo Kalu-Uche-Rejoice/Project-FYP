@@ -4,12 +4,14 @@ const {
   verifyUser,
   verifyUserLog,
   verifyUserFoundLog,
-  StuPrintClearance
+  StuPrintClearance,
+  FindFYP
 } = require("../controllers/athenticate");
 const {
   singleFileSubmit,
   findFile,
   multipleFileSubmit,
+  
 } = require("../controllers/read-file");
 const { auth, monitorAuthState } = require("../controllers/auth");
 
@@ -23,6 +25,9 @@ var upload = multer({ storage: multer.memoryStorage() });
 router.use(bodyparser.json());
 router.get("/planner", (req, res)=>{
   res.render("planner", { title: "Express", UserName:false })
+})
+.post((req, res)=>{
+  console.log(req.body)
 })
 router
   .route("/log")
@@ -50,7 +55,7 @@ router
   })
   .post((req, res) => {
     // I need to write an identical findFile function but with the queries
-    findFile(req, res, "finalProjectReport");
+    FindFYP(req, res);
   });
 router
   .route("/project-upload")

@@ -1,17 +1,20 @@
 // this controller allows me to read csv files sent in using a multi-part form from
 //a browser to create an array in the node js server
-async function username (id){
-  
-  var docRef = doc(db, "users", `${id}`)
+async function username(id) {
+  var docRef = doc(db, "users", `${id}`);
   try {
-    var docSnap = await getDoc(docRef)
-    var userName = docSnap.data()
-    userName = {name: userName.fullName, designation: userName.type, supervisor: userName.supervisorName}
-    return userName
+    var docSnap = await getDoc(docRef);
+    var userName = docSnap.data();
+    userName = {
+      name: userName.fullName,
+      designation: userName.type,
+      supervisor: userName.supervisorName,
+    };
+    console.log(userName.supervisorName);
+    return userName;
   } catch (error) {
-   return "cannot get user" 
+    return "cannot get user";
   }
-  
 }
 var bodyparser = require("body-parser");
 var multer = require("multer");
@@ -85,12 +88,12 @@ exports.singleFileSubmit = async (req, res, dbName, storeName, id) => {
       cleared: false,
       downloadURL: downloadURL,
     };
-    var user
-    const qury = query(collection(db, "users"), where("cleared","==","true"))
-    const snap = await getDocs(qury)
+    var user;
+    const qury = query(collection(db, "users"), where("cleared", "==", "true"));
+    const snap = await getDocs(qury);
     if (snap.empty == true) {
       const response = await setDoc(doc(db, dbName, id), report);
-      console.log("no submissions yet")
+      console.log("no submissions yet");
     }
 
     res.statusCode = 200;
@@ -102,18 +105,20 @@ exports.singleFileSubmit = async (req, res, dbName, storeName, id) => {
 };
 
 exports.findFile = async (req, res, dbName) => {
-  
   // this route will query the final project report collection and get all the documents in it
   //const docRef = collection(db, "users");
   var Project = [];
-  const q = query(collection(db, "finalProjectReport"), where("cleared" ,"==", "true"))
-  const querySnapshot = await getDocs(q)
+  const q = query(
+    collection(db, "finalProjectReport"),
+    where("cleared", "==", "true")
+  );
+  const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     Project.push(doc.data());
   });
 
-  res.render("past FYP", { project: Project, UserName: false});
+  res.render("past FYP", { project: Project, UserName: false });
 };
 
 exports.multipleFileSubmit = async (req, res, storeName, id) => {
@@ -161,7 +166,7 @@ exports.multipleFileSubmit = async (req, res, storeName, id) => {
 };
 
 exports.findLog = async (req, res, dbName, id) => {
-  var usename = await username(id)
+  var usename = await username(id);
   var logEntry = [];
   console.log(dbName + id);
   const q = query(collection(db, `${dbName}`), where("ID", "==", `${id}`));
@@ -172,7 +177,10 @@ exports.findLog = async (req, res, dbName, id) => {
     console.log(doc.id, " => ", doc.data());
     logEntry.push(doc.data());
   });
-  res.render("studeproject monitoring module", { log: logEntry, UserName:usename });
+  res.render("studeproject monitoring module", {
+    log: logEntry,
+    UserName: usename,
+  });
 };
 exports.Savelog = async (req, res, dbName, storeName, id) => {
   try {
@@ -216,10 +224,11 @@ exports.Savelog = async (req, res, dbName, storeName, id) => {
 
 exports.findSupervisee = async (req, res, id) => {
   //a function that returns the users username
-  var usename = await username(id)
+  var usename = await username(id);
   const q = query(
     collection(db, "users"),
-    where("supervisorID", "==", `${id}`)
+    where("supervisorID", "==", `${id}`),
+    where("cleared", "==", "false")
   );
   const supervisee = [];
   const Filog = [];
@@ -227,7 +236,7 @@ exports.findSupervisee = async (req, res, id) => {
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
 
-     supervisee.push(doc.data());
+    supervisee.push(doc.data());
   });
 
   for (let index = 0; index < supervisee.length; index++) {
@@ -236,42 +245,37 @@ exports.findSupervisee = async (req, res, id) => {
       where("ID", "==", `${supervisee[index].ID}`)
     );
     var temp;
-    var logs = []
+    var logs = [];
     const qsnap = await getDocs(qry);
-     
-     
-     if(qsnap.empty != true){
-      qsnap.forEach((document)=>{
-        temp = document.data()
-        
-        logs.push(temp)
-        
-      })
-     }
-     else{
-      temp = {value: "null"}
-      logs.push(temp)
-      
-     }
-    Filog.push(logs)
-    
+
+    if (qsnap.empty != true) {
+      qsnap.forEach((document) => {
+        temp = document.data();
+
+        logs.push(temp);
+      });
+    } else {
+      temp = { value: "null" };
+      logs.push(temp);
+    }
+    Filog.push(logs);
+
     Filog[index].splice(0, 0, supervisee[index]);
-    
   }
-  
+
   res.render("Supervisor", {
     log: Filog,
     layout: "supervisor-layout",
-    UserName:usename
+    UserName: usename,
   });
-  
 };
 
 exports.findProposals = async (req, res, id) => {
-  var usename = await username(id)
+  var usename = await username(id);
   const q = query(
     collection(db, "users"),
-    where("supervisorID", "==", `${id}`), where("topic", "==", "none")
+    where("supervisorID", "==", `${id}`),
+    where("topic", "==", "none")
   );
   var temp;
   const supervisee = [];
@@ -302,12 +306,12 @@ exports.findProposals = async (req, res, id) => {
   res.render("supervisor-clear-proposal", {
     layout: "supervisor-layout",
     proposal: supProp,
-    UserName: usename
+    UserName: usename,
   });
 };
 exports.finalSubmission = async (req, res, id) => {
-  var usename = await username(id)
-  console.log(usename)
+  var usename = await username(id);
+  console.log(usename);
   const q = query(
     collection(db, "users"),
     where("supervisorID", "==", `${id}`)
@@ -329,7 +333,7 @@ exports.finalSubmission = async (req, res, id) => {
     );
     var qsnap = await getDocs(qy);
     qsnap.forEach((document) => {
-      supProp.push( document.data());
+      supProp.push(document.data());
 
       //supPropName.push(data);
     });
@@ -338,26 +342,36 @@ exports.finalSubmission = async (req, res, id) => {
     supProp[i].splice(0, 0, supervisee[i]);*/
   }
   console.log(supProp);
-  res.render("supervisor-clear-final", {layout:"supervisor-layout", proposal: supProp, UserName:usename});
+  res.render("supervisor-clear-final", {
+    layout: "supervisor-layout",
+    proposal: supProp,
+    UserName: usename,
+  });
 };
 exports.supervisorfindFile = async (req, res, dbName) => {
-  
   // this route will query the final project report collection and get all the documents in it
   //const docRef = collection(db, "users");
   var Project = [];
-  const q = query(collection(db, "finalProjectReport"), where("cleared" ,"==", "true"))
-  const querySnapshot = await getDocs(q)
+  const q = query(
+    collection(db, "finalProjectReport"),
+    where("cleared", "==", "true")
+  );
+  const querySnapshot = await getDocs(q);
   querySnapshot.forEach((doc) => {
     // doc.data() is never undefined for query doc snapshots
     Project.push(doc.data());
   });
 
-  res.render("past FYP", { project: Project, layout: "supervisor-layout", UserName:false });
+  res.render("past FYP", {
+    project: Project,
+    layout: "supervisor-layout",
+    UserName: false,
+  });
 };
 
 // ERROR: this is the function for the post route of the supervisors clearance
 exports.clearSupervisee = async (req, res, id, cleared) => {
-  var usename = await username(id)
+  var usename = await username(id);
   const userdoc = doc(db, "users", `${id}`);
   const finaldoc = doc(db, "finalProjectReport", `${id}`);
   if (cleared == true) {
@@ -375,7 +389,8 @@ exports.acceptProposal = async (req, res, id) => {
   //create a query to find all the users where the users name is "${name}"
   const q = query(
     collection(db, "users"),
-    where("fullName", "==", `${req.body.name}`), where("supervisorID", "==", `${id}`)
+    where("fullName", "==", `${req.body.name}`),
+    where("supervisorID", "==", `${id}`)
   );
   //the id is an empty variable to contain the ID of the supervisee
   var superviseeID = [];
@@ -385,83 +400,97 @@ exports.acceptProposal = async (req, res, id) => {
     //pushes the users ID into the variable
     superviseeID.push(doc.data());
   });
-  console.log(superviseeID)
+  console.log(superviseeID);
   // creates a new query to find all the documents where the ID is the superviseeID and the topic is the ${topic}
   for (let index = 0; index < superviseeID.length; index++) {
     const qry = query(
       collection(db, "projects"),
-      where("ID", "==", `${superviseeID[index].ID}`), where("topic", "==", `${req.body.topic}` )
+      where("ID", "==", `${superviseeID[index].ID}`),
+      where("topic", "==", `${req.body.topic}`)
     );
     var proposalID;
     const querySnapshot = await getDocs(qry);
     querySnapshot.forEach((doc) => {
-    //gets the document id for that proposal
+      //gets the document id for that proposal
       proposalID = doc.id;
     });
-    console.log(proposalID)
+    console.log(proposalID);
 
-     //updates the proposal document with the status
+    //updates the proposal document with the status
     const docRef = doc(db, "projects", `${proposalID}`);
     await updateDoc(docRef, {
       accepted: `${req.body.status}`,
     });
-    //creates a document reference 
-    const userRef = doc(db, "users", `${superviseeID[index].ID}`)
+    //creates a document reference
+    const userRef = doc(db, "users", `${superviseeID[index].ID}`);
     //updates the document referenced above with a topic
-    await updateDoc(userRef,{
-      topic: `${req.body.topic}`
-    })
+    await updateDoc(userRef, {
+      topic: `${req.body.topic}`,
+    });
   }
 };
 
-exports. PrintClearance = async(req, res, id)=>{
-  var usename = await username(id)
-  var clearedStudent
-  const q = query(collection(db, "users"), where("cleared", "==", "true"), where("ID", "==", `${id}`))
-  const querySnapshot = await getDocs(q)
-  querySnapshot.forEach((docs)=>{
-    console.log(docs.data())
-    clearedStudent = docs.data()
-  })
-  console.log(clearedStudent)
+exports.PrintClearance = async (req, res, id) => {
+  var usename = await username(id);
+  var clearedStudent;
+  const q = query(
+    collection(db, "users"),
+    where("cleared", "==", "true"),
+    where("ID", "==", `${id}`)
+  );
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach((docs) => {
+    console.log(docs.data());
+    clearedStudent = docs.data();
+  });
+  console.log(clearedStudent);
   if (clearedStudent) {
-  var supervisor
-  const qry = query(collection(db, 'users'), where("ID", "==", `${clearedStudent.supervisorID}`))
-  const qrySnap = await getDocs(qry)
-   qrySnap.forEach((docs)=>{
-    supervisor= docs.data()
-  })
-  clearedStudent.supervisorName = supervisor.fullName
-  res.render('cleared-student', {student: clearedStudent, UserName:usename});
+    var supervisor;
+    const qry = query(
+      collection(db, "users"),
+      where("ID", "==", `${clearedStudent.supervisorID}`)
+    );
+    const qrySnap = await getDocs(qry);
+    qrySnap.forEach((docs) => {
+      supervisor = docs.data();
+    });
+    clearedStudent.supervisorName = supervisor.fullName;
+    res.render("cleared-student", {
+      student: clearedStudent,
+      UserName: usename,
+    });
   } else {
-    res.render('cleared-student', {student: false, UserName:usename});
+    res.render("cleared-student", { student: false, UserName: usename });
   }
-  
-  res.render('cleared-student', {student: clearedStudent, UserName:usename});
-}
 
-exports. acceptFinal= async(req, res)=>{
+  res.render("cleared-student", { student: clearedStudent, UserName: usename });
+};
+
+exports.acceptFinal = async (req, res) => {
   //this function handles teh post route for the  clear-final module for the supervisor
   //creates a query where the user name and topic are as contained in the request
-  const q = query(collection(db, "finalProjectReport"), where("author", "==", `${req.body.name}`), where("topic","==", `${req.body.topic}`))
-  const querySnapshot = await getDocs(q)
-  querySnapshot.forEach(async(document)=>{
+  const q = query(
+    collection(db, "finalProjectReport"),
+    where("author", "==", `${req.body.name}`),
+    where("topic", "==", `${req.body.topic}`)
+  );
+  const querySnapshot = await getDocs(q);
+  querySnapshot.forEach(async (document) => {
     //var finalSubmission = document.id
-    var docRef = doc(db, "finalProjectReport", `${document.id}`)
-    await updateDoc(docRef, {cleared:`${req.body.status}`})
-    var docRef = doc(db, "users", `${document.id}`)
-    await updateDoc(docRef, {cleared:`${req.body.status}`})
-  })
-  res.statusCode = 200
-}
+    var docRef = doc(db, "finalProjectReport", `${document.id}`);
+    await updateDoc(docRef, { cleared: `${req.body.status}` });
+    var docRef = doc(db, "users", `${document.id}`);
+    await updateDoc(docRef, { cleared: `${req.body.status}` });
+  });
+  res.statusCode = 200;
+};
 
-exports.postComment = async(req, res)=>
-{
+exports.postComment = async (req, res) => {
   try {
-    var info = req.body.info
-  var split = info.split('!?')
-  var ID
-  var downloadURL = null;
+    var info = req.body.info;
+    var split = info.split("!?");
+    var ID;
+    var downloadURL = null;
     //gets a storage reference and appends the file name
     if (req.file) {
       const storageRef = ref(storage, `${storeName}/${req.file.originalname}`);
@@ -488,41 +517,58 @@ exports.postComment = async(req, res)=>
       supervisordownloadURL: downloadURL,
     };
     // create a query to check in the users collection for a document with name
-    const q = query(collection(db, "projects"), where("fullName","==",`${split[1]}`))
-    const qsnap =  await getDocs(q)
-    qsnap.forEach((document)=>{
-      var IDs = document.data()
-      ID = IDs.id
-    })
+    const q = query(
+      collection(db, "projects"),
+      where("fullName", "==", `${split[1]}`)
+    );
+    const qsnap = await getDocs(q);
+    qsnap.forEach((document) => {
+      var IDs = document.data();
+      ID = IDs.id;
+    });
     /*var meettime
     if (req.body.meetingAccept == "on" && req.body.meeting!='') {
       meettime = req.body.meeting
     }*/
-  
-    ID = ID+split[0]
-    //create a document reference using the retrieved ID
-    const docRef = doc(db, "projects", `${ID}`)
-    await updateDoc(docRef, report )
-    res.redirect("/users/supervisor/supervisee")
-  } catch (error) {
-    return res.status(400).send(error); 
-  }
-}
-exports.findFYP = async (req, res)=> {
-  var Pfyp = []
 
-  if (req.body.course || req.body.year) {
-    const number = parseInt(req.body.year, 10);
-    const q = query(collection(db, "finalProjectReport"),where("course","==",`${req.body.course}`), where("year","==", number))
-    const qSnap = await getDocs(q)
-    qSnap.forEach(element => {
-      console.log('element ' + element.data())
-      Pfyp.push(element.data())
-    });
-    console.log(Pfyp)
+    ID = ID + split[0];
+    //create a document reference using the retrieved ID
+    const docRef = doc(db, "projects", `${ID}`);
+    await updateDoc(docRef, report);
+    res.redirect("/users/supervisor/supervisee");
+  } catch (error) {
+    return res.status(400).send(error);
   }
-  res.render("past FYP", { project: Pfyp, layout: "supervisor-layout", UserName:false })
-}
+};
+exports.findFYP = async (req, res, id, email) => {
+  var Pfyp = [];
+  if (req.body.course || req.body.year) {
+    const number = parseInt(`${req.body.year}`, 10);
+    const q = query(
+      collection(db, "finalProjectReport"),
+      where("course", "==", `${req.body.course}`),
+      where("year", "==", number)
+    );
+    const qSnap = await getDocs(q);
+    qSnap.forEach((element) => {
+      Pfyp.push(element.data());
+    });
+  }
+  const UN = await username(id);
+  console.log(email);
+  var emailer = String(email);
+  var test = "@stu";
+  if (emailer.indexOf(test) != -1) {
+    console.log("student request");
+    res.render("past FYP", { project: Pfyp, UserName: UN });
+  } else {
+    res.render("past FYP", {
+      project: Pfyp,
+      layout: "supervisor-layout",
+      UserName: UN,
+    });
+  }
+};
 //function to get the users name
 
 //

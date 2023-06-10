@@ -74,12 +74,13 @@ exports.register = (req, res) => {
   };
   let User = {};
   //const users = collection(db, "users");
-  createUserWithEmailAndPassword(auth, user.email, user.password)
+  if(user.email.includes("cu.edu.ng")){
+      createUserWithEmailAndPassword(auth, user.email, user.password)
     .then(async (data) => {
       //console.log(data)
       var supervisorID =await AssigStu(data.user.uid)
       console.log("superisorID is" + supervisorID)
-      if (user.MatNo.includes("C")) {
+      if (user.email.includes("stu.cu.edu")) {
         User = {
           fullName: user.fullName,
           MatNo: user.MatNo,
@@ -89,9 +90,10 @@ exports.register = (req, res) => {
           terms: user.terms,
           topic: "none",
           supervisorID: supervisorID.ID,
-          supervisorName: supervisorID.fullName
+          supervisorName: supervisorID.fullName,
+          cleared: "false"
         };
-      } else {
+      } else if(user.email.includes("cu.edu.ng")) {
         User = {
           fullName: user.fullName,
           MatNo: user.MatNo,
@@ -116,7 +118,13 @@ exports.register = (req, res) => {
         return res.status(500).json({ error: errorMessage });
       }
     });
-};
+}
+else{
+  var mailerror = "Please use a covenant university mail"
+  res.render('auth-register-basic.ejs', {error: mailerror})
+}
+  }
+
 
 exports.monitorAuthState = () => {
   console.log("this is a test");

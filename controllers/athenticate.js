@@ -11,6 +11,7 @@ const {
   PrintClearance,
   finalSubmission,
   acceptFinal,
+  findFYP
 } = require("./read-file");
 
 const { getAuth } = require("firebase-admin/auth");
@@ -180,5 +181,13 @@ exports.AcceptFinal = async (req, res) => {
   auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
     var id = DecodedIdToken.uid;
     acceptFinal(req, res, id)
+  });
+};
+exports.FindFYP = async (req, res) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid
+    var email = DecodedIdToken.email;
+    findFYP(req, res, id, email)
   });
 };

@@ -153,6 +153,7 @@
                 <div class="mb-3">
                   <label for="email" class="form-label">Email</label>
                   <input type="text" class="form-control" id="email" name="email" placeholder="Enter your email" required/>
+                  <%=error%>
                 </div>
                 <div class="mb-3 form-password-toggle">
                   <label class="form-label" for="password">Password</label>
@@ -166,7 +167,7 @@
                       aria-describedby="password"
                       required
                     />
-                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
+                    <span class="input-group-text cursor-pointer"><i class="bx bx-hide" id="showPassword" onclick="showpass() "></i></span>
                   </div>
                 </div>
                 <div class="mb-3">
@@ -193,7 +194,7 @@
                 
                 <div class="mb-3">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" />
+                    <input class="form-check-input" type="checkbox" id="terms-conditions" name="terms" required/>
                     <label class="form-check-label" for="terms-conditions">
                       I agree to
                       <a href="privacy policy.html">privacy policy & terms</a>
@@ -262,6 +263,21 @@
       
     }
   }
+    </script>
+    <script>
+    function showpass(){
+        var passwordInput = document.getElementById("password");
+        var showPasswordCheckbox = document.getElementById("showPassword");
+        
+         console.log("worked")
+    if (passwordInput.type != "text") {
+      passwordInput.type = "text";
+    } else {
+      passwordInput.type = "password";
+    }
+    }
+
+
     </script>
 
     <!-- Page JS -->

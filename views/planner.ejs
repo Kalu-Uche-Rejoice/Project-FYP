@@ -34,6 +34,7 @@
 .layout-page {
 padding-top: 0px !important;
 }
+
 .content-wrapper {
 padding-bottom: 0px !important;
 }</style>
@@ -81,23 +82,32 @@ padding-bottom: 0px !important;
 
             <div class="row">
               <div class="col-md-4">
-                  <form action="/student/planner" method="get">
+                  
                     <div class="row my-3">
-                      <div class="col-md-2 px-0">
-                        <input type="button" value="+" class="btn btn-success btn-xs" id="add">
-                        <input type="button" value="-" class="btn btn-danger btn-xs" id="remove">
-                      </div>
                       <div class="col-md-7">
-                        <input  class="form-control " type="date" name="picker" id="picker">
+                        <input  class="form-control " type="week" name="picker" id="picker">
                       </div>
                       <div class="col-md-2 px-0 mx-0">
-                        <input type="button" value="submit" class="btn btn-outline-success">
+                        <input type="button" value="Save" class="btn btn-outline-success" onclick="save()">
                       </div>
                     </div>
-                    <div>
+                    <div id="myDIV" class="header">
+                    <div class="row my-3">
+                      <div class="col-md-9">
+                        <input type="text" id="myInput" placeholder="New Task..." class="form-control">
+                      </div>
+                      <div class="col-md-2">
+                        <input type="button" value="+" class="btn btn-success btn" id="add" onclick="newElement()">
+                      </div>
+                    </div></div>
+                  
+                  <div>
+                    
+
+                      <ul id="myUL">
                       
-                    </div>
-                  </form>
+                      </ul>
+                  </div>
               </div>
               <div class="col-md-8">
                   <div class="wrapper">
@@ -308,7 +318,83 @@ function remTL() {
   var remove = document.getElementById('remove')
 }
   </script>
+<script>
+// Create a "close" button and append it to each list item
+var list = document.getElementById("myUL")
+console.log(list)
+var myNodelist = list.children;
+var i;
+for (i = 0; i < myNodelist.length; i++) {
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  myNodelist[i].appendChild(span);
+}
 
+// Click on a close button to hide the current list item
+var close = document.getElementsByClassName("close");
+var i;
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function() {
+    var div = this.parentElement;
+    div.style.display = "none";
+  }
+}
+
+// Add a "checked" symbol when clicking on a list item
+var list = document.querySelector('ul');
+list.addEventListener('click', function(ev) {
+  if (ev.target.tagName === 'LI') {
+    ev.target.classList.toggle('checked');
+  }
+}, false);
+
+// Create a new list item when clicking on the "Add" button
+function newElement() {
+  var li = document.createElement("li");
+  var inputValue = document.getElementById("myInput").value;
+  var t = document.createTextNode(inputValue);
+  li.appendChild(t);
+  if (inputValue === '') {
+    alert("You must write something!");
+  } else {
+    document.getElementById("myUL").appendChild(li);
+  }
+  document.getElementById("myInput").value = "";
+
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  li.appendChild(span);
+
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function() {
+      var div = this.parentElement;
+      div.style.display = "none";
+    }
+  }
+}
+</script>
+<script>
+  function save() {
+    var name = document.getElementById("myUL").children
+    var value = []
+    for(let i = 0; i<name.length; i++){
+      var temp = name[i].textContent.split("\u00D7")
+      value.push(temp[0])
+    }
+    var date = document.getElementById("picker").value
+    console.log(value)
+    console.log(date)
+    $.post("/users/student/planner",
+        {
+            week: `${date}`,
+            tasks: `${value}`
+        },)
+  }
+</script>
   <!-- Page JS -->
 
   <script src="/js/form-basic-inputs.js"></script>
