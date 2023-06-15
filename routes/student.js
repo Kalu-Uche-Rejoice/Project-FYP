@@ -5,13 +5,14 @@ const {
   verifyUserLog,
   verifyUserFoundLog,
   StuPrintClearance,
-  FindFYP
+  FindFYP,
+  ProjectFinalUpload,
+  ProjectProposal,
 } = require("../controllers/athenticate");
 const {
   singleFileSubmit,
   findFile,
   multipleFileSubmit,
-  
 } = require("../controllers/read-file");
 const { auth, monitorAuthState } = require("../controllers/auth");
 
@@ -23,12 +24,13 @@ var multer = require("multer");
 var upload = multer({ storage: multer.memoryStorage() });
 
 router.use(bodyparser.json());
-router.get("/planner", (req, res)=>{
-  res.render("planner", { title: "Express", UserName:false })
-})
-.post((req, res)=>{
-  console.log(req.body)
-})
+router
+  .get("/planner", (req, res) => {
+    res.render("planner", { title: "Express", UserName: false });
+  })
+  .post((req, res) => {
+    console.log(req.body);
+  });
 router
   .route("/log")
   .get(function (req, res, next) {
@@ -42,7 +44,7 @@ router
   });
 
 router.route("/proposal").get(function (req, res, next) {
-  res.render("proposal module", { title: "Express", UserName: false });
+  ProjectProposal(req, res);
 });
 router.post("/upload", upload.array("file", 4), async (req, res) => {
   verifyUser(req, res, "proposals");
@@ -60,7 +62,7 @@ router
 router
   .route("/project-upload")
   .get(function (req, res, next) {
-    res.render("project final upload module", { title: "Express", UserName:false });
+    ProjectFinalUpload(req, res);
   })
   .post(upload.single("file"), async (req, res) => {
     verifyUserCookie(req, res, "finalProjectReport", "finalupload");
@@ -68,7 +70,7 @@ router
 
 router.get("/clearance", function (req, res, next) {
   //console.log(monitorAuthState());
-  StuPrintClearance(req, res)
+  StuPrintClearance(req, res);
   //res.render("cleared-student", { title: "Express" });
 });
 module.exports = router;

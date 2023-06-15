@@ -104,7 +104,7 @@ padding-bottom: 0px !important;
             <div class="row">
               <div class="col">
               <!-- Form controls -->
-              <% if (proposal.length>1) { %>
+              <% if (proposal.length>=1) { %>
                 <% for( let i = 0; i < proposal.length; i++ ) { %>
                 
                   <div class="card mb-4" id="<%= proposal[i][0].fullName %>">

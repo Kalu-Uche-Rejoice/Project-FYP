@@ -28,15 +28,15 @@ const auth = getAuth();
 
 async function AssigStu(stuID) {
   const supervisors = [];
-  var supvisormin =[];
+  var supvisormin = [];
   var supcount = [];
   //find all the supervisors
-  const q = query(collection(db,"users"), where("type", "==", "Lecturer"))
-  const qSnap = await getDocs(q)
-  
-  qSnap.forEach(element => {
-    supervisors.push(element.data())
-    console.log(element.data())
+  const q = query(collection(db, "users"), where("type", "==", "Lecturer"));
+  const qSnap = await getDocs(q);
+
+  qSnap.forEach((element) => {
+    supervisors.push(element.data());
+    console.log(element.data());
     //supervisors = element.docs();
   });
   //console.log("supervisors"+ supervisors)
@@ -45,21 +45,21 @@ async function AssigStu(stuID) {
     supcount[index] = supervisors[index].count;
   }
   // find the smallest count value
-  var min = Math.min(supcount)
+  var min = Math.min(supcount);
   //push all the supervisors with a count less than or equal to the minimum count to a new array
   for (let index = 0; index < supcount.length; index++) {
-    if (supervisors[index].count<=min) {
-      supvisormin.push(supervisors[index])
+    if (supervisors[index].count <= min) {
+      supvisormin.push(supervisors[index]);
     }
   }
   //randomly generate an index for the supervisor
-  min = Math.floor(Math.random()*supvisormin.length)
-  var count = supvisormin[min].count + 1
-  console.log(count)
+  min = Math.floor(Math.random() * supvisormin.length);
+  var count = supvisormin[min].count + 1;
+  console.log(count);
   await updateDoc(doc(db, "users", `${supvisormin[min].ID}`), {
-    count: count
-  })
-  return supvisormin[min]
+    count: count,
+  });
+  return supvisormin[min];
 }
 
 exports.register = (req, res) => {
@@ -74,57 +74,54 @@ exports.register = (req, res) => {
   };
   let User = {};
   //const users = collection(db, "users");
-  if(user.email.includes("cu.edu.ng")){
-      createUserWithEmailAndPassword(auth, user.email, user.password)
-    .then(async (data) => {
-      //console.log(data)
-      var supervisorID =await AssigStu(data.user.uid)
-      console.log("superisorID is" + supervisorID)
-      if (user.email.includes("stu.cu.edu")) {
-        User = {
-          fullName: user.fullName,
-          MatNo: user.MatNo,
-          ID: data.user.uid,
-          type: "student",
-          course: user.course,
-          terms: user.terms,
-          topic: "none",
-          supervisorID: supervisorID.ID,
-          supervisorName: supervisorID.fullName,
-          cleared: "false"
-        };
-      } else if(user.email.includes("cu.edu.ng")) {
-        User = {
-          fullName: user.fullName,
-          MatNo: user.MatNo,
-          ID: data.user.uid,
-          type: "Lecturer",
-          course: user.course,
-          terms: user.terms,
-          count: 0
-        };
-      }
+  if (user.email.includes("cu.edu.ng")) {
+    createUserWithEmailAndPassword(auth, user.email, user.password)
+      .then(async (data) => {
+        var supervisorID = await AssigStu(data.user.uid);
+        console.log("superisorID is" + supervisorID);
+        if (user.email.includes("stu.cu.edu")) {
+          User = {
+            fullName: user.fullName,
+            MatNo: user.MatNo,
+            ID: data.user.uid,
+            type: "student",
+            course: user.course,
+            terms: user.terms,
+            topic: "none",
+            supervisorID: supervisorID.ID,
+            supervisorName: supervisorID.fullName,
+            cleared: "false",
+          };
+        } else if (user.email.includes("covenantuniversity.edu.")) {
+          User = {
+            fullName: user.fullName,
+            MatNo: user.MatNo,
+            ID: data.user.uid,
+            type: "Lecturer",
+            course: user.course,
+            terms: user.terms,
+            count: 0,
+          };
+        }
 
-      //const response = await addDoc(users, User);
-      await setDoc(doc(db, "users", data.user.uid), User);
-      res.redirect("/");
-    })
-    .catch((error) => {
-      let errorCode = error.code;
-      let errorMessage = error.message;
-      if (errorCode == "auth/weak-pasword") {
-        return res.status(500).json({ error: errorMessage });
-      } else {
-        return res.status(500).json({ error: errorMessage });
-      }
-    });
-}
-else{
-  var mailerror = "Please use a covenant university mail"
-  res.render('auth-register-basic.ejs', {error: mailerror})
-}
+        //const response = await addDoc(users, User);
+        await setDoc(doc(db, "users", data.user.uid), User);
+        res.redirect("/");
+      })
+      .catch((error) => {
+        let errorCode = error.code;
+        let errorMessage = error.message;
+        if (errorCode == "auth/weak-pasword") {
+          return res.status(500).json({ error: errorMessage });
+        } else {
+          return res.status(500).json({ error: errorMessage });
+        }
+      });
+  } else {
+    var mailerror = "Please use a covenant university mail";
+    res.render("auth-register-basic.ejs", { error: mailerror });
   }
-
+};
 
 exports.monitorAuthState = () => {
   console.log("this is a test");
@@ -158,7 +155,7 @@ exports.signin = (req, res) => {
 exports.forgotpassword = (req, res) => {
   sendPasswordResetEmail(auth, req.body.email)
     .then(() => {
-      res.redirect('/')
+      res.redirect("/");
       //res.status(200).json({ status: "password reset email sent" });
     })
     .catch((error) => {
@@ -179,22 +176,22 @@ exports.logout = (req, res) => {
 
 exports.sign = (req, res) => {
   signInWithEmailAndPassword(auth, req.body.email, req.body.password)
-  .then(
-    (user) => {
+    .then((user) => {
       //res.send("Cookie has been set from secondary route");
       var User = user.user;
       getIdToken(User, true).then(async (id) => {
         await cookie(req, res, id, User.email);
         //postmarkMail()
       });
-    }
-  )
-  .catch((error)=>{
-    if (error) {
-      res.render("auth-login-basic", { error: `${error.message}`, layout: false});
-    }
-  })
-  ;
+    })
+    .catch((error) => {
+      if (error) {
+        res.render("auth-login-basic", {
+          error: `${error.message}`,
+          layout: false,
+        });
+      }
+    });
   // var user = auth.currentUser.idToken
 };
 /*//var idtoken =

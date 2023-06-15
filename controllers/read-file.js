@@ -1,5 +1,3 @@
-// this controller allows me to read csv files sent in using a multi-part form from
-//a browser to create an array in the node js server
 async function username(id) {
   var docRef = doc(db, "users", `${id}`);
   try {
@@ -9,8 +7,8 @@ async function username(id) {
       name: userName.fullName,
       designation: userName.type,
       supervisor: userName.supervisorName,
+      topic: userName.topic,
     };
-    console.log(userName.supervisorName);
     return userName;
   } catch (error) {
     return "cannot get user";
@@ -125,7 +123,7 @@ exports.multipleFileSubmit = async (req, res, storeName, id) => {
   try {
     console.log(req.files);
     for (let index = 0; index < 2; index++) {
-      var fileID = id.splice(7, 6, `${req.files[index].originalname}`);
+      var fileID = id + `${req.files[index].originalname}`;
       //gets a storage reference and appends the file name
       const storageRef = ref(storage, `${storeName}/${fileID}`);
       const metadata = {
@@ -283,7 +281,6 @@ exports.findProposals = async (req, res, id) => {
   querySnapshot.forEach((doc) => {
     supervisee.push(doc.data());
   });
-  var supProp = [];
   var supPropName = [];
 
   for (let i = 0; i < supervisee.length; i++) {
@@ -293,19 +290,23 @@ exports.findProposals = async (req, res, id) => {
     );
 
     var querySnap = await getDocs(qy);
-
-    querySnap.forEach((doc) => {
-      temp = doc.data();
-
-      supPropName.push(temp);
-    });
-    supProp.push(supPropName);
-    supProp[i].splice(0, 0, supervisee[i]);
+    if (querySnap.empty == true) {
+      //console.log("no document");
+      var temporary = [];
+      temporary.push({ value: null });
+      //supPropName.push(temporary);
+    } else {
+      var temporary = [];
+      querySnap.forEach((document) => {
+        temporary.push(document.data());
+      });
+      temporary.splice(0, 0, supervisee[i]);
+      supPropName.push(temporary);
+    }
   }
-  console.log(supProp);
   res.render("supervisor-clear-proposal", {
     layout: "supervisor-layout",
-    proposal: supProp,
+    proposal: supPropName,
     UserName: usename,
   });
 };
@@ -489,8 +490,9 @@ exports.postComment = async (req, res) => {
   try {
     var info = req.body.info;
     var split = info.split("!?");
+    console.log("split" + split[1]);
     var ID;
-    var downloadURL = null;
+    var downloadURL = "null";
     //gets a storage reference and appends the file name
     if (req.file) {
       const storageRef = ref(storage, `${storeName}/${req.file.originalname}`);
@@ -509,22 +511,22 @@ exports.postComment = async (req, res) => {
       // Grab the public url
       downloadURL = await getDownloadURL(snapshot.ref);
     }
+    console.log(downloadURL);
     //const FinalReports = collection(db, dbName); await addDoc(FinalReports, report);
     const report = {
-      week: req.body.week,
       meetingSchedule: req.body.meeting,
       supervisorComment: req.body.supervisorComment,
       supervisordownloadURL: downloadURL,
     };
+    // const q = query(collection(db, "projects"), where(""))
     // create a query to check in the users collection for a document with name
     const q = query(
-      collection(db, "projects"),
+      collection(db, "users"),
       where("fullName", "==", `${split[1]}`)
     );
     const qsnap = await getDocs(q);
     qsnap.forEach((document) => {
-      var IDs = document.data();
-      ID = IDs.id;
+      ID = document.data().ID;
     });
     /*var meettime
     if (req.body.meetingAccept == "on" && req.body.meeting!='') {
@@ -532,8 +534,10 @@ exports.postComment = async (req, res) => {
     }*/
 
     ID = ID + split[0];
+
     //create a document reference using the retrieved ID
-    const docRef = doc(db, "projects", `${ID}`);
+    const docRef = doc(db, "Logs", `${ID}`);
+    let ref = await getDoc(docRef);
     await updateDoc(docRef, report);
     res.redirect("/users/supervisor/supervisee");
   } catch (error) {
@@ -569,15 +573,15 @@ exports.findFYP = async (req, res, id, email) => {
     });
   }
 };
-//function to get the users name
 
-//
-//
-//Test area
-// 16th may status
-//the bulk of the student side is functioning I just need to fix the log page so it sends data to the back end and also can find data
-// I can call an ejs variable into a front end js function to implement those filters
-// 19th may status
-// that plan did not work I need to implement on server side
-//24th may status
-//I added a function that hides the div containing the approved proposal and I could not test it because there is no proposal that is pending
+exports.projectFinalUpload = async (res, id) => {
+  let user = await username(id);
+  res.render("project final upload module", {
+    title: "Express",
+    UserName: user,
+  });
+};
+exports.projectProposal = async (res, id) => {
+  let user = await username(id);
+  res.render("proposal module", { title: "Express", UserName: user });
+};

@@ -79,7 +79,9 @@
         <% if (UserName.supervisor) { %>
           <li class="list-group-item ">your Supervisor is <%= UserName.supervisor %></li>
         <% }%>
-        
+        <% if (UserName.topic) { %>
+          <li class="list-group-item ">your approved topic is <%= UserName.topic %></li>
+        <% }%>
       </ul>
     </p>
   </div>

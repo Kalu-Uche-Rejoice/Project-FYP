@@ -11,7 +11,9 @@ const {
   PrintClearance,
   finalSubmission,
   acceptFinal,
-  findFYP
+  findFYP,
+  projectFinalUpload,
+  projectProposal,
 } = require("./read-file");
 
 const { getAuth } = require("firebase-admin/auth");
@@ -119,47 +121,45 @@ exports.verifyUserFoundLog = async (req, res, dbName) => {
 exports.FindSupervisee = async (req, res) => {
   if (req.cookies.session) {
     const sessionCookie = req.cookies.session || "";
-  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
-    var id = DecodedIdToken.uid;
-    findSupervisee(req, res, id);
-  });
+    auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+      var id = DecodedIdToken.uid;
+      findSupervisee(req, res, id);
+    });
   } else {
-    res.redirect("/")
+    res.redirect("/");
   }
-  
 };
 
 exports.FindSuperviseeProposal = async (req, res) => {
   if (req.cookies.session) {
     const sessionCookie = req.cookies.session || "";
     auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
-    var id = DecodedIdToken.uid;
-    console.log("this function is called" + id);
-    findProposals(req, res, id);
-  });
+      var id = DecodedIdToken.uid;
+      console.log("this function is called" + id);
+      findProposals(req, res, id);
+    });
   } else {
-    res.redirect("/")
+    res.redirect("/");
   }
-  
 };
 
 exports.UserVerification = async (req, res) => {
   const sessionCookie = req.cookies.session || "";
   auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
     var id = DecodedIdToken.uid;
-    acceptProposal(req, res, id)
+    acceptProposal(req, res, id);
   });
 };
 
 exports.StuPrintClearance = async (req, res) => {
-  if(req.cookies.session){
+  if (req.cookies.session) {
     const sessionCookie = req.cookies.session || "";
     auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
-    var id = DecodedIdToken.uid;
-    PrintClearance(req, res, id)
-  });
-  }else{
-    res.redirect("/")
+      var id = DecodedIdToken.uid;
+      PrintClearance(req, res, id);
+    });
+  } else {
+    res.redirect("/");
   }
 };
 
@@ -168,26 +168,48 @@ exports.FinalSubmission = async (req, res) => {
     const sessionCookie = req.cookies.session || "";
     auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
       var id = DecodedIdToken.uid;
-      finalSubmission(req, res, id)
+      finalSubmission(req, res, id);
     });
   } else {
-    res.redirect("/")
+    res.redirect("/");
   }
- 
 };
 
 exports.AcceptFinal = async (req, res) => {
   const sessionCookie = req.cookies.session || "";
   auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
     var id = DecodedIdToken.uid;
-    acceptFinal(req, res, id)
+    acceptFinal(req, res, id);
   });
 };
 exports.FindFYP = async (req, res) => {
   const sessionCookie = req.cookies.session || "";
   auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
-    var id = DecodedIdToken.uid
+    var id = DecodedIdToken.uid;
     var email = DecodedIdToken.email;
-    findFYP(req, res, id, email)
+    findFYP(req, res, id, email);
   });
+};
+
+exports.ProjectFinalUpload = (req, res) => {
+  if (req.cookies.session) {
+    const sessionCookie = req.cookies.session || "";
+    auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+      var id = DecodedIdToken.uid;
+      projectFinalUpload(res, id);
+    });
+  } else {
+    res.redirect("/");
+  }
+};
+exports.ProjectProposal = (req, res) => {
+  if (req.cookies.session) {
+    const sessionCookie = req.cookies.session || "";
+    auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+      var id = DecodedIdToken.uid;
+      projectProposal(res, id);
+    });
+  } else {
+    res.redirect("/");
+  }
 };

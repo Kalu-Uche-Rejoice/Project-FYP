@@ -4,8 +4,10 @@ var router = express.Router();
 //router.use(cookieParser())
 const student = require("./student");
 const supervisor = require("./supervisor");
+const admin = require("./admin");
 router.use("/student", student);
 router.use("/supervisor", supervisor);
+router.use("/admin", admin);
 
 const {
   register,

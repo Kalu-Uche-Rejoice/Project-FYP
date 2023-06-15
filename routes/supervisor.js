@@ -29,9 +29,8 @@ router.get("/supervisee", function (req, res, next) {
   //res.render("Supervisor", { layout: "supervisor-layout" });
 });
 router.post("/supervisee", function (req, res, next) {
+  console.log(req.body);
   postComment(req, res);
-  //console.log(req.body);
-  res.redirect("/users/supervisor/supervisee");
 });
 router.get("/proposals", function (req, res, next) {
   FindSuperviseeProposal(req, res);
