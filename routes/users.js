@@ -28,7 +28,7 @@ const parse = require("csv-parse").parse();
 router
   .route("/register")
   .get(function (req, res, next) {
-    res.render("auth-register-basic", { layout: false, error: false });
+    res.render("auth-register-basic", { layout: false, error: null });
   })
   .post(register);
 

@@ -74,7 +74,10 @@ exports.register = (req, res) => {
   };
   let User = {};
   //const users = collection(db, "users");
-  if (user.email.includes("cu.edu.ng")) {
+  if (
+    user.email.includes("cu.edu.ng") ||
+    user.email.includes("covenantuniversity.edu.ng")
+  ) {
     createUserWithEmailAndPassword(auth, user.email, user.password)
       .then(async (data) => {
         var supervisorID = await AssigStu(data.user.uid);
@@ -119,7 +122,7 @@ exports.register = (req, res) => {
       });
   } else {
     var mailerror = "Please use a covenant university mail";
-    res.render("auth-register-basic.ejs", { error: mailerror });
+    res.render("auth-register-basic.ejs", { error: mailerror, layout: false });
   }
 };
 

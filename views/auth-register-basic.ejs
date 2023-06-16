@@ -240,9 +240,10 @@
       var matNo = document.getElementById('matricNo')
       
       const emailTest = 'cu.edu.ng'
+      const test = 'covenantuniversity.edu.ng'
       var validityTest = email.value.includes(emailTest)
-      
-      if (validityTest === false) {
+      var valid = email.value.includes(test)
+      if (validityTest === false && valid === false) {
         email.style.borderColor = 'red'
       } else if (password.value.length <8) {
         password.style.borderColor = 'red'

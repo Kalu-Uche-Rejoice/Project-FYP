@@ -30,6 +30,15 @@ app.use(bodyParser.json());
 
 app.use("/users", usersRouter);
 
+app.use(function(req, res, next) {
+  if (req.status >= 400) {
+    res.render('error', {layout: false});
+  } else {
+    next();
+  }
+});
+
+
 app
   .get("/", (req, res) => {
     res.render("auth-login-basic", { layout: false, error: null });
