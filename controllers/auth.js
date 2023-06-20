@@ -36,7 +36,7 @@ async function AssigStu(stuID) {
 
   qSnap.forEach((element) => {
     supervisors.push(element.data());
-    console.log(element.data());
+    //console.log(element.data());
     //supervisors = element.docs();
   });
   //console.log("supervisors"+ supervisors)
@@ -44,18 +44,23 @@ async function AssigStu(stuID) {
   for (let index = 0; index < supervisors.length; index++) {
     supcount[index] = supervisors[index].count;
   }
+  console.log("count" + supcount);
   // find the smallest count value
-  var min = Math.min(supcount);
+  var min = Math.min(...supcount);
+  console.log("mih" + min);
+
   //push all the supervisors with a count less than or equal to the minimum count to a new array
   for (let index = 0; index < supcount.length; index++) {
     if (supervisors[index].count <= min) {
       supvisormin.push(supervisors[index]);
+      console.log("count" + supervisors[index]);
     }
   }
   //randomly generate an index for the supervisor
   min = Math.floor(Math.random() * supvisormin.length);
+  console.log("min" + min);
   var count = supvisormin[min].count + 1;
-  console.log(count);
+  console.log("count" + supvisormin[min]);
   await updateDoc(doc(db, "users", `${supvisormin[min].ID}`), {
     count: count,
   });
@@ -135,14 +140,14 @@ exports.monitorAuthState = () => {
 exports.signin = (req, res) => {
   signInWithEmailAndPassword(auth, req.body.email, req.body.password)
     .then((user) => {
+      var mail = user.user.email;
       const User = auth.currentUser.email;
       //test for the type of user
-      if (User.includes("cu.edu.ng")) {
-        if (User.includes("stu.cu.edu.ng")) {
-          res.redirect("/users/student/past-project");
-        } else {
-          res.redirect("/users/supervisor/past-project");
-        }
+      if (User.includes("stu.cu.edu.ng")) {
+        console.log("OYO");
+        res.redirect("/users/student/past-project");
+      } else if (User.includes("covenantuniversity.edu.ng")) {
+        res.redirect("/users/student/past-project");
       }
     })
     .catch((error) => {

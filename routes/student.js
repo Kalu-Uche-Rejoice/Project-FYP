@@ -47,6 +47,7 @@ router.route("/proposal").get(function (req, res, next) {
   ProjectProposal(req, res);
 });
 router.post("/upload", upload.array("file", 4), async (req, res) => {
+  console.log("it is well");
   verifyUser(req, res, "proposals");
 });
 

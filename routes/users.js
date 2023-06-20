@@ -41,7 +41,9 @@ router
     res.render("auth-forgot-password-basic", { layout: false });
   })
   .post(forgotpassword);
-
+router.route("/privacy-policy").get(function (req, res, next) {
+  res.render("privacy policy", { layout: false });
+});
 router
   .route("/admin")
   .get((req, res) => {

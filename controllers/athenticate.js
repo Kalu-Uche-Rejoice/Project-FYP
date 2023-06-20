@@ -68,10 +68,10 @@ exports.cookie = (req, res, idToken, email) => {
       console.log(sessionCookie);
       console.log(email);
       await res.cookie("session", sessionCookie, options);
-      if (email.includes("cu.edu.ng")) {
-        if (email.includes("stu.cu.edu.ng")) {
-          res.redirect("/users/student/past-project");
-        } else {
+      if (email.includes("stu.cu.edu.ng")) {
+        res.redirect("/users/student/past-project");
+      } else if (email.includes("covenantuniversity.edu.ng")) {
+        {
           res.redirect("/users/supervisor/past-project");
         }
         //;
