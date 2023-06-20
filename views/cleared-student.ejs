@@ -65,9 +65,87 @@
 
   <body>
     <!-- Content -->
+    <div class="layout-wrapper layout-content-navbar">
+      <div class="layout-container">
+        <!-- Menu -->
 
-    
+        <!-- / Menu -->
 
+        <!-- Layout container -->
+        <div class="layout-page">
+          <!-- Navbar -->
+
+          <nav
+            class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
+            id="layout-navbar"
+          >
+            <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+              <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+                <i class="bx bx-menu bx-sm"></i>
+              </a>
+            </div>
+
+            <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+              <!-- Search -->
+              <div class="navbar-nav align-items-center">
+                <div class="nav-item d-flex align-items-center">
+                  
+                </div>
+              </div>
+              <!-- /Search -->
+
+              <%- include('partials/notification.ejs') %>
+          <!-- Content wrapper -->
+          <div class="content-wrapper">
+            <!-- Content -->
+            <div class="container-xxl flex-grow-1 container-p-y">
+              <h4 class="fw-bold py-3 mb-4">
+                Print clearance</h4>
+                <% if (student) { %>
+                  <p> <div class="row">
+                    <div>
+                      <p>
+                        Name: <%= student.fullName %> <br> 
+                        Matriculation Number: <%= student.MatNo %><br>
+                        Course: <%= student.course %><br>
+                      </p>
+                      <p>
+                        Project Topic: <%= student.topic %><br>
+                        Supervisor Name: <%= student.supervisorName %><br>
+                      </p>
+                    </div>
+                    <div class="row">
+                      <div class="col">
+                        ------------------------<br>
+                        Student signature
+                      </div>
+                      <div class="col">
+                        ------------------------<br>
+                        Supervisor signature
+                      </div>
+                      <div class="col">
+                        ------------------------<br>
+                        clearance officer signature
+                      </div>
+                    </div>
+                  </div></p>
+                <%} else { %>
+                  <p> Not Cleared </p>
+                <% } %>
+                  
+
+                
+            </div>
+            
+            <!-- / Content -->
+            <div class="content-backdrop fade"></div>
+          </div>
+          <!-- Content wrapper -->
+        </div>
+        <!-- / Layout page -->
+      </div>
+
+    </div>
     <!-- / Content -->
 
     <div class="buy-now" onclick="myprint()">

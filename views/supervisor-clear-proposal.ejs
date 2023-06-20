@@ -42,6 +42,11 @@
   <!-- Page CSS -->
 
   <!-- Helpers -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity=
+        "sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" 
+        crossorigin="anonymous">
+    </script>
   <script src="/vendor/js/helpers.js"></script><style type="text/css">
 .layout-menu-fixed .layout-navbar-full .layout-menu,
 .layout-page {
@@ -84,53 +89,7 @@ padding-bottom: 0px !important;
             </div>
             <!-- /Search -->
 
-            <ul class="navbar-nav flex-row align-items-center ms-auto">
-              <!-- User -->
-              <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown" aria-expanded="false">
-                  <div class="avatar avatar-online">
-                    <img src="/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle">
-                  </div>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <div class="d-flex">
-                        <div class="flex-shrink-0 me-3">
-                          <div class="avatar avatar-online">
-                            <img src="/img/avatars/1.png" alt="" class="w-px-40 h-auto rounded-circle">
-                          </div>
-                        </div>
-                        <div class="flex-grow-1">
-                          <span class="fw-semibold d-block">John Doe</span>
-                          <small class="text-muted">Admin</small>
-                        </div>
-                      </div>
-                    </a>
-                  </li>
-                  <li>
-                    <div class="dropdown-divider"></div>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="#">
-                      <i class="bx bx-user me-2"></i>
-                      <span class="align-middle">My Profile</span>
-                    </a>
-                  </li>
-                 <li>
-                    <div class="dropdown-divider"></div>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="auth-login-basic.html">
-                      <i class="bx bx-power-off me-2"></i>
-                      <span class="align-middle">Log Out</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <!--/ User -->
-            </ul>
-          </div>
+            <%- include('partials/notification.ejs') %>
         </nav>
 
         <!-- / Navbar -->
@@ -140,29 +99,58 @@ padding-bottom: 0px !important;
           <!-- Content -->
 
           <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><a href="Supervisor.html"><i class="menu-icon tf-icons bx bx-left-arrow-circle"></i></a>
+            <h4 class="fw-bold py-3 mb-4"><a href="Supervisor.html"></a>
               Proposal Approval Module</h4>
             <div class="row">
-              <!-- Form controls -->
               <div class="col">
-                <div class="card mb-4">
-                  <div class="card-header">
-                    <p> <b>Name: </b>Adegoke Ibidunu</p>
-                    <p> <b>Course: </b>Electrical and Electronics Engineering</p>
-                  </div>
-                  <div class="card-body">
-                   <div>
-                      <p>
-                        Proposed topic:
-                      </p>
-                      <button class="btn btn-outline-secondary" type="submit" id="button">Download Proposal </button>
-                      <div class="input-group-text my-3">
-                        <button class="btn btn-success" type="submit" id="button">Accept</button>
-                        <button class="btn btn-danger mx-4" type="submit" id="button">Reject</button>
+              <!-- Form controls -->
+              <% if (proposal.length>=1) { %>
+                <% for( let i = 0; i < proposal.length; i++ ) { %>
+                
+                  <div class="card mb-4" id="<%= proposal[i][0].fullName %>">
+                    <div class="card-header">
+                      <% let l = proposal.length-1%>
+                      <p id="fullname<%=i%>"> <b>Name: </b><%= proposal[i][0].fullName %></p>
+                      <p> <b>Course: </b><%= proposal[i][0].course %></p>
+                    </div>
+                    <div class="card-body py-0">
+                     <div class="row">
+                      <div class="col">
+                        <p>
+                          Proposed topic:
+                          <p id="topic<%=i%>1"><%= proposal[i][1].topic %></p>
+                        </p>
+                        <button class="btn btn-outline-secondary" type="submit" id="button">
+                          <a href="<%= proposal[i][1].downloadURL %>" target = "_blank">Download</a>
+                        </button>
+                        <div class="input-group-text my-3">
+                          <button class="btn btn-success" type="submit" id="button" onclick="test('<%=i %>',1, true)">Accept</button>
+                          <button class="btn btn-danger mx-4" type="submit" id="button" onclick="test('<%=i %>',1, false)">Reject</button>
+                        </div>
                       </div>
+                      <div class="col">
+                        <p>
+                          Proposed topic:
+                          <p id="topic<%=i%>2"><%= proposal[i][2].topic %></p>
+                        </p>
+                        <button class="btn btn-outline-secondary" type="submit" id="button">
+                          <a href="<%= proposal[i][2].downloadURL %>" target = "_blank">Download</a>
+                        </button>
+                        <div class="input-group-text my-3">
+                          <button class="btn btn-success" type="submit" id="button" onclick="test('<%=i %>',2, true)">Accept</button>
+                          <button class="btn btn-danger mx-4" type="submit" id="button" onclick="test('<%=i %>',2, false)">Reject</button>
+                        </div>
+                      </div>
+                     </div>
                     </div>
                   </div>
-                </div>
+                
+              <% } %>
+              <% } else { %>
+                <h3>No proposals to be cleared</h3>
+              <% } %>
+              
+              
               </div>
             </div>
           </div>
@@ -187,6 +175,25 @@ padding-bottom: 0px !important;
   <script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
 
   <script src="/vendor/js/menu.js"></script>
+<script>
+  function test(id, num, status) {
+    var nameID = "fullname" + id
+    var topicID = "topic" + id + num
+    console.log(topicID)
+    var name = document.getElementById(nameID).innerHTML
+    var topic = document.getElementById(topicID).innerHTML
+    console.log(topic)
+    var split = name.split("</b>")
+    $.post("/users/supervisor/proposals",
+        {
+            name: `${split[1]}`,
+            topic: `${topic}`,
+            status: `${status}`
+        },)
+    var rem = document.getElementById(name)
+    rem.style.display="none"
+  }
+</script>
   <!-- endbuild -->
 
   <!-- Vendors JS -->

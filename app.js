@@ -6,6 +6,7 @@ var logger = require("morgan");
 var bodyParser = require("body-parser");
 var ejs = require("ejs");
 var expressLayouts = require("express-ejs-layouts");
+var mailer = require("nodemailer");
 
 const { signin, forgotpassword } = require("./controllers/auth");
 const key = require("./key");
@@ -15,18 +16,9 @@ var supervisorRouter = require("./routes/supervisor");
 var usersRouter = require("./routes/users");
 
 var app = express();
-
-//const url = 'mongodb://127.0.0.1:27017/FYP';
-//const connect = mongoose.connect(url);
-/*connect.then((db)=>{
-  console.log('Connected correctly to mongo server')
-},(err)=>{
-  console.log(err);
-})*/
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
-
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -37,8 +29,15 @@ app.use(expressLayouts);
 app.use(bodyParser.json());
 
 app.use("/users", usersRouter);
-//app.use("/student", studentRouter);
-//app.use("/supervisor", supervisorRouter);
+
+app.use(function(req, res, next) {
+  if (req.status >= 400) {
+    res.render('error', {layout: false});
+  } else {
+    next();
+  }
+});
+
 
 app
   .get("/", (req, res) => {

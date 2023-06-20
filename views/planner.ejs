@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en" class="light-style layout-menu-fixed" dir="ltr" data-theme="theme-default" data-assets-path="/" data-template="vertical-menu-template-free"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+  <title>Basic Inputs - Forms | Sneat - Bootstrap 5 HTML Admin Template - Pro</title>
+
+  <meta name="description" content="">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="/img/favicon/favicon.ico">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&amp;display=swap" rel="stylesheet">
+
+  <!-- Icons. Uncomment required icon fonts -->
+  <link rel="stylesheet" href="/vendor/fonts/boxicons.css">
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="/vendor/css/core.css" class="template-customizer-core-css">
+  <link rel="stylesheet" href="/vendor/css/theme-default.css" class="template-customizer-theme-css">
+  <link rel="stylesheet" href="/css/demo.css">
+
+  <!-- Vendors CSS -->
+  <link rel="stylesheet" href="/vendor/libs/perfect-scrollbar/perfect-scrollbar.css">
+
+  <!-- Page CSS -->
+
+  <!-- Helpers -->
+  <script src="/vendor/js/helpers.js"></script><style type="text/css">
+.layout-menu-fixed .layout-navbar-full .layout-menu,
+.layout-page {
+padding-top: 0px !important;
+}
+
+.content-wrapper {
+padding-bottom: 0px !important;
+}</style>
+
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script src="/js/config.js"></script>
+</head>
+
+<body>
+  
+  <!-- Layout wrapper -->
+  <div class="layout-wrapper layout-content-navbar">
+    <div class="layout-container">
+      <!-- Menu -->
+      <!-- / Menu -->
+
+      <!-- Layout container -->
+      <div class="layout-page">
+        <!-- Navbar -->
+
+        <nav class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme" id="layout-navbar">
+          <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
+            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
+              <i class="bx bx-menu bx-sm"></i>
+            </a>
+          </div>
+
+          <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
+            <!-- Search -->
+            <div class="navbar-nav align-items-center">
+              <div class="nav-item d-flex align-items-center">
+              </div>
+            </div>
+            <!-- /Search -->
+
+            <%- include('partials/notification.ejs') %>
+
+        <!-- Content wrapper -->
+        <div class="content-wrapper">
+          <!-- Content -->
+
+          <div class="container-xxl flex-grow-1 container-p-y">
+            <h4 class="fw-bold py-3 mb-4">Project Planner Module</h4>
+
+            <div class="row">
+              <div class="col-md-4">
+                  
+                    <div class="row my-3">
+                      <div class="col-md-7">
+                        <input  class="form-control " type="week" name="picker" id="picker">
+                      </div>
+                      <div class="col-md-2 px-0 mx-0">
+                        <input type="button" value="Save" class="btn btn-outline-success" onclick="save()">
+                      </div>
+                    </div>
+                    <div id="myDIV" class="header">
+                    <div class="row my-3">
+                      <div class="col-md-9">
+                        <input type="text" id="myInput" placeholder="New Task..." class="form-control">
+                      </div>
+                      <div class="col-md-2">
+                        <input type="button" value="+" class="btn btn-success btn" id="add" onclick="newElement()">
+                      </div>
+                    </div></div>
+                  
+                  <div>
+                    
+
+                      <ul id="myUL">
+                      
+                      </ul>
+                  </div>
+              </div>
+              <div class="col-md-8">
+                  <div class="wrapper">
+                      <div class="container-calendar">
+                          <h3 id="monthAndYear"></h3>
+                          <div class="button-container-calendar">
+                              <button id="previous" onclick="previous()">&#8249;</button>
+                              <button id="next" onclick="next()">&#8250;</button>
+                          </div>
+                          <table class="table-calendar" id="calendar" data-lang="en">
+                              <thead id="thead-month"></thead>
+                              <tbody id="calendar-body"></tbody>
+                          </table>
+                          <div class="footer-container-calendar">
+                               <label for="month">Jump To: </label>
+                               <select id="month" onchange="jump()">
+                                   <option value=0>Jan</option>
+                                   <option value=1>Feb</option>
+                                   <option value=2>Mar</option>
+                                   <option value=3>Apr</option>
+                                   <option value=4>May</option>
+                                   <option value=5>Jun</option>
+                                   <option value=6>Jul</option>
+                                   <option value=7>Aug</option>
+                                   <option value=8>Sep</option>
+                                   <option value=9>Oct</option>
+                                   <option value=10>Nov</option>
+                                   <option value=11>Dec</option>
+                               </select>
+                               <select id="year" onchange="jump()"></select>       
+                          </div>
+                      </div>
+                   </div>
+              </div>
+            </div>
+            </div>
+          </div>
+          <!-- / Content -->
+
+          <div class="content-backdrop fade"></div>
+        </div>
+        <!-- Content wrapper -->
+      </div>
+      <!-- / Layout page -->
+    </div>
+
+    <!-- Overlay -->
+    <div class="layout-overlay layout-menu-toggle"></div>
+  
+  <!-- / Layout wrapper -->
+  <!-- Core JS -->
+  <!-- build:js assets/vendor/js/core.js -->
+  <script src="/vendor/libs/jquery/jquery.js"></script>
+  <script src="/vendor/libs/popper/popper.js"></script>
+  <script src="/vendor/js/bootstrap.js"></script>
+  <script src="/vendor/libs/perfect-scrollbar/perfect-scrollbar.js"></script>
+
+  <script src="/vendor/js/menu.js"></script>
+  <!-- endbuild -->
+
+  <!-- Vendors JS -->
+
+  <!-- Main JS -->
+  <script src="/js/main.js"></script>
+  <script>
+    function generate_year_range(start, end) {
+      var years = "";
+      for (var year = start; year <= end; year++) {
+          years += "<option value='" + year + "'>" + year + "</option>";
+      }
+      return years;
+    }
+
+    today = new Date();
+    currentMonth = today.getMonth();
+    currentYear = today.getFullYear();
+    selectYear = document.getElementById("year");
+    selectMonth = document.getElementById("month");
+
+
+    createYear = generate_year_range(1970, 2050);
+    /** or
+     * createYear = generate_year_range( 1970, currentYear );
+     */
+
+    document.getElementById("year").innerHTML = createYear;
+
+    var calendar = document.getElementById("calendar");
+    var lang = calendar.getAttribute('data-lang');
+
+    var months = "";
+    var days = "";
+
+    var monthDefault = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+    var dayDefault = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    if (lang == "en") {
+        months = monthDefault;
+        days = dayDefault;
+    } else if (lang == "id") {
+        months = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
+        days = ["Ming", "Sen", "Sel", "Rab", "Kam", "Jum", "Sab"];
+    } else if (lang == "fr") {
+        months = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+        days = ["dimanche", "lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi"];
+    } else {
+        months = monthDefault;
+        days = dayDefault;
+    }
+
+
+    var $dataHead = "<tr>";
+    for (dhead in days) {
+        $dataHead += "<th data-days='" + days[dhead] + "'>" + days[dhead] + "</th>";
+    }
+    $dataHead += "</tr>";
+
+    //alert($dataHead);
+    document.getElementById("thead-month").innerHTML = $dataHead;
+
+
+    monthAndYear = document.getElementById("monthAndYear");
+    showCalendar(currentMonth, currentYear);
+
+
+
+  function next() {
+  currentYear = (currentMonth === 11) ? currentYear + 1 : currentYear;
+  currentMonth = (currentMonth + 1) % 12;
+  showCalendar(currentMonth, currentYear);
+}
+
+  function previous() {
+  currentYear = (currentMonth === 0) ? currentYear - 1 : currentYear;
+  currentMonth = (currentMonth === 0) ? 11 : currentMonth - 1;
+  showCalendar(currentMonth, currentYear);
+}
+
+  function jump() {
+  currentYear = parseInt(selectYear.value);
+  currentMonth = parseInt(selectMonth.value);
+  showCalendar(currentMonth, currentYear);
+}
+
+  function showCalendar(month, year) {
+
+  var firstDay = ( new Date( year, month ) ).getDay();
+
+  tbl = document.getElementById("calendar-body");
+
+  
+  tbl.innerHTML = "";
+
+  
+  monthAndYear.innerHTML = months[month] + " " + year;
+  selectYear.value = year;
+  selectMonth.value = month;
+
+  // creating all cells
+  var date = 1;
+  for ( var i = 0; i < 6; i++ ) {
+      
+      var row = document.createElement("tr");
+
+      
+      for ( var j = 0; j < 7; j++ ) {
+          if ( i === 0 && j < firstDay ) {
+              cell = document.createElement( "td" );
+              cellText = document.createTextNode("");
+              cell.appendChild(cellText);
+              row.appendChild(cell);
+          } else if (date > daysInMonth(month, year)) {
+              break;
+          } else {
+              cell = document.createElement("td");
+              cell.setAttribute("data-date", date);
+              cell.setAttribute("data-month", month + 1);
+              cell.setAttribute("data-year", year);
+              cell.setAttribute("data-month_name", months[month]);
+              cell.className = "date-picker";
+              cell.innerHTML = "<span>" + date + "</span>";
+
+              if ( date === today.getDate() && year === today.getFullYear() && month === today.getMonth() ) {
+                  cell.className = "date-picker selected";
+              }
+              row.appendChild(cell);
+              date++;
+          }
+
+
+      }
+
+      tbl.appendChild(row);
+  }
+
+}
+
+  function daysInMonth(iMonth, iYear) {
+  return 32 - new Date(iYear, iMonth, 32).getDate();
+}
+
+function addTL(){
+  var add = document.getElementById('add')
+  
+}
+function remTL() {
+  var remove = document.getElementById('remove')
+}
+  </script>
+<script>
+// Create a "close" button and append it to each list item
+var list = document.getElementById("myUL")
+console.log(list)
+var myNodelist = list.children;
+var i;
+for (i = 0; i < myNodelist.length; i++) {
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  myNodelist[i].appendChild(span);
+}
+
+// Click on a close button to hide the current list item
+var close = document.getElementsByClassName("close");
+var i;
+for (i = 0; i < close.length; i++) {
+  close[i].onclick = function() {
+    var div = this.parentElement;
+    div.style.display = "none";
+  }
+}
+
+// Add a "checked" symbol when clicking on a list item
+var list = document.querySelector('ul');
+list.addEventListener('click', function(ev) {
+  if (ev.target.tagName === 'LI') {
+    ev.target.classList.toggle('checked');
+  }
+}, false);
+
+// Create a new list item when clicking on the "Add" button
+function newElement() {
+  var li = document.createElement("li");
+  var inputValue = document.getElementById("myInput").value;
+  var t = document.createTextNode(inputValue);
+  li.appendChild(t);
+  if (inputValue === '') {
+    alert("You must write something!");
+  } else {
+    document.getElementById("myUL").appendChild(li);
+  }
+  document.getElementById("myInput").value = "";
+
+  var span = document.createElement("SPAN");
+  var txt = document.createTextNode("\u00D7");
+  span.className = "close";
+  span.appendChild(txt);
+  li.appendChild(span);
+
+  for (i = 0; i < close.length; i++) {
+    close[i].onclick = function() {
+      var div = this.parentElement;
+      div.style.display = "none";
+    }
+  }
+}
+</script>
+<script>
+  function save() {
+    var name = document.getElementById("myUL").children
+    var value = []
+    for(let i = 0; i<name.length; i++){
+      var temp = name[i].textContent.split("\u00D7")
+      value.push(temp[0])
+    }
+    var date = document.getElementById("picker").value
+    console.log(value)
+    console.log(date)
+    $.post("/users/student/planner",
+        {
+            week: `${date}`,
+            tasks: `${value}`
+        },)
+  }
+</script>
+  <!-- Page JS -->
+
+  <script src="/js/form-basic-inputs.js"></script>
+
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async="" defer="" src="https://buttons.github.io/buttons.js"></script>
+
+
+</body></html>

@@ -1,32 +1,65 @@
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-const { getFirestore, collection, addDoc, getDocs, query, where } = require('firebase/firestore');
-
-const db = getFirestore()
+const {
+  getFirestore,
+  collection,
+  addDoc,
+  getDocs,
+  query,
+  where,
+} = require("firebase/firestore");
+const {
+  supervisorfindFile,
+  postComment,
+  findFYP,
+} = require("../controllers/read-file");
+const {
+  FindSupervisee,
+  FindSuperviseeProposal,
+  FinalSubmission,
+  AcceptFinal,
+  UserVerification,
+  FindFYP,
+} = require("../controllers/athenticate");
+const db = getFirestore();
 
 /* GET home page. */
-router.get('/supervisee', function(req, res, next) {
-    res.render('Supervisor', { layout: 'supervisor-layout' });
+router.get("/supervisee", function (req, res, next) {
+  FindSupervisee(req, res);
+  //res.render("Supervisor", { layout: "supervisor-layout" });
+});
+router.post("/supervisee", function (req, res, next) {
+  console.log(req.body);
+  postComment(req, res);
+});
+router.get("/proposals", function (req, res, next) {
+  FindSuperviseeProposal(req, res);
+  //res.render("supervisor-clear-proposal", { layout: "supervisor-layout" });
+});
+router.post("/proposals", function (req, res, next) {
+  UserVerification(req, res);
+  console.log(req.body);
 
+  //res.render("supervisor-clear-proposal", { layout: "supervisor-layout" });
 });
-router.get('/proposals', function(req, res, next) {
-    res.render('supervisor-clear-proposal', { layout: 'supervisor-layout' });
-});
-router.get('/past-project', function(req, res, next) {
-    res.render('past FYP', { layout: 'supervisor-layout' });
-});
-router.get('/project-log', function(req, res, next) {
-    res.render('project monitoring module', { layout: 'supervisor-layout' });
-});
-router.get('/clearance', function(req, res, next) {
-    res.render('supervisor-clear-final', { layout: 'supervisor-layout' });
-})
-.post((req, res)=>{
-    //this updates the cleared status flag on every students upload
-    // the request will contain the users id
-    const q = query(collection(db, "projects"), where("supervisorID", "==", someid));
-    
 
-})
+router.get("/past-project", function (req, res, next) {
+  supervisorfindFile(req, res, "finalProjectReport");
+  //res.render('past FYP', { layout: 'supervisor-layout' });
+});
+router.post("/past-project", function (req, res) {
+  console.log(req.body);
+  FindFYP(req, res);
+});
+
+router
+  .get("/clearance", function (req, res, next) {
+    FinalSubmission(req, res);
+    //res.render("supervisor-clear-final", { layout: "supervisor-layout" });
+  })
+  .post("/clearance", (req, res) => {
+    console.log(req.body);
+    AcceptFinal(req, res);
+  });
 
 module.exports = router;

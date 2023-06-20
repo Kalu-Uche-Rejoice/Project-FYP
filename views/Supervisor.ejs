@@ -94,65 +94,12 @@
               <!-- Search -->
               <div class="navbar-nav align-items-center">
                 <div class="nav-item d-flex align-items-center">
-                  <i class="bx bx-search fs-4 lh-0"></i>
-                  <input
-                    type="text"
-                    class="form-control border-0 shadow-none"
-                    placeholder="Search..."
-                    aria-label="Search..."
-                  />
+                
                 </div>
               </div>
               <!-- /Search -->
 
-              <ul class="navbar-nav flex-row align-items-center ms-auto">
-                <!-- Place this tag where you want the button to render. -->
-                <!-- User -->
-                <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                  <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                    <div class="avatar avatar-online">
-                      <img src="/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                    </div>
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <div class="d-flex">
-                          <div class="flex-shrink-0 me-3">
-                            <div class="avatar avatar-online">
-                              <img src="/img/avatars/1.png" alt class="w-px-40 h-auto rounded-circle" />
-                            </div>
-                          </div>
-                          <div class="flex-grow-1">
-                            <span class="fw-semibold d-block">John Doe</span>
-                            <small class="text-muted">Admin</small>
-                          </div>
-                        </div>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="#">
-                        <i class="bx bx-user me-2"></i>
-                        <span class="align-middle">My Profile</span>
-                      </a>
-                    </li>
-                    <li>
-                      <div class="dropdown-divider"></div>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="auth-login-basic.html">
-                        <i class="bx bx-power-off me-2"></i>
-                        <span class="align-middle">Log Out</span>
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-                <!--/ User -->
-              </ul>
-            </div>
+              <%- include('partials/notification.ejs') %>
           </nav>
 
           <!-- / Navbar -->
@@ -162,135 +109,7 @@
             <!-- Content -->
             
             <!-- Modal -->
-            <div class="modal fade" id="modalScrollable" tabindex="-1" aria-hidden="true">
-              <div class="modal-dialog modal-fullscreen" role="document">
-                <div class="modal-content">
-                  <div class="modal-header">
-                    <h5 class="modal-title" id="modalScrollableTitle">*Project Title <br> Name</h5>
-                    <button
-                      type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="Close"
-                    ></button>
-                  </div>
-                  <div class="modal-body">
-                    <div>
-                      <label for="smallSelect" class="form-label"><strong>WEEK NUMBER</strong></label>
-                      <select id="smallSelect" class="form-select form-select-sm">
-                        <option>Small select</option>
-                        <option value="1">One</option>
-                        <option value="2">Two</option>
-                        <option value="3">Three</option>
-                      </select>
-                    </div>
-                    <div class="card-body">
-                      <div class="mb-3">
-                        <label for="exampleFormControlReadOnlyInput1" class="form-label"><h5>Supervisee's weekly log</h5></label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" readonly=""></textarea>
-                        <button type="button" class="btn btn-outline-primary">
-                          Download File
-                        </button>
-                      </div>
-                      <div class="mb-4 row">
-                        <label for="html5-datetime-local-input" class="form-label">Schedule a meeting with your supervisee</label>
-                        <div class="col-md-10">
-                          <input class="form-control" type="datetime-local" value="2021-06-18T12:30:00" id="html5-datetime-local-input">
-                        </div>
-                        <div class="col-md-2">
-                          <button class="btn btn-primary" type="submit" id="button">schedule</button>  
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-body">
-                      <!--div class="card accordion-item">
-                        <h2 class="accordion-header" id="headingTwo">
-                          <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionTwo" aria-expanded="false" aria-controls="accordionTwo">
-                           Supervisee's to do list
-                          </button>
-                        </h2>
-                        <div id="accordionTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                          <div class="accordion-body">
-                            <div class="list-group">
-                              <label class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="">
-                                Soufflé pastry pie ice
-                              </label>
-                              <label class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="">
-                                Bear claw cake biscuit
-                              </label>
-                              <label class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="">
-                                Tart tiramisu cake
-                              </label>
-                              <label class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="">
-                                Bonbon toffee muffin
-                              </label>
-                              <label class="list-group-item">
-                                <input class="form-check-input me-1" type="checkbox" value="">
-                                Dragée tootsie roll
-                              </label>
-                            </div>
-                            <button type="submit" class="btn btn-outline-primary">Submit</button>
-                          </div>
-                        </div>
-                      </div-->
-                      <div>
-                        <label for="exampleFormControlTextarea1" class="form-label"><h5 class="my-4">Your comment</h5></label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" required=""></textarea>
-                      </div>
-                      <div class="mb-3">
-                        <label for="formFile" class="form-label">Upload file</label>
-                        <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" multiple="">
-                      </div>
-                      <div class="row mt-3">
-                        <div class="d-grid gap-2 mx-auto">
-                          <button class="btn btn-primary btn-lg" type="button">Upload</button>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-outline-secondary">
-                      Download
-                    </button>
-                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
-                  <div>
-                    <label for="Supervisee" class="form-label">Supervisee</label>
-                    <div class="input-group input-group-merge">
-                      <span class="input-group-text" id="basic-addon-search31"><i class="bx bx-search"></i></span>
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="Search..."
-                        aria-label="Search..."
-                        aria-describedby="basic-addon-search31"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div class="col">
-                  <div>
-                    <label for="Course" class="form-label">Course</label>
-                    <select id="Course" class="form-select">
-                      <option>All</option>
-                      <option value="1">Electrical and Electronics engineering</option>
-                      <option value="2">Computer engineering</option>
-                      <option value="3">Information and Communication engineering</option>
-                    </select>
-                  </div>
-                </div>
-              </div>
-            </div>
+            
             <div class="container-xxl flex-grow-1 container-p-y">
               <!-- Small table -->
 
@@ -303,212 +122,118 @@
                           <th>Project title</th>
                           <th>Supervisee Name</th>
                           <th>Course of Study</th>
-                          <th>Progress percent</th>
-                          <th>Actions</th>
                         </tr>
                       </thead>
                       <tbody class="table-border-bottom-0">
-                        <tr>
-                          <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong> <a href="#"data-bs-toggle="modal"
-                            data-bs-target="#modalScrollable">Design and development of a final year project management portal</a></strong></td>
-                          <td>Adegoke Kehinde Ibidunnu</td>
-                          <td><span class="badge bg-label-primary me-1">EEE</span></td>
-                          <td>2022</td>
-                          <td>
-                            <ul>
-                              <li>
-                                <a href="clear-proposal.html">
-                                  <i class="menu-icon tf-icons bx bx-bulb"></i>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="clear-final.html">
-                                  <i class="menu-icon tf-icons bx bx-comment-check"></i>
-                                </a>
-                              </li>
-                            </ul>
-                          </td>
-                        </tr>
-                        
-                        <tr>
-                          <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><a href="#">Angular Project</a></strong></td>
-                          <td>Albert Cook</td>
-                          <td><span class="badge bg-label-primary me-1">EEE</span></td>
-                          <td>2022</td>
-                          <td>
-                            <ul>
-                              <li>
-                                <a href="clear-proposal.html">
-                                  <i class="menu-icon tf-icons bx bx-bulb"></i>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="clear-final.html">
-                                  <i class="menu-icon tf-icons bx bx-comment-check"></i>
-                                </a>
-                              </li>
-                            </ul>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><a href="#">Angular Project</a></strong></td>
-                          <td>Albert Cook</td>
-                          <td><span class="badge bg-label-primary me-1">EEE</span></td>
-                          <td>2022</td>
-                          <td>
-                            <ul>
-                              <li>
-                                <a href="clear-proposal.html">
-                                  <i class="menu-icon tf-icons bx bx-bulb"></i>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="clear-final.html">
-                                  <i class="menu-icon tf-icons bx bx-comment-check"></i>
-                                </a>
-                              </li>
-                            </ul>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong><a href="#">Angular Project</a></strong></td>
-                          <td>Albert Cook</td>
-                          <td><span class="badge bg-label-primary me-1">EEE</span></td>
-                          <td>2022</td>
-                          <td>
-                            <ul>
-                              <li>
-                                <a href="clear-proposal.html">
-                                  <i class="menu-icon tf-icons bx bx-bulb"></i>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="clear-final.html">
-                                  <i class="menu-icon tf-icons bx bx-comment-check"></i>
-                                </a>
-                              </li>
-                            </ul>
-                          </td>
-                        </tr>
+                        <% for( let i = 0; i < log.length; i++ ) { %>
+                          
+                          <div class="modal fade" id="modal<%=i%>" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-fullscreen" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="modalScrollableTitle"><%= log[i][0].topic %> <br> <%= log[i][0].fullName %></h5>
+                                  
+                                  <button
+                                    type="button"
+                                    class="btn-close"
+                                    data-bs-dismiss="modal"
+                                    aria-label="Close"
+                                  ></button>
+                                </div>
+                                <div class="modal-body">
+                                  <% let l = log[i].length-1 %>
+                                  <div>
+                                    
 
-                        <tr>
-                          <td><i class="fab fa-react fa-lg text-info me-3"></i> <strong><a href="#">Angular Project</a></strong></td>
-                          <td>Barry Hunter</td>
-                          <td><span class="badge bg-label-success me-1">CEN </span></td>
-                          <td>2022</td>
-                          <td>
-                            <ul>
-                              <li>
-                                <a href="clear-proposal.html">
-                                  <i class="menu-icon tf-icons bx bx-bulb"></i>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="clear-final.html">
-                                  <i class="menu-icon tf-icons bx bx-comment-check"></i>
-                                </a>
-                              </li>
-                            </ul>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td><i class="fab fa-vuejs fa-lg text-success me-3"></i> <strong><a href="#">Angular Project</a></strong></td>
-                          <td>Trevor Baker</td>
-                          <td><span class="badge bg-label-info me-1">ICE</span></td>
-                          <td>2022</td>
-                          <td>
-                            <ul>
-                              <li>
-                                <a href="clear-proposal.html">
-                                  <i class="menu-icon tf-icons bx bx-bulb"></i>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="clear-final.html">
-                                  <i class="menu-icon tf-icons bx bx-comment-check"></i>
-                                </a>
-                              </li>
-                            </ul>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <i class="fab fa-bootstrap fa-lg text-primary me-3"></i> <strong><a href="#">Angular Project</a></strong>
-                          </td>
-                          <td>Jerry Milton</td>
-                          <td><span class="badge bg-label-info me-1">ICE</span></td>
-                          <td>2022</td>
-                          <td>
-                            <ul>
-                              <li>
-                                <a href="clear-proposal.html">
-                                  <i class="menu-icon tf-icons bx bx-bulb"></i>
-                                </a>
-                              </li>
-                              <li>
-                                <a href="clear-final.html">
-                                  <i class="menu-icon tf-icons bx bx-comment-check"></i>
-                                </a>
-                              </li>
-                            </ul>
-                          </td>
-                        </tr>
+                                    <h5> <input type="text" disabled placeholder="Week <%= l%>" name="WeekNo"></h5>
+                                   
+                                  </div>
+                                  <div class="card-body py-0">
+                                    <div class="mb-3">
+                                      <% for( let index = 0; index < log[i].length; index++ ) { %>
+                                        <% if (index === l) { %>
+                                          <label for="exampleFormControlReadOnlyInput1" class="form-label"><h5>Supervisee's weekly log</h5></label>
+                                          <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" readonly="">
+                                            <%= log[i][index].log %>
+                                          </textarea>
+                                        <% } %>
+                                      <% } %>
+                                      
+                                      <button type="button" class="btn btn-outline-primary">
+                                        <a href="<%= log[i][l].downloadURL %>" target="_blank">Download File</a>
+                                      </button>
+                                    </div>
+                                  </div>
+                                  
+                                  <div class="card-body">
+                                    <form action="/users/supervisor/supervisee" method="post">
+                                      <strong style="color: red;"><input type="checkbox" name="meetingAccept" id="meetingaccepted">
+                                        Meeting Request <%= log[i][l].meetingSchedule%></strong><br>
+                                      
+                                  
+                                     <textarea name="info" id="" cols="10" rows="1" style="display: none;"><%=l  %>!?<%= log[i][0].fullName %></textarea>
+                                      <label for="html5-datetime-local-input" class="form-label">Schedule a meeting with your supervisee</label>
+                                      <div>
+                                        <input class="form-control" type="datetime-local"  id="html5-datetime-local-input" name="meeting">
+                                      </div>
+                                      <div>
+                                        <label for="exampleFormControlTextarea1" class="form-label"><h5 class="my-4">Your comment</h5></label>
+                                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="4" name="supervisorComment"></textarea>
+                                      </div>
+                                      <div class="mb-3">
+                                        <label for="formFile" class="form-label">Upload file</label>
+                                        <input class="form-control" type="file" id="formFile" accept=".pdf, .doc, .docx, application/msword" multiple="" name="file">
+                                      </div>
+                                      <input class="btn btn-primary btn-lg" type="submit" value="Upload">
+                                    
+                                    </form>
+                                    
+                                  </div>
+                                  <div class="card-body">
+                                    <h3 class="py-5"><%= log[i][0].fullName %>'s Previous Logs</h3>
+                                    <div class="card accordion-item active" id="<%= log[i][0].name %>">
+                                      <% for( let index = 1; index < log[i].length; index++ ) { %>
+                                      <h2 class="accordion-header" id="headingOne">
+                                      
+                                          Week <%=log[i][index].week%>
+                                        
+                                      </h2>
+                  
+                                      <div
+                                        id="<%=log[i][index].week%>"
+                                        class="accordion-collapse collapse show"
+                                        data-bs-parent="#accordionExample"
+                                      >
+                                        <div class="accordion-body">
+                                          <h5>student Log</h5>
+                                          <%=log[i][index].log%>
+                                          <hr>
+                                          <h5>Your comment</h5>
+                                          <%=log[i][index].supervisorComment%>
+                                        </div>
+                                      </div>
+                                      <% } %>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <tr>
+                            <td><i class="fab fa-angular fa-lg text-danger me-3"></i> <strong> <a href="#"data-bs-toggle="modal"
+                              data-bs-target="#modal<%=i%>"><%= log[i][0].topic %></a></strong></td>
+                            <td><%= log[i][0].fullName %></td>
+                            <td><span class="badge bg-label-primary me-1"><%= log[i][0].course %></span></td>
+                          </tr>
+                        <% } %>
                       </tbody>
                     </table>
                   </div>
                 </div>
-                <div class="card mb-4">
-                  <!-- Basic Pagination -->
-                  <div class="card-body">
-                    <div class="row">
-                      <div class="col">
-                        <div class="demo-inline-spacing">
-                          <!-- Basic Pagination -->
-                          <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center">
-                              <li class="page-item first">
-                                <a class="page-link" href="javascript:void(0);"
-                                  ><i class="tf-icon bx bx-chevrons-left"></i
-                                ></a>
-                              </li>
-                              <li class="page-item prev">
-                                <a class="page-link" href="javascript:void(0);"
-                                  ><i class="tf-icon bx bx-chevron-left"></i
-                                ></a>
-                              </li>
-                              <li class="page-item">
-                                <a class="page-link" href="javascript:void(0);">1</a>
-                              </li>
-                              <li class="page-item">
-                                <a class="page-link" href="javascript:void(0);">2</a>
-                              </li>
-                              <li class="page-item active">
-                                <a class="page-link" href="javascript:void(0);">3</a>
-                              </li>
-                              <li class="page-item">
-                                <a class="page-link" href="javascript:void(0);">4</a>
-                              </li>
-                              <li class="page-item">
-                                <a class="page-link" href="javascript:void(0);">5</a>
-                              </li>
-                              <li class="page-item next">
-                                <a class="page-link" href="javascript:void(0);"
-                                  ><i class="tf-icon bx bx-chevron-right"></i
-                                ></a>
-                              </li>
-                              <li class="page-item last">
-                                <a class="page-link" href="javascript:void(0);"
-                                  ><i class="tf-icon bx bx-chevrons-right"></i
-                                ></a>
-                              </li>
-                            </ul>
-                          </nav>
-                          <!--/ Basic Pagination -->
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+               
               <!--/ Small table -->
             </div>
             <!-- / Content -->
@@ -532,6 +257,20 @@
 
     <script src="/vendor/js/menu.js"></script>
     <!-- endbuild -->
+    <script>
+      function toggleModal(modalID){
+        var modal = document.getElementById(modalID);
+        if (modal.style.display==='none') {
+          console.log('fuction called')
+          modal.className = "modal fade show";
+          modal.style.display = "block"
+        } else {
+          modal.className = "modal fade";
+          modal.style.display = "none"
+        }
+        //<div class="modal fade show" id="modalScrollable" tabindex="-1" style="display: block;" aria-modal="true" role="dialog">
+      }
+    </script>
 
     <!-- Vendors JS -->
 

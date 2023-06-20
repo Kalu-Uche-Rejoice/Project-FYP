@@ -1,5 +1,21 @@
 const { app } = require("../config");
 
+const {
+  singleFileSubmit,
+  multipleFileSubmit,
+  findLog,
+  Savelog,
+  findSupervisee,
+  findProposals,
+  acceptProposal,
+  PrintClearance,
+  finalSubmission,
+  acceptFinal,
+  findFYP,
+  projectFinalUpload,
+  projectProposal,
+} = require("./read-file");
+
 const { getAuth } = require("firebase-admin/auth");
 const { getFirestore } = require("firebase-admin/firestore");
 
@@ -41,22 +57,6 @@ exports.register = (req, res) => {
     });
 };
 
-exports.verifyUser = async (req, res) => {
-  const idToken = req.headers.authorization;
-  console.log(req.headers.authorization);
-  // const idToken = authHeader.split(" ")[1];
-  try {
-    const decodedToken = await auth.verifyIdToken(idToken);
-    if (decodedToken) {
-      req.body.uid = decodedToken.uid;
-    } else {
-      return res.status(401).send("you are not authorized");
-    }
-  } catch (error) {
-    return res.status(401).send(error);
-  }
-};
-
 exports.cookie = (req, res, idToken, email) => {
   //const idToken = req.body.idToken.toString();
 
@@ -68,10 +68,10 @@ exports.cookie = (req, res, idToken, email) => {
       console.log(sessionCookie);
       console.log(email);
       await res.cookie("session", sessionCookie, options);
-      if (email.includes("cu.edu.ng")) {
-        if (email.includes("stu.cu.edu.ng")) {
-          res.redirect("/users/student/past-project");
-        } else {
+      if (email.includes("stu.cu.edu.ng")) {
+        res.redirect("/users/student/past-project");
+      } else if (email.includes("covenantuniversity.edu.ng")) {
+        {
           res.redirect("/users/supervisor/past-project");
         }
         //;
@@ -83,11 +83,133 @@ exports.cookie = (req, res, idToken, email) => {
   );
 };
 
-exports.verifyUserCookie = (req) => {
+exports.verifyUserCookie = async (req, res, dbName, storeName) => {
   const sessionCookie = req.cookies.session || "";
   auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
-    res.send(DecodedIdToken.uid)
-    //return DecodedIdToken.uid;
+    var id = DecodedIdToken.uid;
+    singleFileSubmit(req, res, dbName, storeName, id);
+    //console.log(UserID)
   });
-  console.log(sessionCookie);
+};
+
+exports.verifyUser = async (req, res, storeName) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    multipleFileSubmit(req, res, storeName, id);
+    //console.log(UserID)
+  });
+};
+
+exports.verifyUserLog = async (req, res, dbName, storeName) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    console.log("function verify user is called");
+    Savelog(req, res, dbName, storeName, id);
+  });
+};
+
+exports.verifyUserFoundLog = async (req, res, dbName) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    findLog(req, res, dbName, id);
+  });
+};
+
+exports.FindSupervisee = async (req, res) => {
+  if (req.cookies.session) {
+    const sessionCookie = req.cookies.session || "";
+    auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+      var id = DecodedIdToken.uid;
+      findSupervisee(req, res, id);
+    });
+  } else {
+    res.redirect("/");
+  }
+};
+
+exports.FindSuperviseeProposal = async (req, res) => {
+  if (req.cookies.session) {
+    const sessionCookie = req.cookies.session || "";
+    auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+      var id = DecodedIdToken.uid;
+      console.log("this function is called" + id);
+      findProposals(req, res, id);
+    });
+  } else {
+    res.redirect("/");
+  }
+};
+
+exports.UserVerification = async (req, res) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    acceptProposal(req, res, id);
+  });
+};
+
+exports.StuPrintClearance = async (req, res) => {
+  if (req.cookies.session) {
+    const sessionCookie = req.cookies.session || "";
+    auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+      var id = DecodedIdToken.uid;
+      PrintClearance(req, res, id);
+    });
+  } else {
+    res.redirect("/");
+  }
+};
+
+exports.FinalSubmission = async (req, res) => {
+  if (req.cookies.session) {
+    const sessionCookie = req.cookies.session || "";
+    auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+      var id = DecodedIdToken.uid;
+      finalSubmission(req, res, id);
+    });
+  } else {
+    res.redirect("/");
+  }
+};
+
+exports.AcceptFinal = async (req, res) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    acceptFinal(req, res, id);
+  });
+};
+exports.FindFYP = async (req, res) => {
+  const sessionCookie = req.cookies.session || "";
+  auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+    var id = DecodedIdToken.uid;
+    var email = DecodedIdToken.email;
+    findFYP(req, res, id, email);
+  });
+};
+
+exports.ProjectFinalUpload = (req, res) => {
+  if (req.cookies.session) {
+    const sessionCookie = req.cookies.session || "";
+    auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+      var id = DecodedIdToken.uid;
+      projectFinalUpload(res, id);
+    });
+  } else {
+    res.redirect("/");
+  }
+};
+exports.ProjectProposal = (req, res) => {
+  if (req.cookies.session) {
+    const sessionCookie = req.cookies.session || "";
+    auth.verifySessionCookie(sessionCookie).then((DecodedIdToken) => {
+      var id = DecodedIdToken.uid;
+      projectProposal(res, id);
+    });
+  } else {
+    res.redirect("/");
+  }
 };

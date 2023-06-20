@@ -29,20 +29,14 @@
                 </div>
               </div>
               <div class="flex-grow-1">
-                <span class="fw-semibold d-block">John Doe</span>
-                <small class="text-muted">Admin</small>
+                <span class="fw-semibold d-block"><%= UserName.name %></span>
+                <small class="text-muted"><%= UserName.designation%></small>
               </div>
             </div>
           </a>
         </li>
         <li>
           <div class="dropdown-divider"></div>
-        </li>
-        <li>
-          <a class="dropdown-item" href="#">
-            <i class="bx bx-user me-2"></i>
-            <span class="align-middle">My Profile</span>
-          </a>
         </li>
         <li>
           <div class="dropdown-divider"></div>
@@ -82,7 +76,12 @@
   <div class="offcanvas-body mx-0 flex-grow-0">
     <p class="text-center">
       <ul class="list-group">
-        <li class="list-group-item ">your Supervisor is prof anthony adoghe</li>
+        <% if (UserName.supervisor) { %>
+          <li class="list-group-item ">your Supervisor is <%= UserName.supervisor %></li>
+        <% }%>
+        <% if (UserName.topic) { %>
+          <li class="list-group-item ">your approved topic is <%= UserName.topic %></li>
+        <% }%>
       </ul>
     </p>
   </div>
